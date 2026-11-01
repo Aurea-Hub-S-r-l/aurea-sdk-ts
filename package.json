@@ -1,0 +1,60 @@
+{
+  "name": "@aureahub/sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for the Aurea API: typed calls for every documented route, request signing, idempotency keys, typed errors and pagination.",
+  "license": "MIT",
+  "author": "Aurea",
+  "homepage": "https://docs.aureahub.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Pocketz00/aurea-sdk-ts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Pocketz00/aurea-sdk-ts/issues",
+    "email": "help@aureahub.com"
+  },
+  "keywords": ["aurea", "aureahub", "api", "sdk", "wallets", "payments", "typescript"],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "generate": "sh scripts/generate.sh",
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "check:words": "node scripts/check-package-words.mjs",
+    "prepublishOnly": "npm run typecheck && npm test && npm run build && npm run check:words"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.9"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
