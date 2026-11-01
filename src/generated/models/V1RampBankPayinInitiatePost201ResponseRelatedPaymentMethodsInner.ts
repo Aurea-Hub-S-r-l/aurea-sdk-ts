@@ -28,6 +28,10 @@ import {
  */
 export interface V1RampBankPayinInitiatePost201ResponseRelatedPaymentMethodsInner {
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampPaymentMethodId?: string;
+    /**
      * The rail, as the bank ramp names it: BankFedwire, BankSwift and so on.
      */
     paymentMethodType: string | null;
@@ -66,6 +70,7 @@ export function V1RampBankPayinInitiatePost201ResponseRelatedPaymentMethodsInner
     }
     return {
         
+        'bankRampPaymentMethodId': json['bankRampPaymentMethodId'] == null ? undefined : json['bankRampPaymentMethodId'],
         'paymentMethodType': json['paymentMethodType'],
         'accountNumber': json['accountNumber'],
         'bankCode': json['bankCode'],
@@ -84,6 +89,7 @@ export function V1RampBankPayinInitiatePost201ResponseRelatedPaymentMethodsInner
 
     return {
         
+        'bankRampPaymentMethodId': value['bankRampPaymentMethodId'],
         'paymentMethodType': value['paymentMethodType'],
         'accountNumber': value['accountNumber'],
         'bankCode': value['bankCode'],

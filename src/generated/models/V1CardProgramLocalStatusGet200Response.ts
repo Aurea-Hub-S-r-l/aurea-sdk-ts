@@ -32,6 +32,10 @@ export interface V1CardProgramLocalStatusGet200Response {
      */
     gnosisAddress?: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    eurAccountLinked?: boolean;
+    /**
      * 
      */
     metadata?: { [key: string]: any | null; };
@@ -58,6 +62,7 @@ export function V1CardProgramLocalStatusGet200ResponseFromJSONTyped(json: any, i
         'hasSession': json['hasSession'],
         'status': json['status'] === undefined ? undefined : json['status'] === null ? null : json['status'],
         'gnosisAddress': json['gnosisAddress'] === undefined ? undefined : json['gnosisAddress'] === null ? null : json['gnosisAddress'],
+        'eurAccountLinked': json['eurAccountLinked'] == null ? undefined : json['eurAccountLinked'],
         'metadata': json['metadata'] == null ? undefined : json['metadata'],
     };
 }
@@ -76,6 +81,7 @@ export function V1CardProgramLocalStatusGet200ResponseToJSONTyped(value?: V1Card
         'hasSession': value['hasSession'],
         'status': value['status'],
         'gnosisAddress': value['gnosisAddress'],
+        'eurAccountLinked': value['eurAccountLinked'],
         'metadata': value['metadata'],
     };
 }

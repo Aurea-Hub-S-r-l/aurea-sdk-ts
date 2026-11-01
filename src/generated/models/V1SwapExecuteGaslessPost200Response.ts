@@ -68,9 +68,17 @@ export interface V1SwapExecuteGaslessPost200Response {
      */
     executionMethod?: string | null;
     /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    executionMethodNeutral?: V1SwapExecuteGaslessPost200ResponseExecutionMethodNeutralEnum;
+    /**
      * 
      */
     routingMethod?: string | null;
+    /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    routingMethodNeutral?: V1SwapExecuteGaslessPost200ResponseRoutingMethodNeutralEnum;
     /**
      * 
      */
@@ -120,6 +128,22 @@ export const V1SwapExecuteGaslessPost200ResponseStatusEnum = {
 } as const;
 export type V1SwapExecuteGaslessPost200ResponseStatusEnum = typeof V1SwapExecuteGaslessPost200ResponseStatusEnum[keyof typeof V1SwapExecuteGaslessPost200ResponseStatusEnum];
 
+/**
+ * @export
+ */
+export const V1SwapExecuteGaslessPost200ResponseExecutionMethodNeutralEnum = {
+    Sponsored: 'sponsored',
+} as const;
+export type V1SwapExecuteGaslessPost200ResponseExecutionMethodNeutralEnum = typeof V1SwapExecuteGaslessPost200ResponseExecutionMethodNeutralEnum[keyof typeof V1SwapExecuteGaslessPost200ResponseExecutionMethodNeutralEnum];
+
+/**
+ * @export
+ */
+export const V1SwapExecuteGaslessPost200ResponseRoutingMethodNeutralEnum = {
+    Aggregator: 'aggregator',
+} as const;
+export type V1SwapExecuteGaslessPost200ResponseRoutingMethodNeutralEnum = typeof V1SwapExecuteGaslessPost200ResponseRoutingMethodNeutralEnum[keyof typeof V1SwapExecuteGaslessPost200ResponseRoutingMethodNeutralEnum];
+
 
 /**
  * Check if a given object implements the V1SwapExecuteGaslessPost200Response interface.
@@ -150,7 +174,9 @@ export function V1SwapExecuteGaslessPost200ResponseFromJSONTyped(json: any, igno
         'gasUsed': json['gasUsed'] === undefined ? undefined : json['gasUsed'] === null ? null : json['gasUsed'],
         'gasPrice': json['gasPrice'] === undefined ? undefined : json['gasPrice'] === null ? null : json['gasPrice'],
         'executionMethod': json['executionMethod'] === undefined ? undefined : json['executionMethod'] === null ? null : json['executionMethod'],
+        'executionMethodNeutral': json['executionMethodNeutral'] == null ? undefined : json['executionMethodNeutral'],
         'routingMethod': json['routingMethod'] === undefined ? undefined : json['routingMethod'] === null ? null : json['routingMethod'],
+        'routingMethodNeutral': json['routingMethodNeutral'] == null ? undefined : json['routingMethodNeutral'],
         'requiresClientSigning': json['requiresClientSigning'] === undefined ? undefined : json['requiresClientSigning'] === null ? null : json['requiresClientSigning'],
         'preparedTxId': json['preparedTxId'] === undefined ? undefined : json['preparedTxId'] === null ? null : json['preparedTxId'],
         'txHashToSign': json['txHashToSign'] === undefined ? undefined : json['txHashToSign'] === null ? null : json['txHashToSign'],
@@ -186,7 +212,9 @@ export function V1SwapExecuteGaslessPost200ResponseToJSONTyped(value?: V1SwapExe
         'gasUsed': value['gasUsed'],
         'gasPrice': value['gasPrice'],
         'executionMethod': value['executionMethod'],
+        'executionMethodNeutral': value['executionMethodNeutral'],
         'routingMethod': value['routingMethod'],
+        'routingMethodNeutral': value['routingMethodNeutral'],
         'requiresClientSigning': value['requiresClientSigning'],
         'preparedTxId': value['preparedTxId'],
         'txHashToSign': value['txHashToSign'],

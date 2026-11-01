@@ -32,6 +32,10 @@ export interface V1RampBankPayinOnboardingStatusGet200Response {
      */
     customerId?: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampCustomerId?: string;
+    /**
      * 
      */
     onboardingStatus: string | null;
@@ -80,6 +84,7 @@ export function V1RampBankPayinOnboardingStatusGet200ResponseFromJSONTyped(json:
     return {
         
         'customerId': json['customerId'] === undefined ? undefined : json['customerId'] === null ? null : json['customerId'],
+        'bankRampCustomerId': json['bankRampCustomerId'] == null ? undefined : json['bankRampCustomerId'],
         'onboardingStatus': json['onboardingStatus'],
         'kycStatus': json['kycStatus'],
         'kycTier': json['kycTier'] === undefined ? undefined : json['kycTier'] === null ? null : json['kycTier'],
@@ -101,6 +106,7 @@ export function V1RampBankPayinOnboardingStatusGet200ResponseToJSONTyped(value?:
     return {
         
         'customerId': value['customerId'],
+        'bankRampCustomerId': value['bankRampCustomerId'],
         'onboardingStatus': value['onboardingStatus'],
         'kycStatus': value['kycStatus'],
         'kycTier': value['kycTier'],

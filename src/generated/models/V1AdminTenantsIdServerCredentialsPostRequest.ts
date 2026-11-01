@@ -47,6 +47,10 @@ export interface V1AdminTenantsIdServerCredentialsPostRequest {
      * When its tokens stop being accepted: in the future, at most 5 years ahead. Null or left out: no expiry.
      */
     expiresAt?: Date | null;
+    /**
+     * Optional. `true`: a credential for test networks only — its tokens reach a route only when the request names a testnet — `isTestnet: true` in the query or body, and every `chainId` it carries a testnet's. A request for a mainnet, and a route that does not take the network from the request (sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, a record read or acted on by its id), answer 403 `TEST_ONLY_CREDENTIAL` with `details.network` (`mainnet` or `undetermined`); nothing is done and the token's nonce is not used. Only where test-only credentials are switched on for the tenant, else 403 `TEST_ONLY_CREDENTIALS_OFF`. Left out or `false`: a credential as every other.
+     */
+    testOnly?: boolean;
 }
 
 /**
@@ -74,6 +78,7 @@ export function V1AdminTenantsIdServerCredentialsPostRequestFromJSONTyped(json: 
         'publicKey': V1AdminTenantsIdServerCredentialsPostRequestPublicKeyFromJSON(json['publicKey']),
         'allowedIps': json['allowedIps'] == null ? undefined : json['allowedIps'],
         'expiresAt': json['expiresAt'] === undefined ? undefined : json['expiresAt'] === null ? null : (parseDateTime(json['expiresAt'])),
+        'testOnly': json['testOnly'] == null ? undefined : json['testOnly'],
     };
 }
 
@@ -93,6 +98,7 @@ export function V1AdminTenantsIdServerCredentialsPostRequestToJSONTyped(value?: 
         'publicKey': V1AdminTenantsIdServerCredentialsPostRequestPublicKeyToJSON(value['publicKey']),
         'allowedIps': value['allowedIps'],
         'expiresAt': value['expiresAt'] == null ? value['expiresAt'] : serializeDateTime(value['expiresAt']),
+        'testOnly': value['testOnly'],
     };
 }
 

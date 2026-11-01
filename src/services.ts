@@ -1,6 +1,6 @@
 // Written by scripts/write-services.mjs from src/generated/apis: do not edit.
 import type { Configuration } from "./generated/runtime";
-import { AccountsApi, AddressBookApi, AdminApi, AgentPaymentsApi, AggregatedTransactionsApi, AmlCasesApi, ApprovalsApi, AssetsApi, AuditApi, AuthApi, BankRampAddressesApi, BankRampCurrenciesApi, BankRampCustomersApi, BankRampDeskApi, BankRampLocalApi, BankRampPayinApi, BankRampPayoutApi, CardOnrampApi, CardOnrampCustomersApi, CardProgramApi, DappsApi, EarnApi, FeesApi, GasStationApi, GroupsApi, HealthApi, MpcApi, NotificationsApi, OperationsApi, PoliciesApi, PortfolioApi, QuorumApi, ReportsApi, StructuresApi, SwapApi, SwapRoutesApi, TenantsApi, TokenizedAssetsApi, TokensApi, TransactionsApi, UsersApi, WalletsApi, WebhooksApi } from "./generated/apis";
+import { AccountsApi, AddressBookApi, AdminApi, AgentPaymentsApi, AggregatedTransactionsApi, AmlCasesApi, ApprovalsApi, AssetsApi, AuditApi, AuthApi, BankRampAddressesApi, BankRampCurrenciesApi, BankRampCustomersApi, BankRampDeskApi, BankRampLocalApi, BankRampPayinApi, BankRampPayoutApi, CardOnrampApi, CardOnrampCustomersApi, CardProgramApi, CardsApi, DappsApi, EarnApi, FeesApi, GasStationApi, GroupsApi, HealthApi, LendingApi, MpcApi, NotificationsApi, OperationsApi, PoliciesApi, PortfolioApi, QuorumApi, ReportsApi, StructuresApi, SwapApi, SwapRoutesApi, TenantsApi, TokenizedAssetsApi, TokensApi, TransactionsApi, UsersApi, WalletsApi, WebhooksApi } from "./generated/apis";
 
 /** The generated API classes, one property each, created on first use. */
 export class Services {
@@ -74,6 +74,9 @@ export class Services {
   get cardProgram(): CardProgramApi {
     return this.#get(CardProgramApi);
   }
+  get cards(): CardsApi {
+    return this.#get(CardsApi);
+  }
   get dapps(): DappsApi {
     return this.#get(DappsApi);
   }
@@ -91,6 +94,9 @@ export class Services {
   }
   get health(): HealthApi {
     return this.#get(HealthApi);
+  }
+  get lending(): LendingApi {
+    return this.#get(LendingApi);
   }
   get mpc(): MpcApi {
     return this.#get(MpcApi);

@@ -6447,6 +6447,10 @@
          "description": "Feature flags for the current tenant",
          "type": "object",
          "properties": {
+          "eurAccountIban": {
+           "type": "boolean",
+           "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+          },
           "dappsEnabled": {
            "type": "boolean",
            "description": "True when the dApps browser feature is enabled for this tenant."
@@ -21313,11 +21317,25 @@
             "null"
            ]
           },
+          "executionMethodNeutral": {
+           "type": "string",
+           "enum": [
+            "sponsored"
+           ],
+           "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
+          },
           "routingMethod": {
            "type": [
             "string",
             "null"
            ]
+          },
+          "routingMethodNeutral": {
+           "type": "string",
+           "enum": [
+            "aggregator"
+           ],
+           "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
           },
           "requiresClientSigning": {
            "type": [
@@ -21570,8 +21588,22 @@
           "executionMethod": {
            "type": "string"
           },
+          "executionMethodNeutral": {
+           "type": "string",
+           "enum": [
+            "sponsored"
+           ],
+           "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
+          },
           "routingMethod": {
            "type": "string"
+          },
+          "routingMethodNeutral": {
+           "type": "string",
+           "enum": [
+            "aggregator"
+           ],
+           "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
           }
          }
         }
@@ -21862,6 +21894,10 @@
            "type": "string",
            "format": "uuid"
           },
+          "bankRampCustomerId": {
+           "type": "string",
+           "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+          },
           "onboardingStatus": {
            "type": "string"
           },
@@ -22143,6 +22179,10 @@
           "customerId": {
            "type": "string",
            "format": "uuid"
+          },
+          "bankRampCustomerId": {
+           "type": "string",
+           "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
           },
           "onboardingUrl": {
            "type": "string"
@@ -22473,6 +22513,10 @@
            "type": "string",
            "format": "uuid"
           },
+          "bankRampPaymentMethodId": {
+           "type": "string",
+           "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+          },
           "paymentMethodType": {
            "type": "string",
            "description": "The account's primary rail, as the bank ramp names it (BankSepa for EUR)."
@@ -22594,6 +22638,10 @@
            "items": {
             "type": "object",
             "properties": {
+             "bankRampPaymentMethodId": {
+              "type": "string",
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+             },
              "paymentMethodType": {
               "type": [
                "null",
@@ -22839,6 +22887,10 @@
               "type": "string",
               "format": "uuid"
              },
+             "bankRampPaymentMethodId": {
+              "type": "string",
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+             },
              "paymentMethodType": {
               "type": "string"
              },
@@ -22972,6 +23024,10 @@
               "items": {
                "type": "object",
                "properties": {
+                "bankRampPaymentMethodId": {
+                 "type": "string",
+                 "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+                },
                 "paymentMethodType": {
                  "type": [
                   "null",
@@ -23192,6 +23248,10 @@
               "type": "string",
               "format": "uuid"
              },
+             "bankRampDepositId": {
+              "type": "string",
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+             },
              "fiatAmount": {
               "type": "number"
              },
@@ -23222,6 +23282,29 @@
               "type": "string",
               "format": "uuid",
               "description": "Aurea's id of the virtual account the deposit arrived on, as GET /payment-methods lists it."
+             },
+             "bankRampStatus": {
+              "anyOf": [
+               {
+                "type": "string",
+                "enum": [
+                 "Pending",
+                 "Settled",
+                 "Failed"
+                ]
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+             },
+             "bankRampSubStatus": {
+              "type": [
+               "null",
+               "string"
+              ],
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
              },
              "requestForInformation": {
               "anyOf": [
@@ -23455,6 +23538,10 @@
               "type": "string",
               "format": "uuid"
              },
+             "bankRampTransactionId": {
+              "type": "string",
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+             },
              "transactionType": {
               "type": "string",
               "description": "purchase when the bank ramp credits (direction In), withdrawal when it debits (Out), an on-ramp's on-chain delivery included. refund is never produced: a refund is an entry of refunds, a reversal a transaction with reversesTransactionId."
@@ -23509,6 +23596,13 @@
               ],
               "description": "Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none."
              },
+             "bankRampDepositId": {
+              "type": [
+               "null",
+               "string"
+              ],
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+             },
              "direction": {
               "anyOf": [
                {
@@ -23523,6 +23617,29 @@
                }
               ],
               "description": "In: the bank ramp credits (a conversion from fiat, an on-chain deposit, a reversal). Out: the bank ramp debits (an on-chain delivery or withdrawal, a fiat payout). null for what was stored before Aurea kept the bank ramp's status."
+             },
+             "bankRampStatus": {
+              "anyOf": [
+               {
+                "type": "string",
+                "enum": [
+                 "Pending",
+                 "Settled",
+                 "Failed"
+                ]
+               },
+               {
+                "type": "null"
+               }
+              ],
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+             },
+             "bankRampSubStatus": {
+              "type": [
+               "null",
+               "string"
+              ],
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
              },
              "requestForInformation": {
               "anyOf": [
@@ -23942,6 +24059,10 @@
           "customerId": {
            "type": "string",
            "format": "uuid"
+          },
+          "bankRampCustomerId": {
+           "type": "string",
+           "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
           },
           "onboardingStatus": {
            "type": "string"
@@ -29616,6 +29737,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           }
@@ -29852,6 +29980,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           }
@@ -30254,6 +30389,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           }
@@ -30554,6 +30696,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           }
@@ -31344,6 +31493,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           },
@@ -32044,6 +32200,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           },
@@ -32623,6 +32786,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           },
@@ -33080,6 +33250,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           },
@@ -34257,6 +34434,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           }
@@ -34493,6 +34677,13 @@
               "hosted_oauth",
               null
              ]
+            },
+            "kycStrategyNeutral": {
+             "type": "string",
+             "enum": [
+              "identity_sharing"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             }
            }
           }
@@ -70387,7 +70578,8 @@
                "custodial",
                "account",
                "tag"
-              ]
+              ],
+              "description": "custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag."
              },
              "accountId": {
               "type": [
@@ -70506,7 +70698,8 @@
                "custodial",
                "account",
                "tag"
-              ]
+              ],
+              "description": "custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag."
              },
              "accountId": {
               "type": [
@@ -70776,7 +70969,8 @@
             "custodial",
             "account",
             "tag"
-           ]
+           ],
+           "description": "custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag."
           },
           "accountId": {
            "type": [
@@ -71110,7 +71304,8 @@
             "custodial",
             "account",
             "tag"
-           ]
+           ],
+           "description": "custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag."
           },
           "accountId": {
            "type": [
@@ -72208,7 +72403,8 @@
                "custodial",
                "account",
                "tag"
-              ]
+              ],
+              "description": "custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag."
              },
              "accountId": {
               "type": [
@@ -72327,7 +72523,8 @@
                "custodial",
                "account",
                "tag"
-              ]
+              ],
+              "description": "custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag."
              },
              "accountId": {
               "type": [
@@ -72608,7 +72805,8 @@
             "custodial",
             "account",
             "tag"
-           ]
+           ],
+           "description": "custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag."
           },
           "accountId": {
            "type": [
@@ -72951,7 +73149,8 @@
             "custodial",
             "account",
             "tag"
-           ]
+           ],
+           "description": "custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag."
           },
           "accountId": {
            "type": [
@@ -94518,6 +94717,13 @@
             "type": {
              "type": "string"
             },
+            "typeNeutral": {
+             "type": "string",
+             "enum": [
+              "bank_ramp_fiat_deposit"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
+            },
             "fiatAmount": {
              "type": "string"
             },
@@ -94529,6 +94735,13 @@
               "string",
               "null"
              ]
+            },
+            "bankRampDepositId": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
             },
             "depositDate": {
              "type": [
@@ -94567,6 +94780,13 @@
             },
             "type": {
              "type": "string"
+            },
+            "typeNeutral": {
+             "type": "string",
+             "enum": [
+              "bank_ramp_payin_transaction"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             },
             "transactionType": {
              "type": "string"
@@ -94612,6 +94832,10 @@
               "string",
               "null"
              ]
+            },
+            "bankRampTransactionId": {
+             "type": "string",
+             "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
             }
            }
           },
@@ -94644,6 +94868,13 @@
             "type": {
              "type": "string"
             },
+            "typeNeutral": {
+             "type": "string",
+             "enum": [
+              "bank_ramp_payout"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
+            },
             "fiatAmount": {
              "type": "string"
             },
@@ -94661,6 +94892,13 @@
               "string",
               "null"
              ]
+            },
+            "bankRampTransactionId": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
             }
            }
           },
@@ -94692,6 +94930,13 @@
             },
             "type": {
              "type": "string"
+            },
+            "typeNeutral": {
+             "type": "string",
+             "enum": [
+              "bank_ramp_payin_checkout"
+             ],
+             "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
             },
             "fiatAmount": {
              "type": [
@@ -95026,6 +95271,16 @@
                "card_onramp_purchase"
               ]
              },
+             "typeNeutral": {
+              "type": "string",
+              "enum": [
+               "bank_ramp_fiat_deposit",
+               "bank_ramp_payin_transaction",
+               "bank_ramp_payout",
+               "bank_ramp_payin_checkout"
+              ],
+              "description": "The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise."
+             },
              "status": {
               "type": "string"
              },
@@ -95116,6 +95371,13 @@
                "string"
               ]
              },
+             "bankRampDepositId": {
+              "type": [
+               "null",
+               "string"
+              ],
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+             },
              "depositDate": {
               "type": [
                "null",
@@ -95157,6 +95419,13 @@
                "null",
                "string"
               ]
+             },
+             "bankRampTransactionId": {
+              "type": [
+               "null",
+               "string"
+              ],
+              "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
              },
              "cryptoAuthorizedAmount": {
               "type": [
@@ -95270,6 +95539,129 @@
      }
     },
     "operationId": "v1CardProgramAuthNonceGet"
+   }
+  },
+  "/v1/gnosis/auth/sign-in-message": {
+   "get": {
+    "summary": "Get the card program's sign-in message, ready to sign",
+    "tags": [
+     "card-program"
+    ],
+    "description": "The sign-in message (Sign-In with Ethereum, EIP-4361) the user's wallet signs to open its session with the card program, built by the API with a fresh nonce: the address in lower case, the nonce, the time it is issued at, and the card program's fixed texts. Sign `message` (its UTF-8 bytes; `messageHex` is the same bytes as 0x hex, for a custodial wallet's signing route) with personal_sign (EIP-191) by the wallet whose address it names, then send `message`, `signature` and `address` to POST /v1/gnosis/auth/challenge within a few minutes. 400: not an EVM address; 403: the card program is not available to the tenant; 503 `CARD_PROGRAM_NONCE_UNAVAILABLE`: the card program gave no nonce (retry).",
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "pattern": "^0x[0-9a-fA-F]{40}$"
+      },
+      "in": "query",
+      "name": "address",
+      "required": true,
+      "description": "The EVM address the user signs in with (any case)."
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "message",
+          "messageHex",
+          "address",
+          "nonce",
+          "issuedAt"
+         ],
+         "properties": {
+          "message": {
+           "type": "string",
+           "description": "The message to sign, exactly as given: lines separated by \\n."
+          },
+          "messageHex": {
+           "type": "string",
+           "description": "The message's UTF-8 bytes as 0x hex."
+          },
+          "address": {
+           "type": "string",
+           "description": "The address the message names, in lower case."
+          },
+          "nonce": {
+           "type": "string",
+           "description": "The card program's nonce."
+          },
+          "issuedAt": {
+           "type": "string",
+           "format": "date-time",
+           "description": "When the message was issued (ISO 8601, UTC)."
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    },
+    "operationId": "v1CardProgramAuthSignInMessageGet"
    }
   },
   "/v1/gnosis/auth/challenge": {
@@ -96875,6 +97267,10 @@
             "null"
            ]
           },
+          "eurAccountLinked": {
+           "type": "boolean",
+           "description": "The field before, under a neutral name: the same value, answered where neutral names are on for the tenant."
+          },
           "metadata": {
            "type": "object",
            "additionalProperties": true
@@ -97196,6 +97592,2989 @@
      }
     },
     "operationId": "v1CardProgramEurAccountLinkSafePost"
+   }
+  },
+  "/v1/lending/positions": {
+   "get": {
+    "summary": "Get the user's lending positions",
+    "tags": [
+     "lending"
+    ],
+    "description": "The user's EUR.e lending positions on every supported chain of the network asked (isTestnet), from all the user's EVM wallets (custodial and not). An empty positions array when there is none. The same route as before under a neutral name.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "query",
+      "name": "isTestnet",
+      "required": false
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "positions": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "chainSlug": {
+              "type": "string"
+             },
+             "chainId": {
+              "type": "number"
+             },
+             "tokenSymbol": {
+              "type": "string"
+             },
+             "tokenAddress": {
+              "type": "string"
+             },
+             "depositedWei": {
+              "type": "string"
+             },
+             "accruedYieldWei": {
+              "type": "string"
+             },
+             "apy": {
+              "type": "number"
+             },
+             "tokenDecimals": {
+              "type": "number"
+             }
+            },
+            "required": [
+             "chainSlug",
+             "chainId",
+             "tokenSymbol",
+             "tokenAddress",
+             "depositedWei",
+             "accruedYieldWei",
+             "apy",
+             "tokenDecimals"
+            ]
+           }
+          },
+          "totalDepositedWei": {
+           "type": "string"
+          },
+          "totalAccruedYieldWei": {
+           "type": "string"
+          },
+          "hasDeposit": {
+           "type": "boolean"
+          },
+          "walletBalanceWei": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "positions",
+          "totalDepositedWei",
+          "totalAccruedYieldWei",
+          "hasDeposit",
+          "walletBalanceWei"
+         ]
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/lending/rate-history": {
+   "get": {
+    "summary": "Get the lending rate history",
+    "tags": [
+     "lending"
+    ],
+    "description": "Up to 90 daily points of the lending pool's rate for EUR.e on the tenant's first lending chain, each with a Unix timestamp. An empty array when there is no data or the tenant has no lending chain. Requires lending to be on for the tenant.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "enum": [
+        "true",
+        "false"
+       ],
+       "default": "false"
+      },
+      "in": "query",
+      "name": "isTestnet",
+      "required": false
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "history": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "timestamp": {
+              "type": "number"
+             },
+             "apy": {
+              "type": "number"
+             }
+            },
+            "required": [
+             "timestamp",
+             "apy"
+            ]
+           }
+          }
+         },
+         "required": [
+          "history"
+         ]
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/lending/supply": {
+   "post": {
+    "summary": "Supply EUR.e to the lending pool (custodial wallets)",
+    "tags": [
+     "lending"
+    ],
+    "description": "Supplies the wei amount of EUR.e to the lending pool from the user's custodial wallet; chain and wallet are resolved. For a wallet whose key the platform does not hold for your tenant, use POST /v1/lending/prepare-supply. Amounts in wei (18 decimals). Requires lending to be on for the tenant.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "weiAmount": {
+          "type": "string",
+          "pattern": "^\\d+$"
+         },
+         "isTestnet": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "weiAmount",
+         "isTestnet"
+        ],
+        "additionalProperties": false
+       }
+      }
+     },
+     "required": true
+    },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "idempotency-key",
+      "required": false,
+      "description": "Optional (required for institutional tenants). Up to 255 letters, digits, - or _. Sending the same key again with the same request answers with the first answer instead of running it again, and the response carries idempotency-replayed: true. The same key with a different request, or while the first call is still running, answers 409 with details.code IDEMPOTENCY_KEY_REUSED or IDEMPOTENCY_IN_PROGRESS; after a first call that may have taken effect without answering, 409 IDEMPOTENCY_OUTCOME_UNKNOWN (it is never run again: check the operation, then use a new key). A key that is not one answers 400 IDEMPOTENCY_KEY_INVALID. A request without the header behaves as it always has. Keys last 24 hours."
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-external-tx-id",
+      "required": false,
+      "description": "Optional. Your own id for the operation this call starts: up to 255 letters, digits, and - _ . : — unique for your tenant for ever. The operation keeps it (externalTxId) and GET /v1/operations/by-external-id/{externalTxId} finds it. An id another operation of your tenant already holds answers 409 with details.code EXTERNAL_TX_ID_REUSED and details.operationId, before anything is signed or sent; an id that is not one answers 400 EXTERNAL_TX_ID_INVALID. A call refused before it recorded an operation (a validation error, say) leaves the id free. With an Idempotency-Key, the same key and the same id answer the first answer again. Honoured once Aurea records your operations (GET /v1/operations lists them); until then the header is not read. A request without it behaves as it always has."
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "txHash": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "txHash"
+         ]
+        }
+       }
+      }
+     },
+     "202": {
+      "description": "Only for an institutional tenant whose policy holds the operation for approval (REQUIRE_APPROVAL), or a tenant whose screening is enforced when the operation needs its compliance review (PENDING_SCREENING `under_review`), or an institutional tenant whose institution callback answered RETRY (PENDING_AUTHORIZATION `awaiting_callback`, with `callback`): nothing was signed or sent. Follow the operation (`GET /v1/operations/{id}`, the `operation.*` events; for an approval `GET /v1/operations/{id}/approval`, for the callback `GET /v1/operations/{id}/callback`); once approved, or released by the review, or approved by the callback, it goes on server-side — for a client-side or MPC wallet, prepared: those two reads hand you what it signs (`result`) — and a review that confirms the match ends it REJECTED. The request's Idempotency-Key answers this again.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Only for an institutional tenant whose policy holds the operation for approval (REQUIRE_APPROVAL), or a tenant whose screening is enforced when the operation needs its compliance review (PENDING_SCREENING `under_review`), or an institutional tenant whose institution callback answered RETRY (PENDING_AUTHORIZATION `awaiting_callback`, with `callback`): nothing was signed or sent. Follow the operation (`GET /v1/operations/{id}`, the `operation.*` events; for an approval `GET /v1/operations/{id}/approval`, for the callback `GET /v1/operations/{id}/callback`); once approved, or released by the review, or approved by the callback, it goes on server-side — for a client-side or MPC wallet, prepared: those two reads hand you what it signs (`result`) — and a review that confirms the match ends it REJECTED. The request's Idempotency-Key answers this again.",
+         "type": "object",
+         "required": [
+          "operationId",
+          "state",
+          "subState"
+         ],
+         "properties": {
+          "operationId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "PENDING_AUTHORIZATION",
+            "PENDING_SCREENING"
+           ]
+          },
+          "subState": {
+           "type": "string",
+           "enum": [
+            "awaiting_approval",
+            "under_review",
+            "awaiting_callback"
+           ]
+          },
+          "approval": {
+           "description": "The approval it waits for: a hold for approval only.",
+           "type": "object",
+           "required": [
+            "id",
+            "ruleId",
+            "ruleName",
+            "threshold",
+            "expiresAt"
+           ],
+           "properties": {
+            "id": {
+             "type": "string",
+             "format": "uuid"
+            },
+            "ruleId": {
+             "type": "string",
+             "format": "uuid"
+            },
+            "ruleName": {
+             "type": "string"
+            },
+            "threshold": {
+             "type": "integer"
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            }
+           }
+          },
+          "callback": {
+           "description": "awaiting_callback: the institution callback's request — asked again from `nextPollAt` until `deadlineAt` (48 hours at most); the operation goes on once it approves (what it answered then, for a client-side or MPC wallet the preparation to sign: `GET /v1/operations/{id}/callback`), and fails (callback_expired) past the deadline.",
+           "type": "object",
+           "required": [
+            "requestId",
+            "nextPollAt",
+            "deadlineAt"
+           ],
+           "properties": {
+            "requestId": {
+             "type": "string",
+             "format": "uuid"
+            },
+            "nextPollAt": {
+             "type": "string",
+             "format": "date-time"
+            },
+            "deadlineAt": {
+             "type": "string",
+             "format": "date-time"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "504": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/lending/withdraw": {
+   "post": {
+    "summary": "Withdraw EUR.e from the lending pool (custodial wallets)",
+    "tags": [
+     "lending"
+    ],
+    "description": "Withdraws EUR.e from the lending pool to the user's custodial wallet: a wei amount, or \"max\" for the whole position. For a wallet whose key the platform does not hold for your tenant, use POST /v1/lending/prepare-withdraw. Requires lending to be on for the tenant.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "weiAmount": {
+          "anyOf": [
+           {
+            "type": "string",
+            "pattern": "^\\d+$"
+           },
+           {
+            "type": "string",
+            "enum": [
+             "max"
+            ]
+           }
+          ]
+         },
+         "isTestnet": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "weiAmount",
+         "isTestnet"
+        ],
+        "additionalProperties": false
+       }
+      }
+     },
+     "required": true
+    },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "idempotency-key",
+      "required": false,
+      "description": "Optional (required for institutional tenants). Up to 255 letters, digits, - or _. Sending the same key again with the same request answers with the first answer instead of running it again, and the response carries idempotency-replayed: true. The same key with a different request, or while the first call is still running, answers 409 with details.code IDEMPOTENCY_KEY_REUSED or IDEMPOTENCY_IN_PROGRESS; after a first call that may have taken effect without answering, 409 IDEMPOTENCY_OUTCOME_UNKNOWN (it is never run again: check the operation, then use a new key). A key that is not one answers 400 IDEMPOTENCY_KEY_INVALID. A request without the header behaves as it always has. Keys last 24 hours."
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-external-tx-id",
+      "required": false,
+      "description": "Optional. Your own id for the operation this call starts: up to 255 letters, digits, and - _ . : — unique for your tenant for ever. The operation keeps it (externalTxId) and GET /v1/operations/by-external-id/{externalTxId} finds it. An id another operation of your tenant already holds answers 409 with details.code EXTERNAL_TX_ID_REUSED and details.operationId, before anything is signed or sent; an id that is not one answers 400 EXTERNAL_TX_ID_INVALID. A call refused before it recorded an operation (a validation error, say) leaves the id free. With an Idempotency-Key, the same key and the same id answer the first answer again. Honoured once Aurea records your operations (GET /v1/operations lists them); until then the header is not read. A request without it behaves as it always has."
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "txHash": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "txHash"
+         ]
+        }
+       }
+      }
+     },
+     "202": {
+      "description": "Only for an institutional tenant whose policy holds the operation for approval (REQUIRE_APPROVAL), or a tenant whose screening is enforced when the operation needs its compliance review (PENDING_SCREENING `under_review`), or an institutional tenant whose institution callback answered RETRY (PENDING_AUTHORIZATION `awaiting_callback`, with `callback`): nothing was signed or sent. Follow the operation (`GET /v1/operations/{id}`, the `operation.*` events; for an approval `GET /v1/operations/{id}/approval`, for the callback `GET /v1/operations/{id}/callback`); once approved, or released by the review, or approved by the callback, it goes on server-side — for a client-side or MPC wallet, prepared: those two reads hand you what it signs (`result`) — and a review that confirms the match ends it REJECTED. The request's Idempotency-Key answers this again.",
+      "content": {
+       "application/json": {
+        "schema": {
+         "description": "Only for an institutional tenant whose policy holds the operation for approval (REQUIRE_APPROVAL), or a tenant whose screening is enforced when the operation needs its compliance review (PENDING_SCREENING `under_review`), or an institutional tenant whose institution callback answered RETRY (PENDING_AUTHORIZATION `awaiting_callback`, with `callback`): nothing was signed or sent. Follow the operation (`GET /v1/operations/{id}`, the `operation.*` events; for an approval `GET /v1/operations/{id}/approval`, for the callback `GET /v1/operations/{id}/callback`); once approved, or released by the review, or approved by the callback, it goes on server-side — for a client-side or MPC wallet, prepared: those two reads hand you what it signs (`result`) — and a review that confirms the match ends it REJECTED. The request's Idempotency-Key answers this again.",
+         "type": "object",
+         "required": [
+          "operationId",
+          "state",
+          "subState"
+         ],
+         "properties": {
+          "operationId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "PENDING_AUTHORIZATION",
+            "PENDING_SCREENING"
+           ]
+          },
+          "subState": {
+           "type": "string",
+           "enum": [
+            "awaiting_approval",
+            "under_review",
+            "awaiting_callback"
+           ]
+          },
+          "approval": {
+           "description": "The approval it waits for: a hold for approval only.",
+           "type": "object",
+           "required": [
+            "id",
+            "ruleId",
+            "ruleName",
+            "threshold",
+            "expiresAt"
+           ],
+           "properties": {
+            "id": {
+             "type": "string",
+             "format": "uuid"
+            },
+            "ruleId": {
+             "type": "string",
+             "format": "uuid"
+            },
+            "ruleName": {
+             "type": "string"
+            },
+            "threshold": {
+             "type": "integer"
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            }
+           }
+          },
+          "callback": {
+           "description": "awaiting_callback: the institution callback's request — asked again from `nextPollAt` until `deadlineAt` (48 hours at most); the operation goes on once it approves (what it answered then, for a client-side or MPC wallet the preparation to sign: `GET /v1/operations/{id}/callback`), and fails (callback_expired) past the deadline.",
+           "type": "object",
+           "required": [
+            "requestId",
+            "nextPollAt",
+            "deadlineAt"
+           ],
+           "properties": {
+            "requestId": {
+             "type": "string",
+             "format": "uuid"
+            },
+            "nextPollAt": {
+             "type": "string",
+             "format": "date-time"
+            },
+            "deadlineAt": {
+             "type": "string",
+             "format": "date-time"
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "504": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/lending/prepare-supply": {
+   "post": {
+    "summary": "Prepare a lending supply for the user's device to sign",
+    "tags": [
+     "lending"
+    ],
+    "description": "Builds the unsigned EIP-1559 transactions of a EUR.e supply and the address to sign from; each step's txHashToSign is signed with the wallet's key and the steps and signatures go to POST /v1/lending/broadcast. Amounts in wei (18 decimals). Requires lending to be on for the tenant.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "weiAmount": {
+          "type": "string",
+          "pattern": "^\\d+$"
+         },
+         "isTestnet": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "weiAmount",
+         "isTestnet"
+        ],
+        "additionalProperties": false
+       }
+      }
+     },
+     "required": true
+    },
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "steps": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "stepIndex": {
+              "type": "number"
+             },
+             "txHashToSign": {
+              "type": "string"
+             },
+             "to": {
+              "type": "string"
+             },
+             "data": {
+              "type": "string"
+             },
+             "value": {
+              "type": "string"
+             },
+             "chainId": {
+              "type": "number"
+             },
+             "nonce": {
+              "type": "number"
+             },
+             "gasLimit": {
+              "type": "string"
+             },
+             "maxFeePerGas": {
+              "type": "string"
+             },
+             "maxPriorityFeePerGas": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "stepIndex",
+             "txHashToSign",
+             "to",
+             "data",
+             "value",
+             "chainId",
+             "nonce",
+             "gasLimit",
+             "maxFeePerGas",
+             "maxPriorityFeePerGas"
+            ]
+           }
+          },
+          "walletAddress": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "steps",
+          "walletAddress"
+         ]
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/lending/prepare-withdraw": {
+   "post": {
+    "summary": "Prepare a lending withdrawal for the user's device to sign",
+    "tags": [
+     "lending"
+    ],
+    "description": "Builds the unsigned EIP-1559 transactions of a EUR.e withdrawal (a wei amount, or \"max\") and the address to sign from; the steps and signatures go to POST /v1/lending/broadcast. Requires lending to be on for the tenant.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "weiAmount": {
+          "anyOf": [
+           {
+            "type": "string",
+            "pattern": "^\\d+$"
+           },
+           {
+            "type": "string",
+            "enum": [
+             "max"
+            ]
+           }
+          ]
+         },
+         "isTestnet": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "weiAmount",
+         "isTestnet"
+        ],
+        "additionalProperties": false
+       }
+      }
+     },
+     "required": true
+    },
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "steps": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "properties": {
+             "stepIndex": {
+              "type": "number"
+             },
+             "txHashToSign": {
+              "type": "string"
+             },
+             "to": {
+              "type": "string"
+             },
+             "data": {
+              "type": "string"
+             },
+             "value": {
+              "type": "string"
+             },
+             "chainId": {
+              "type": "number"
+             },
+             "nonce": {
+              "type": "number"
+             },
+             "gasLimit": {
+              "type": "string"
+             },
+             "maxFeePerGas": {
+              "type": "string"
+             },
+             "maxPriorityFeePerGas": {
+              "type": "string"
+             }
+            },
+            "required": [
+             "stepIndex",
+             "txHashToSign",
+             "to",
+             "data",
+             "value",
+             "chainId",
+             "nonce",
+             "gasLimit",
+             "maxFeePerGas",
+             "maxPriorityFeePerGas"
+            ]
+           }
+          },
+          "walletAddress": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "steps",
+          "walletAddress"
+         ]
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/lending/broadcast": {
+   "post": {
+    "summary": "Broadcast the signed lending transactions",
+    "tags": [
+     "lending"
+    ],
+    "description": "Takes the steps of a prepared supply or withdrawal and one signature (v, r, s) per step's txHashToSign, sends them in order and answers the last transaction's hash. Requires lending to be on for the tenant.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "steps": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "stepIndex": {
+             "type": "number"
+            },
+            "txHashToSign": {
+             "type": "string"
+            },
+            "to": {
+             "type": "string"
+            },
+            "data": {
+             "type": "string"
+            },
+            "value": {
+             "type": "string"
+            },
+            "chainId": {
+             "type": "number"
+            },
+            "nonce": {
+             "type": "number"
+            },
+            "gasLimit": {
+             "type": "string"
+            },
+            "maxFeePerGas": {
+             "type": "string"
+            },
+            "maxPriorityFeePerGas": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "stepIndex",
+            "txHashToSign",
+            "to",
+            "data",
+            "value",
+            "chainId",
+            "nonce",
+            "gasLimit",
+            "maxFeePerGas",
+            "maxPriorityFeePerGas"
+           ],
+           "additionalProperties": false
+          }
+         },
+         "signatures": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "properties": {
+            "v": {
+             "type": "string"
+            },
+            "r": {
+             "type": "string"
+            },
+            "s": {
+             "type": "string"
+            }
+           },
+           "required": [
+            "v",
+            "r",
+            "s"
+           ],
+           "additionalProperties": false
+          }
+         },
+         "isTestnet": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "steps",
+         "signatures",
+         "isTestnet"
+        ],
+        "additionalProperties": false
+       }
+      }
+     },
+     "required": true
+    },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "idempotency-key",
+      "required": false,
+      "description": "Optional (required for institutional tenants). Up to 255 letters, digits, - or _. Sending the same key again with the same request answers with the first answer instead of running it again, and the response carries idempotency-replayed: true. The same key with a different request, or while the first call is still running, answers 409 with details.code IDEMPOTENCY_KEY_REUSED or IDEMPOTENCY_IN_PROGRESS; after a first call that may have taken effect without answering, 409 IDEMPOTENCY_OUTCOME_UNKNOWN (it is never run again: check the operation, then use a new key). A key that is not one answers 400 IDEMPOTENCY_KEY_INVALID. A request without the header behaves as it always has. Keys last 24 hours."
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-external-tx-id",
+      "required": false,
+      "description": "Optional. Your own id for the operation this call starts: up to 255 letters, digits, and - _ . : — unique for your tenant for ever. The operation keeps it (externalTxId) and GET /v1/operations/by-external-id/{externalTxId} finds it. An id another operation of your tenant already holds answers 409 with details.code EXTERNAL_TX_ID_REUSED and details.operationId, before anything is signed or sent; an id that is not one answers 400 EXTERNAL_TX_ID_INVALID. A call refused before it recorded an operation (a validation error, say) leaves the id free. With an Idempotency-Key, the same key and the same id answer the first answer again. Honoured once Aurea records your operations (GET /v1/operations lists them); until then the header is not read. A request without it behaves as it always has."
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "txHash": {
+           "type": "string"
+          }
+         },
+         "required": [
+          "txHash"
+         ]
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "error": {
+           "type": "string"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {},
+          "timestamp": {
+           "type": "string"
+          },
+          "path": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/cards/virtual": {
+   "post": {
+    "summary": "Create a virtual card",
+    "tags": [
+     "cards"
+    ],
+    "description": "Issues a virtual card to the user, once the card terms (card-issuer-tos) are accepted (403 CARD_TERMS_REQUIRED otherwise, with neutral names on).",
+    "responses": {
+     "201": {
+      "description": "The new virtual card",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The new virtual card",
+         "properties": {
+          "id": {
+           "type": "string"
+          },
+          "token": {
+           "type": "string"
+          },
+          "lastFour": {
+           "type": "string"
+          },
+          "isVirtual": {
+           "type": "boolean"
+          },
+          "statusCode": {
+           "type": "integer"
+          },
+          "statusName": {
+           "type": "string"
+          },
+          "isFrozen": {
+           "type": "boolean"
+          },
+          "activatedAt": {
+           "type": [
+            "string",
+            "null"
+           ]
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "No valid access token",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No valid access token",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/cards": {
+   "get": {
+    "summary": "List the user's cards",
+    "tags": [
+     "cards"
+    ],
+    "description": "The user's cards as the card program answers them.",
+    "responses": {
+     "200": {
+      "description": "The user's cards",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "description": "The user's cards",
+         "items": {
+          "type": "object",
+          "properties": {
+           "id": {
+            "type": "string"
+           },
+           "token": {
+            "type": "string"
+           },
+           "lastFour": {
+            "type": "string"
+           },
+           "isVirtual": {
+            "type": "boolean"
+           },
+           "statusCode": {
+            "type": "integer"
+           },
+           "statusName": {
+            "type": "string"
+           },
+           "isFrozen": {
+            "type": "boolean"
+           },
+           "activatedAt": {
+            "type": [
+             "string",
+             "null"
+            ]
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "No valid access token",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No valid access token",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/cards/transactions": {
+   "get": {
+    "summary": "List the user's card transactions",
+    "tags": [
+     "cards"
+    ],
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "query",
+      "name": "before",
+      "required": false
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "query",
+      "name": "after",
+      "required": false
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "query",
+      "name": "currency",
+      "required": false
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "query",
+      "name": "mcc",
+      "required": false
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "query",
+      "name": "type",
+      "required": false
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "No valid access token",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No valid access token",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/cards/ephemeral-token": {
+   "get": {
+    "summary": "Get a card reveal token",
+    "tags": [
+     "cards"
+    ],
+    "description": "A short-lived token to show the card's number and code in the card program's secure view.",
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "token": {
+           "type": "string"
+          },
+          "expiresAt": {
+           "type": "string"
+          },
+          "appId": {
+           "type": "string"
+          },
+          "gnosisJwt": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "No valid access token",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No valid access token",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "500": {
+      "description": "The card-reveal service answered something that is not JSON",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The card-reveal service answered something that is not JSON",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "The card-reveal certificates are not configured (details.code GNOSIS_PSE_NOT_CONFIGURED), or the card-reveal service failed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The card-reveal certificates are not configured (details.code GNOSIS_PSE_NOT_CONFIGURED), or the card-reveal service failed",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/cards/{cardId}/activate": {
+   "post": {
+    "summary": "Activate a card",
+    "tags": [
+     "cards"
+    ],
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      },
+      "in": "path",
+      "name": "cardId",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "No valid access token",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No valid access token",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/cards/{cardId}/freeze": {
+   "post": {
+    "summary": "Freeze a card",
+    "tags": [
+     "cards"
+    ],
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      },
+      "in": "path",
+      "name": "cardId",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "No valid access token",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No valid access token",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/cards/{cardId}/unfreeze": {
+   "post": {
+    "summary": "Unfreeze a card",
+    "tags": [
+     "cards"
+    ],
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      },
+      "in": "path",
+      "name": "cardId",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "No valid access token",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No valid access token",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/cards/{cardId}/void": {
+   "post": {
+    "summary": "Void a card",
+    "tags": [
+     "cards"
+    ],
+    "description": "Voids the card for good.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "minLength": 1
+      },
+      "in": "path",
+      "name": "cardId",
+      "required": true
+     }
+    ],
+    "responses": {
+     "200": {
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "400": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "No valid access token",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No valid access token",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
    }
   },
   "/v1/earn/products": {
@@ -144228,6 +147607,10 @@
              "roleNarrows": {
               "type": "boolean",
               "description": "Whether its role decides which tenant-signed routes its tokens reach: true for every credential registered since 06/10/2026 (its role must hold each route's permission, else 403 `SERVER_CREDENTIAL_ROLE_NOT_ALLOWED`); false for one registered before, which reaches every tenant-signed route as the tenant's API key does. Never changes."
+             },
+             "testOnly": {
+              "type": "boolean",
+              "description": "Present, `true`, only on a credential registered for test networks only: its tokens reach a route only when the request names a testnet — `isTestnet: true` in the query or body, and every `chainId` it carries a testnet's. A request for a mainnet, and a route that does not take the network from the request (sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, a record read or acted on by its id), answer 403 `TEST_ONLY_CREDENTIAL` with `details.network` (`mainnet` or `undetermined`); nothing is done and the token's nonce is not used. Never changes. Absent on every other credential."
              }
             }
            }
@@ -144351,7 +147734,7 @@
     "tags": [
      "tenants"
     ],
-    "description": "The tenant's Owner, Admin, Non-signing Admin and Security Admin, on their own tenant (Aurea administrators on any). The tenant generates a P-256 key pair and registers its public key; the Hub never sees the private key. Several credentials may be active at once (at most 10): to rotate, register the new key, move the server to it, revoke the old one. **Signing with a credential.** The tenant's server keeps the private key and sends `Authorization: Bearer <token>`, a compact JWS signed ES256 (JOSE r‖s signature): header `{ \"alg\": \"ES256\", \"typ\": \"aurea-server+jwt\", \"kid\": \"<credential id>\" }` (no other member); claims `{ \"uri\": \"<METHOD> <path and query exactly as sent>\", \"bodyHash\": \"<unpadded base64url SHA-256 of the exact body; of the empty string without one>\", \"nonce\": \"<16–128 of A–Z a–z 0–9 _ -, never reused>\", \"iat\": <seconds>, \"exp\": <seconds> }`, with `exp` after `iat` by 30 s at most (clock skew allowed: 10 s). It is accepted, instead of the HMAC headers (never with them: 400 `SERVER_AUTH_SCHEMES_CONFLICT`), on every route that takes the tenant's signature alone: sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, the card ramp's customers. Refusals are 401 with `details.code`: `SERVER_TOKEN_MALFORMED`, `SERVER_TOKEN_LIFETIME_INVALID`, `SERVER_TOKEN_NOT_YET_VALID`, `SERVER_TOKEN_EXPIRED`, `SERVER_CREDENTIAL_UNKNOWN`, `SERVER_TOKEN_SIGNATURE_INVALID`, `SERVER_CREDENTIAL_REVOKED`, `SERVER_CREDENTIAL_EXPIRED`, `SERVER_CREDENTIAL_TENANT_INACTIVE`, `SERVER_CREDENTIAL_IP_NOT_ALLOWED`, `SERVER_TOKEN_URI_MISMATCH`, `SERVER_TOKEN_BODY_MISMATCH`, `SERVER_TOKEN_REPLAYED`. A credential whose role narrows (`roleNarrows`) and does not hold the route's permission is refused 403 `SERVER_CREDENTIAL_ROLE_NOT_ALLOWED`, with the permission in `details.permission` and in the challenge's `scope`. Refusals: 400 `SERVER_CREDENTIAL_KEY_INVALID`, `SERVER_CREDENTIAL_PRIVATE_KEY`, `SERVER_CREDENTIAL_NAME_INVALID`, `SERVER_CREDENTIAL_ROLE_INVALID`, `SERVER_CREDENTIAL_IP_INVALID`, `SERVER_CREDENTIAL_EXPIRY_INVALID`; 403 `SERVER_CREDENTIAL_ROLE_ABOVE_OWN`; 404 `TENANT_NOT_FOUND`; 409 `SERVER_CREDENTIAL_KEY_IN_USE` (a key is registered once, ever), `SERVER_CREDENTIAL_LIMIT`.",
+    "description": "The tenant's Owner, Admin, Non-signing Admin and Security Admin, on their own tenant (Aurea administrators on any). The tenant generates a P-256 key pair and registers its public key; the Hub never sees the private key. Several credentials may be active at once (at most 10): to rotate, register the new key, move the server to it, revoke the old one. **Signing with a credential.** The tenant's server keeps the private key and sends `Authorization: Bearer <token>`, a compact JWS signed ES256 (JOSE r‖s signature): header `{ \"alg\": \"ES256\", \"typ\": \"aurea-server+jwt\", \"kid\": \"<credential id>\" }` (no other member); claims `{ \"uri\": \"<METHOD> <path and query exactly as sent>\", \"bodyHash\": \"<unpadded base64url SHA-256 of the exact body; of the empty string without one>\", \"nonce\": \"<16–128 of A–Z a–z 0–9 _ -, never reused>\", \"iat\": <seconds>, \"exp\": <seconds> }`, with `exp` after `iat` by 30 s at most (clock skew allowed: 10 s). It is accepted, instead of the HMAC headers (never with them: 400 `SERVER_AUTH_SCHEMES_CONFLICT`), on every route that takes the tenant's signature alone: sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, the card ramp's customers. Refusals are 401 with `details.code`: `SERVER_TOKEN_MALFORMED`, `SERVER_TOKEN_LIFETIME_INVALID`, `SERVER_TOKEN_NOT_YET_VALID`, `SERVER_TOKEN_EXPIRED`, `SERVER_CREDENTIAL_UNKNOWN`, `SERVER_TOKEN_SIGNATURE_INVALID`, `SERVER_CREDENTIAL_REVOKED`, `SERVER_CREDENTIAL_EXPIRED`, `SERVER_CREDENTIAL_TENANT_INACTIVE`, `SERVER_CREDENTIAL_IP_NOT_ALLOWED`, `SERVER_TOKEN_URI_MISMATCH`, `SERVER_TOKEN_BODY_MISMATCH`, `SERVER_TOKEN_REPLAYED`. A credential whose role narrows (`roleNarrows`) and does not hold the route's permission is refused 403 `SERVER_CREDENTIAL_ROLE_NOT_ALLOWED`, with the permission in `details.permission` and in the challenge's `scope`. Refusals: 400 `SERVER_CREDENTIAL_KEY_INVALID`, `SERVER_CREDENTIAL_PRIVATE_KEY`, `SERVER_CREDENTIAL_NAME_INVALID`, `SERVER_CREDENTIAL_ROLE_INVALID`, `SERVER_CREDENTIAL_IP_INVALID`, `SERVER_CREDENTIAL_EXPIRY_INVALID`; 403 `SERVER_CREDENTIAL_ROLE_ABOVE_OWN`, `TEST_ONLY_CREDENTIALS_OFF`; 404 `TENANT_NOT_FOUND`; 409 `SERVER_CREDENTIAL_KEY_IN_USE` (a key is registered once, ever), `SERVER_CREDENTIAL_LIMIT`.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -144412,6 +147795,10 @@
           ],
           "format": "date-time",
           "description": "When its tokens stop being accepted: in the future, at most 5 years ahead. Null or left out: no expiry."
+         },
+         "testOnly": {
+          "type": "boolean",
+          "description": "Optional. `true`: a credential for test networks only — its tokens reach a route only when the request names a testnet — `isTestnet: true` in the query or body, and every `chainId` it carries a testnet's. A request for a mainnet, and a route that does not take the network from the request (sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, a record read or acted on by its id), answer 403 `TEST_ONLY_CREDENTIAL` with `details.network` (`mainnet` or `undetermined`); nothing is done and the token's nonce is not used. Only where test-only credentials are switched on for the tenant, else 403 `TEST_ONLY_CREDENTIALS_OFF`. Left out or `false`: a credential as every other."
          }
         }
        }
@@ -144593,6 +147980,10 @@
           "roleNarrows": {
            "type": "boolean",
            "description": "Whether its role decides which tenant-signed routes its tokens reach: true for every credential registered since 06/10/2026 (its role must hold each route's permission, else 403 `SERVER_CREDENTIAL_ROLE_NOT_ALLOWED`); false for one registered before, which reaches every tenant-signed route as the tenant's API key does. Never changes."
+          },
+          "testOnly": {
+           "type": "boolean",
+           "description": "Present, `true`, only on a credential registered for test networks only: its tokens reach a route only when the request names a testnet — `isTestnet: true` in the query or body, and every `chainId` it carries a testnet's. A request for a mainnet, and a route that does not take the network from the request (sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, a record read or acted on by its id), answer 403 `TEST_ONLY_CREDENTIAL` with `details.network` (`mainnet` or `undetermined`); nothing is done and the token's nonce is not used. Never changes. Absent on every other credential."
           }
          }
         }
@@ -145006,6 +148397,10 @@
           "roleNarrows": {
            "type": "boolean",
            "description": "Whether its role decides which tenant-signed routes its tokens reach: true for every credential registered since 06/10/2026 (its role must hold each route's permission, else 403 `SERVER_CREDENTIAL_ROLE_NOT_ALLOWED`); false for one registered before, which reaches every tenant-signed route as the tenant's API key does. Never changes."
+          },
+          "testOnly": {
+           "type": "boolean",
+           "description": "Present, `true`, only on a credential registered for test networks only: its tokens reach a route only when the request names a testnet — `isTestnet: true` in the query or body, and every `chainId` it carries a testnet's. A request for a mainnet, and a route that does not take the network from the request (sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, a record read or acted on by its id), answer 403 `TEST_ONLY_CREDENTIAL` with `details.network` (`mainnet` or `undetermined`); nothing is done and the token's nonce is not used. Never changes. Absent on every other credential."
           }
          }
         }
@@ -145400,6 +148795,10 @@
           "roleNarrows": {
            "type": "boolean",
            "description": "Whether its role decides which tenant-signed routes its tokens reach: true for every credential registered since 06/10/2026 (its role must hold each route's permission, else 403 `SERVER_CREDENTIAL_ROLE_NOT_ALLOWED`); false for one registered before, which reaches every tenant-signed route as the tenant's API key does. Never changes."
+          },
+          "testOnly": {
+           "type": "boolean",
+           "description": "Present, `true`, only on a credential registered for test networks only: its tokens reach a route only when the request names a testnet — `isTestnet: true` in the query or body, and every `chainId` it carries a testnet's. A request for a mainnet, and a route that does not take the network from the request (sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, a record read or acted on by its id), answer 403 `TEST_ONLY_CREDENTIAL` with `details.network` (`mainnet` or `undetermined`); nothing is done and the token's nonce is not used. Never changes. Absent on every other credential."
           }
          }
         }

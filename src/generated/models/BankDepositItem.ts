@@ -40,6 +40,10 @@ export interface BankDepositItem {
      */
     type: string | null;
     /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    typeNeutral?: BankDepositItemTypeNeutralEnum;
+    /**
      * 
      */
     fiatAmount?: string | null;
@@ -52,10 +56,24 @@ export interface BankDepositItem {
      */
     senderName?: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampDepositId?: string | null;
+    /**
      * 
      */
     depositDate?: Date | null;
 }
+
+
+/**
+ * @export
+ */
+export const BankDepositItemTypeNeutralEnum = {
+    BankRampFiatDeposit: 'bank_ramp_fiat_deposit',
+} as const;
+export type BankDepositItemTypeNeutralEnum = typeof BankDepositItemTypeNeutralEnum[keyof typeof BankDepositItemTypeNeutralEnum];
+
 
 /**
  * Check if a given object implements the BankDepositItem interface.
@@ -84,9 +102,11 @@ export function BankDepositItemFromJSONTyped(json: any, ignoreDiscriminator: boo
         'sortDate': (json['sortDate'] == null ? json['sortDate'] : parseDateTime(json['sortDate'])),
         'createdAt': (json['createdAt'] == null ? json['createdAt'] : parseDateTime(json['createdAt'])),
         'type': json['type'],
+        'typeNeutral': json['typeNeutral'] == null ? undefined : json['typeNeutral'],
         'fiatAmount': json['fiatAmount'] === undefined ? undefined : json['fiatAmount'] === null ? null : json['fiatAmount'],
         'fiatCurrency': json['fiatCurrency'] === undefined ? undefined : json['fiatCurrency'] === null ? null : json['fiatCurrency'],
         'senderName': json['senderName'] === undefined ? undefined : json['senderName'] === null ? null : json['senderName'],
+        'bankRampDepositId': json['bankRampDepositId'] === undefined ? undefined : json['bankRampDepositId'] === null ? null : json['bankRampDepositId'],
         'depositDate': json['depositDate'] === undefined ? undefined : json['depositDate'] === null ? null : (parseDateTime(json['depositDate'])),
     };
 }
@@ -107,9 +127,11 @@ export function BankDepositItemToJSONTyped(value?: BankDepositItem | null, ignor
         'sortDate': value['sortDate'] == null ? value['sortDate'] : serializeDateTime(value['sortDate']),
         'createdAt': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
         'type': value['type'],
+        'typeNeutral': value['typeNeutral'],
         'fiatAmount': value['fiatAmount'],
         'fiatCurrency': value['fiatCurrency'],
         'senderName': value['senderName'],
+        'bankRampDepositId': value['bankRampDepositId'],
         'depositDate': value['depositDate'] == null ? value['depositDate'] : serializeDateTime(value['depositDate']),
     };
 }

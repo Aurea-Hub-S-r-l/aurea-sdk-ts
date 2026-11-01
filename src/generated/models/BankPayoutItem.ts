@@ -40,6 +40,10 @@ export interface BankPayoutItem {
      */
     type: string | null;
     /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    typeNeutral?: BankPayoutItemTypeNeutralEnum;
+    /**
      * 
      */
     fiatAmount?: string | null;
@@ -59,7 +63,21 @@ export interface BankPayoutItem {
      * 
      */
     exchangeRate?: string | null;
+    /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampTransactionId?: string | null;
 }
+
+
+/**
+ * @export
+ */
+export const BankPayoutItemTypeNeutralEnum = {
+    BankRampPayout: 'bank_ramp_payout',
+} as const;
+export type BankPayoutItemTypeNeutralEnum = typeof BankPayoutItemTypeNeutralEnum[keyof typeof BankPayoutItemTypeNeutralEnum];
+
 
 /**
  * Check if a given object implements the BankPayoutItem interface.
@@ -88,11 +106,13 @@ export function BankPayoutItemFromJSONTyped(json: any, ignoreDiscriminator: bool
         'sortDate': (json['sortDate'] == null ? json['sortDate'] : parseDateTime(json['sortDate'])),
         'createdAt': (json['createdAt'] == null ? json['createdAt'] : parseDateTime(json['createdAt'])),
         'type': json['type'],
+        'typeNeutral': json['typeNeutral'] == null ? undefined : json['typeNeutral'],
         'fiatAmount': json['fiatAmount'] === undefined ? undefined : json['fiatAmount'] === null ? null : json['fiatAmount'],
         'fiatCurrency': json['fiatCurrency'] === undefined ? undefined : json['fiatCurrency'] === null ? null : json['fiatCurrency'],
         'cryptoCurrency': json['cryptoCurrency'] === undefined ? undefined : json['cryptoCurrency'] === null ? null : json['cryptoCurrency'],
         'cryptoAuthorizedAmount': json['cryptoAuthorizedAmount'] === undefined ? undefined : json['cryptoAuthorizedAmount'] === null ? null : json['cryptoAuthorizedAmount'],
         'exchangeRate': json['exchangeRate'] === undefined ? undefined : json['exchangeRate'] === null ? null : json['exchangeRate'],
+        'bankRampTransactionId': json['bankRampTransactionId'] === undefined ? undefined : json['bankRampTransactionId'] === null ? null : json['bankRampTransactionId'],
     };
 }
 
@@ -112,11 +132,13 @@ export function BankPayoutItemToJSONTyped(value?: BankPayoutItem | null, ignoreD
         'sortDate': value['sortDate'] == null ? value['sortDate'] : serializeDateTime(value['sortDate']),
         'createdAt': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
         'type': value['type'],
+        'typeNeutral': value['typeNeutral'],
         'fiatAmount': value['fiatAmount'],
         'fiatCurrency': value['fiatCurrency'],
         'cryptoCurrency': value['cryptoCurrency'],
         'cryptoAuthorizedAmount': value['cryptoAuthorizedAmount'],
         'exchangeRate': value['exchangeRate'],
+        'bankRampTransactionId': value['bankRampTransactionId'],
     };
 }
 

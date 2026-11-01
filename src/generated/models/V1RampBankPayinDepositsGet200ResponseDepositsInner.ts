@@ -39,6 +39,10 @@ export interface V1RampBankPayinDepositsGet200ResponseDepositsInner {
      */
     id: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampDepositId?: string;
+    /**
      * 
      */
     fiatAmount: number;
@@ -75,6 +79,14 @@ export interface V1RampBankPayinDepositsGet200ResponseDepositsInner {
      */
     paymentMethodId: string;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampStatus?: V1RampBankPayinDepositsGet200ResponseDepositsInnerBankRampStatusEnum | null;
+    /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampSubStatus?: string | null;
+    /**
      * 
      */
     requestForInformation: V1RampBankPayinDepositsGet200ResponseDepositsInnerRequestForInformation | null;
@@ -95,6 +107,18 @@ export interface V1RampBankPayinDepositsGet200ResponseDepositsInner {
      */
     updatedAt: string | null;
 }
+
+
+/**
+ * @export
+ */
+export const V1RampBankPayinDepositsGet200ResponseDepositsInnerBankRampStatusEnum = {
+    Pending: 'Pending',
+    Settled: 'Settled',
+    Failed: 'Failed',
+} as const;
+export type V1RampBankPayinDepositsGet200ResponseDepositsInnerBankRampStatusEnum = typeof V1RampBankPayinDepositsGet200ResponseDepositsInnerBankRampStatusEnum[keyof typeof V1RampBankPayinDepositsGet200ResponseDepositsInnerBankRampStatusEnum];
+
 
 /**
  * Check if a given object implements the V1RampBankPayinDepositsGet200ResponseDepositsInner interface.
@@ -126,6 +150,7 @@ export function V1RampBankPayinDepositsGet200ResponseDepositsInnerFromJSONTyped(
     return {
         
         'id': json['id'],
+        'bankRampDepositId': json['bankRampDepositId'] == null ? undefined : json['bankRampDepositId'],
         'fiatAmount': json['fiatAmount'],
         'fiatCurrency': json['fiatCurrency'],
         'senderName': json['senderName'] == null ? undefined : json['senderName'],
@@ -135,6 +160,8 @@ export function V1RampBankPayinDepositsGet200ResponseDepositsInnerFromJSONTyped(
         'depositDate': json['depositDate'] === undefined ? undefined : json['depositDate'] === null ? null : json['depositDate'],
         'createdAt': json['createdAt'],
         'paymentMethodId': json['paymentMethodId'],
+        'bankRampStatus': json['bankRampStatus'] === undefined ? undefined : json['bankRampStatus'] === null ? null : json['bankRampStatus'],
+        'bankRampSubStatus': json['bankRampSubStatus'] === undefined ? undefined : json['bankRampSubStatus'] === null ? null : json['bankRampSubStatus'],
         'requestForInformation': V1RampBankPayinDepositsGet200ResponseDepositsInnerRequestForInformationFromJSON(json['requestForInformation']),
         'refunds': ((json['refunds'] as Array<any>).map(V1RampBankPayinDepositsGet200ResponseDepositsInnerRefundsInnerFromJSON)),
         'paymentMethodType': json['paymentMethodType'],
@@ -155,6 +182,7 @@ export function V1RampBankPayinDepositsGet200ResponseDepositsInnerToJSONTyped(va
     return {
         
         'id': value['id'],
+        'bankRampDepositId': value['bankRampDepositId'],
         'fiatAmount': value['fiatAmount'],
         'fiatCurrency': value['fiatCurrency'],
         'senderName': value['senderName'],
@@ -164,6 +192,8 @@ export function V1RampBankPayinDepositsGet200ResponseDepositsInnerToJSONTyped(va
         'depositDate': value['depositDate'],
         'createdAt': value['createdAt'],
         'paymentMethodId': value['paymentMethodId'],
+        'bankRampStatus': value['bankRampStatus'],
+        'bankRampSubStatus': value['bankRampSubStatus'],
         'requestForInformation': V1RampBankPayinDepositsGet200ResponseDepositsInnerRequestForInformationToJSON(value['requestForInformation']),
         'refunds': ((value['refunds'] as Array<any>).map(V1RampBankPayinDepositsGet200ResponseDepositsInnerRefundsInnerToJSON)),
         'paymentMethodType': value['paymentMethodType'],

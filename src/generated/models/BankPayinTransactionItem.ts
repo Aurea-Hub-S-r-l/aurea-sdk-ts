@@ -40,6 +40,10 @@ export interface BankPayinTransactionItem {
      */
     type: string | null;
     /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    typeNeutral?: BankPayinTransactionItemTypeNeutralEnum;
+    /**
      * 
      */
     transactionType?: string | null;
@@ -71,7 +75,21 @@ export interface BankPayinTransactionItem {
      * 
      */
     network?: string | null;
+    /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampTransactionId?: string;
 }
+
+
+/**
+ * @export
+ */
+export const BankPayinTransactionItemTypeNeutralEnum = {
+    BankRampPayinTransaction: 'bank_ramp_payin_transaction',
+} as const;
+export type BankPayinTransactionItemTypeNeutralEnum = typeof BankPayinTransactionItemTypeNeutralEnum[keyof typeof BankPayinTransactionItemTypeNeutralEnum];
+
 
 /**
  * Check if a given object implements the BankPayinTransactionItem interface.
@@ -100,6 +118,7 @@ export function BankPayinTransactionItemFromJSONTyped(json: any, ignoreDiscrimin
         'sortDate': (json['sortDate'] == null ? json['sortDate'] : parseDateTime(json['sortDate'])),
         'createdAt': (json['createdAt'] == null ? json['createdAt'] : parseDateTime(json['createdAt'])),
         'type': json['type'],
+        'typeNeutral': json['typeNeutral'] == null ? undefined : json['typeNeutral'],
         'transactionType': json['transactionType'] === undefined ? undefined : json['transactionType'] === null ? null : json['transactionType'],
         'fiatAmount': json['fiatAmount'] === undefined ? undefined : json['fiatAmount'] === null ? null : json['fiatAmount'],
         'fiatCurrency': json['fiatCurrency'] === undefined ? undefined : json['fiatCurrency'] === null ? null : json['fiatCurrency'],
@@ -108,6 +127,7 @@ export function BankPayinTransactionItemFromJSONTyped(json: any, ignoreDiscrimin
         'exchangeRate': json['exchangeRate'] === undefined ? undefined : json['exchangeRate'] === null ? null : json['exchangeRate'],
         'blockchainTxHash': json['blockchainTxHash'] === undefined ? undefined : json['blockchainTxHash'] === null ? null : json['blockchainTxHash'],
         'network': json['network'] === undefined ? undefined : json['network'] === null ? null : json['network'],
+        'bankRampTransactionId': json['bankRampTransactionId'] == null ? undefined : json['bankRampTransactionId'],
     };
 }
 
@@ -127,6 +147,7 @@ export function BankPayinTransactionItemToJSONTyped(value?: BankPayinTransaction
         'sortDate': value['sortDate'] == null ? value['sortDate'] : serializeDateTime(value['sortDate']),
         'createdAt': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
         'type': value['type'],
+        'typeNeutral': value['typeNeutral'],
         'transactionType': value['transactionType'],
         'fiatAmount': value['fiatAmount'],
         'fiatCurrency': value['fiatCurrency'],
@@ -135,6 +156,7 @@ export function BankPayinTransactionItemToJSONTyped(value?: BankPayinTransaction
         'exchangeRate': value['exchangeRate'],
         'blockchainTxHash': value['blockchainTxHash'],
         'network': value['network'],
+        'bankRampTransactionId': value['bankRampTransactionId'],
     };
 }
 

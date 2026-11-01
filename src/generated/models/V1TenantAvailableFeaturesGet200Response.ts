@@ -28,6 +28,10 @@ import {
  */
 export interface V1TenantAvailableFeaturesGet200Response {
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    eurAccountIban?: boolean;
+    /**
      * True when the dApps browser feature is enabled for this tenant.
      */
     dappsEnabled: boolean;
@@ -61,6 +65,7 @@ export function V1TenantAvailableFeaturesGet200ResponseFromJSONTyped(json: any, 
     }
     return {
         
+        'eurAccountIban': json['eurAccountIban'] == null ? undefined : json['eurAccountIban'],
         'dappsEnabled': json['dappsEnabled'],
         'nonCustodialWallets': json['nonCustodialWallets'],
         'modules': V1TenantAvailableFeaturesGet200ResponseModulesFromJSON(json['modules']),
@@ -78,6 +83,7 @@ export function V1TenantAvailableFeaturesGet200ResponseToJSONTyped(value?: V1Ten
 
     return {
         
+        'eurAccountIban': value['eurAccountIban'],
         'dappsEnabled': value['dappsEnabled'],
         'nonCustodialWallets': value['nonCustodialWallets'],
         'modules': V1TenantAvailableFeaturesGet200ResponseModulesToJSON(value['modules']),

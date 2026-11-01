@@ -48,9 +48,17 @@ export interface V1SwapBroadcastGaslessPost200Response {
      */
     executionMethod?: string | null;
     /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    executionMethodNeutral?: V1SwapBroadcastGaslessPost200ResponseExecutionMethodNeutralEnum;
+    /**
      * 
      */
     routingMethod?: string | null;
+    /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    routingMethodNeutral?: V1SwapBroadcastGaslessPost200ResponseRoutingMethodNeutralEnum;
 }
 
 
@@ -61,6 +69,22 @@ export const V1SwapBroadcastGaslessPost200ResponseStatusEnum = {
     Pending: 'pending',
 } as const;
 export type V1SwapBroadcastGaslessPost200ResponseStatusEnum = typeof V1SwapBroadcastGaslessPost200ResponseStatusEnum[keyof typeof V1SwapBroadcastGaslessPost200ResponseStatusEnum];
+
+/**
+ * @export
+ */
+export const V1SwapBroadcastGaslessPost200ResponseExecutionMethodNeutralEnum = {
+    Sponsored: 'sponsored',
+} as const;
+export type V1SwapBroadcastGaslessPost200ResponseExecutionMethodNeutralEnum = typeof V1SwapBroadcastGaslessPost200ResponseExecutionMethodNeutralEnum[keyof typeof V1SwapBroadcastGaslessPost200ResponseExecutionMethodNeutralEnum];
+
+/**
+ * @export
+ */
+export const V1SwapBroadcastGaslessPost200ResponseRoutingMethodNeutralEnum = {
+    Aggregator: 'aggregator',
+} as const;
+export type V1SwapBroadcastGaslessPost200ResponseRoutingMethodNeutralEnum = typeof V1SwapBroadcastGaslessPost200ResponseRoutingMethodNeutralEnum[keyof typeof V1SwapBroadcastGaslessPost200ResponseRoutingMethodNeutralEnum];
 
 
 /**
@@ -91,7 +115,9 @@ export function V1SwapBroadcastGaslessPost200ResponseFromJSONTyped(json: any, ig
         'gasUsed': json['gasUsed'] === undefined ? undefined : json['gasUsed'] === null ? null : json['gasUsed'],
         'gasPrice': json['gasPrice'] === undefined ? undefined : json['gasPrice'] === null ? null : json['gasPrice'],
         'executionMethod': json['executionMethod'] === undefined ? undefined : json['executionMethod'] === null ? null : json['executionMethod'],
+        'executionMethodNeutral': json['executionMethodNeutral'] == null ? undefined : json['executionMethodNeutral'],
         'routingMethod': json['routingMethod'] === undefined ? undefined : json['routingMethod'] === null ? null : json['routingMethod'],
+        'routingMethodNeutral': json['routingMethodNeutral'] == null ? undefined : json['routingMethodNeutral'],
     };
 }
 
@@ -113,7 +139,9 @@ export function V1SwapBroadcastGaslessPost200ResponseToJSONTyped(value?: V1SwapB
         'gasUsed': value['gasUsed'],
         'gasPrice': value['gasPrice'],
         'executionMethod': value['executionMethod'],
+        'executionMethodNeutral': value['executionMethodNeutral'],
         'routingMethod': value['routingMethod'],
+        'routingMethodNeutral': value['routingMethodNeutral'],
     };
 }
 

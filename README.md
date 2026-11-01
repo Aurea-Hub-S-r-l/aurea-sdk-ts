@@ -199,9 +199,12 @@ new Aurea({
 
 The SDK is generated from the production OpenAPI document
 ([https://api.aureahub.com/v1/docs/json](https://api.aureahub.com/v1/docs/json)) for the routes
-docs.aureahub.com documents. Fields and values that the docs do not document are left out of the types; the full
-answer is always in the `…Raw` methods' `Response`. This is a 0.x release: method and type names may still change
-between minor versions.
+docs.aureahub.com documents, with the API's neutral names: the bank ramp's `bankRampStatus`, `bankRampDepositId`…,
+the EUR account's `eurAccountIban`…, the `<field>Neutral` values (`typeNeutral`…), and the routes `/v1/lending/*`
+(`aurea.lending`) and `/v1/cards/*` (`aurea.cards`). The neutral fields are in the answers once neutral codes are on
+for your tenant ([Errors & Codes › Neutral Codes](https://docs.aureahub.com/#errors)): ask for them when your tenant
+is set up, or write to [help@aureahub.com](mailto:help@aureahub.com). This is a 0.x release: method and type names
+may still change between minor versions.
 
 ## Support
 

@@ -53,6 +53,10 @@ export interface V1RampBankPayinTransactionsGet200ResponseTransactionsInner {
      */
     id: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampTransactionId?: string;
+    /**
      * purchase when the bank ramp credits (direction In), withdrawal when it debits (Out), an on-ramp's on-chain delivery included. refund is never produced: a refund is an entry of refunds, a reversal a transaction with reversesTransactionId.
      */
     transactionType: string;
@@ -109,9 +113,21 @@ export interface V1RampBankPayinTransactionsGet200ResponseTransactionsInner {
      */
     depositId: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampDepositId?: string | null;
+    /**
      * In: the bank ramp credits (a conversion from fiat, an on-chain deposit, a reversal). Out: the bank ramp debits (an on-chain delivery or withdrawal, a fiat payout). null for what was stored before Aurea kept the bank ramp's status.
      */
     direction: V1RampBankPayinTransactionsGet200ResponseTransactionsInnerDirectionEnum | null;
+    /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampStatus?: V1RampBankPayinTransactionsGet200ResponseTransactionsInnerBankRampStatusEnum | null;
+    /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampSubStatus?: string | null;
     /**
      * 
      */
@@ -172,6 +188,16 @@ export const V1RampBankPayinTransactionsGet200ResponseTransactionsInnerDirection
 } as const;
 export type V1RampBankPayinTransactionsGet200ResponseTransactionsInnerDirectionEnum = typeof V1RampBankPayinTransactionsGet200ResponseTransactionsInnerDirectionEnum[keyof typeof V1RampBankPayinTransactionsGet200ResponseTransactionsInnerDirectionEnum];
 
+/**
+ * @export
+ */
+export const V1RampBankPayinTransactionsGet200ResponseTransactionsInnerBankRampStatusEnum = {
+    Pending: 'Pending',
+    Settled: 'Settled',
+    Failed: 'Failed',
+} as const;
+export type V1RampBankPayinTransactionsGet200ResponseTransactionsInnerBankRampStatusEnum = typeof V1RampBankPayinTransactionsGet200ResponseTransactionsInnerBankRampStatusEnum[keyof typeof V1RampBankPayinTransactionsGet200ResponseTransactionsInnerBankRampStatusEnum];
+
 
 /**
  * Check if a given object implements the V1RampBankPayinTransactionsGet200ResponseTransactionsInner interface.
@@ -209,6 +235,7 @@ export function V1RampBankPayinTransactionsGet200ResponseTransactionsInnerFromJS
     return {
         
         'id': json['id'],
+        'bankRampTransactionId': json['bankRampTransactionId'] == null ? undefined : json['bankRampTransactionId'],
         'transactionType': json['transactionType'],
         'fiatAmount': json['fiatAmount'] == null ? undefined : json['fiatAmount'],
         'fiatCurrency': json['fiatCurrency'] === undefined ? undefined : json['fiatCurrency'] === null ? null : json['fiatCurrency'],
@@ -223,7 +250,10 @@ export function V1RampBankPayinTransactionsGet200ResponseTransactionsInnerFromJS
         'completedAt': json['completedAt'] === undefined ? undefined : json['completedAt'] === null ? null : json['completedAt'],
         'createdAt': json['createdAt'],
         'depositId': json['depositId'],
+        'bankRampDepositId': json['bankRampDepositId'] === undefined ? undefined : json['bankRampDepositId'] === null ? null : json['bankRampDepositId'],
         'direction': json['direction'],
+        'bankRampStatus': json['bankRampStatus'] === undefined ? undefined : json['bankRampStatus'] === null ? null : json['bankRampStatus'],
+        'bankRampSubStatus': json['bankRampSubStatus'] === undefined ? undefined : json['bankRampSubStatus'] === null ? null : json['bankRampSubStatus'],
         'requestForInformation': V1RampBankPayinDepositsGet200ResponseDepositsInnerRequestForInformationFromJSON(json['requestForInformation']),
         'refunds': ((json['refunds'] as Array<any>).map(V1RampBankPayinDepositsGet200ResponseDepositsInnerRefundsInnerFromJSON)),
         'ruleId': json['ruleId'],
@@ -251,6 +281,7 @@ export function V1RampBankPayinTransactionsGet200ResponseTransactionsInnerToJSON
     return {
         
         'id': value['id'],
+        'bankRampTransactionId': value['bankRampTransactionId'],
         'transactionType': value['transactionType'],
         'fiatAmount': value['fiatAmount'],
         'fiatCurrency': value['fiatCurrency'],
@@ -265,7 +296,10 @@ export function V1RampBankPayinTransactionsGet200ResponseTransactionsInnerToJSON
         'completedAt': value['completedAt'],
         'createdAt': value['createdAt'],
         'depositId': value['depositId'],
+        'bankRampDepositId': value['bankRampDepositId'],
         'direction': value['direction'],
+        'bankRampStatus': value['bankRampStatus'],
+        'bankRampSubStatus': value['bankRampSubStatus'],
         'requestForInformation': V1RampBankPayinDepositsGet200ResponseDepositsInnerRequestForInformationToJSON(value['requestForInformation']),
         'refunds': ((value['refunds'] as Array<any>).map(V1RampBankPayinDepositsGet200ResponseDepositsInnerRefundsInnerToJSON)),
         'ruleId': value['ruleId'],

@@ -68,7 +68,7 @@ export interface V1GasStationPoliciesGet200ResponsePoliciesInner {
      */
     maxGasPriceWei: string;
     /**
-     * 
+     * custodial: every wallet of the tenant whose key the platform holds for your tenant; account: the wallets of one account; tag: the wallets of the accounts holding a tag.
      */
     coverage: V1GasStationPoliciesGet200ResponsePoliciesInnerCoverageEnum;
     /**

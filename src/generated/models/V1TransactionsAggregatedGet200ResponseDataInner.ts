@@ -28,6 +28,10 @@ export interface V1TransactionsAggregatedGet200ResponseDataInner {
      */
     type: V1TransactionsAggregatedGet200ResponseDataInnerTypeEnum;
     /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    typeNeutral?: V1TransactionsAggregatedGet200ResponseDataInnerTypeNeutralEnum;
+    /**
      * 
      */
     status: string | null;
@@ -92,6 +96,10 @@ export interface V1TransactionsAggregatedGet200ResponseDataInner {
      */
     senderName?: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampDepositId?: string | null;
+    /**
      * 
      */
     depositDate?: string | null;
@@ -120,6 +128,10 @@ export interface V1TransactionsAggregatedGet200ResponseDataInner {
      */
     network?: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampTransactionId?: string | null;
+    /**
      * 
      */
     cryptoAuthorizedAmount?: string | null;
@@ -144,6 +156,17 @@ export const V1TransactionsAggregatedGet200ResponseDataInnerTypeEnum = {
     CardOnrampPurchase: 'card_onramp_purchase',
 } as const;
 export type V1TransactionsAggregatedGet200ResponseDataInnerTypeEnum = typeof V1TransactionsAggregatedGet200ResponseDataInnerTypeEnum[keyof typeof V1TransactionsAggregatedGet200ResponseDataInnerTypeEnum];
+
+/**
+ * @export
+ */
+export const V1TransactionsAggregatedGet200ResponseDataInnerTypeNeutralEnum = {
+    BankRampFiatDeposit: 'bank_ramp_fiat_deposit',
+    BankRampPayinTransaction: 'bank_ramp_payin_transaction',
+    BankRampPayout: 'bank_ramp_payout',
+    BankRampPayinCheckout: 'bank_ramp_payin_checkout',
+} as const;
+export type V1TransactionsAggregatedGet200ResponseDataInnerTypeNeutralEnum = typeof V1TransactionsAggregatedGet200ResponseDataInnerTypeNeutralEnum[keyof typeof V1TransactionsAggregatedGet200ResponseDataInnerTypeNeutralEnum];
 
 
 /**
@@ -170,6 +193,7 @@ export function V1TransactionsAggregatedGet200ResponseDataInnerFromJSONTyped(jso
         
         'id': json['id'],
         'type': json['type'],
+        'typeNeutral': json['typeNeutral'] == null ? undefined : json['typeNeutral'],
         'status': json['status'],
         'sortDate': (json['sortDate'] == null ? json['sortDate'] : parseDateTime(json['sortDate'])),
         'createdAt': (json['createdAt'] == null ? json['createdAt'] : parseDateTime(json['createdAt'])),
@@ -186,6 +210,7 @@ export function V1TransactionsAggregatedGet200ResponseDataInnerFromJSONTyped(jso
         'fiatAmount': json['fiatAmount'] === undefined ? undefined : json['fiatAmount'] === null ? null : json['fiatAmount'],
         'fiatCurrency': json['fiatCurrency'] === undefined ? undefined : json['fiatCurrency'] === null ? null : json['fiatCurrency'],
         'senderName': json['senderName'] === undefined ? undefined : json['senderName'] === null ? null : json['senderName'],
+        'bankRampDepositId': json['bankRampDepositId'] === undefined ? undefined : json['bankRampDepositId'] === null ? null : json['bankRampDepositId'],
         'depositDate': json['depositDate'] === undefined ? undefined : json['depositDate'] === null ? null : json['depositDate'],
         'transactionType': json['transactionType'] === undefined ? undefined : json['transactionType'] === null ? null : json['transactionType'],
         'cryptoAmount': json['cryptoAmount'] === undefined ? undefined : json['cryptoAmount'] === null ? null : json['cryptoAmount'],
@@ -193,6 +218,7 @@ export function V1TransactionsAggregatedGet200ResponseDataInnerFromJSONTyped(jso
         'exchangeRate': json['exchangeRate'] === undefined ? undefined : json['exchangeRate'] === null ? null : json['exchangeRate'],
         'blockchainTxHash': json['blockchainTxHash'] === undefined ? undefined : json['blockchainTxHash'] === null ? null : json['blockchainTxHash'],
         'network': json['network'] === undefined ? undefined : json['network'] === null ? null : json['network'],
+        'bankRampTransactionId': json['bankRampTransactionId'] === undefined ? undefined : json['bankRampTransactionId'] === null ? null : json['bankRampTransactionId'],
         'cryptoAuthorizedAmount': json['cryptoAuthorizedAmount'] === undefined ? undefined : json['cryptoAuthorizedAmount'] === null ? null : json['cryptoAuthorizedAmount'],
         'externalId': json['externalId'] === undefined ? undefined : json['externalId'] === null ? null : json['externalId'],
         'checkoutUrl': json['checkoutUrl'] === undefined ? undefined : json['checkoutUrl'] === null ? null : json['checkoutUrl'],
@@ -212,6 +238,7 @@ export function V1TransactionsAggregatedGet200ResponseDataInnerToJSONTyped(value
         
         'id': value['id'],
         'type': value['type'],
+        'typeNeutral': value['typeNeutral'],
         'status': value['status'],
         'sortDate': value['sortDate'] == null ? value['sortDate'] : serializeDateTime(value['sortDate']),
         'createdAt': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
@@ -228,6 +255,7 @@ export function V1TransactionsAggregatedGet200ResponseDataInnerToJSONTyped(value
         'fiatAmount': value['fiatAmount'],
         'fiatCurrency': value['fiatCurrency'],
         'senderName': value['senderName'],
+        'bankRampDepositId': value['bankRampDepositId'],
         'depositDate': value['depositDate'],
         'transactionType': value['transactionType'],
         'cryptoAmount': value['cryptoAmount'],
@@ -235,6 +263,7 @@ export function V1TransactionsAggregatedGet200ResponseDataInnerToJSONTyped(value
         'exchangeRate': value['exchangeRate'],
         'blockchainTxHash': value['blockchainTxHash'],
         'network': value['network'],
+        'bankRampTransactionId': value['bankRampTransactionId'],
         'cryptoAuthorizedAmount': value['cryptoAuthorizedAmount'],
         'externalId': value['externalId'],
         'checkoutUrl': value['checkoutUrl'],

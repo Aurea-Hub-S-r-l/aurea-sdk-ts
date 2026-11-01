@@ -35,6 +35,10 @@ export interface V1RampBankCustomerGet200ResponseVerification {
      * 
      */
     kycStrategy: V1RampBankCustomerGet200ResponseVerificationKycStrategyEnum | null;
+    /**
+     * The neutral name of the field before's value, answered next to it where neutral names are on for the tenant and that value carries a provider's name; absent otherwise.
+     */
+    kycStrategyNeutral?: V1RampBankCustomerGet200ResponseVerificationKycStrategyNeutralEnum;
 }
 
 
@@ -84,6 +88,14 @@ export const V1RampBankCustomerGet200ResponseVerificationKycStrategyEnum = {
 } as const;
 export type V1RampBankCustomerGet200ResponseVerificationKycStrategyEnum = typeof V1RampBankCustomerGet200ResponseVerificationKycStrategyEnum[keyof typeof V1RampBankCustomerGet200ResponseVerificationKycStrategyEnum];
 
+/**
+ * @export
+ */
+export const V1RampBankCustomerGet200ResponseVerificationKycStrategyNeutralEnum = {
+    IdentitySharing: 'identity_sharing',
+} as const;
+export type V1RampBankCustomerGet200ResponseVerificationKycStrategyNeutralEnum = typeof V1RampBankCustomerGet200ResponseVerificationKycStrategyNeutralEnum[keyof typeof V1RampBankCustomerGet200ResponseVerificationKycStrategyNeutralEnum];
+
 
 /**
  * Check if a given object implements the V1RampBankCustomerGet200ResponseVerification interface.
@@ -110,6 +122,7 @@ export function V1RampBankCustomerGet200ResponseVerificationFromJSONTyped(json: 
         'nextStep': json['nextStep'],
         'missing': json['missing'],
         'kycStrategy': json['kycStrategy'],
+        'kycStrategyNeutral': json['kycStrategyNeutral'] == null ? undefined : json['kycStrategyNeutral'],
     };
 }
 
@@ -128,6 +141,7 @@ export function V1RampBankCustomerGet200ResponseVerificationToJSONTyped(value?: 
         'nextStep': value['nextStep'],
         'missing': value['missing'],
         'kycStrategy': value['kycStrategy'],
+        'kycStrategyNeutral': value['kycStrategyNeutral'],
     };
 }
 

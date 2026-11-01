@@ -46,6 +46,10 @@ export interface V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInner 
      */
     id: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampPaymentMethodId?: string;
+    /**
      * 
      */
     paymentMethodType: string | null;
@@ -157,6 +161,7 @@ export function V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerFr
     return {
         
         'id': json['id'],
+        'bankRampPaymentMethodId': json['bankRampPaymentMethodId'] == null ? undefined : json['bankRampPaymentMethodId'],
         'paymentMethodType': json['paymentMethodType'],
         'accountHolderName': json['accountHolderName'] === undefined ? undefined : json['accountHolderName'] === null ? null : json['accountHolderName'],
         'iban': json['iban'] === undefined ? undefined : json['iban'] === null ? null : json['iban'],
@@ -192,6 +197,7 @@ export function V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerTo
     return {
         
         'id': value['id'],
+        'bankRampPaymentMethodId': value['bankRampPaymentMethodId'],
         'paymentMethodType': value['paymentMethodType'],
         'accountHolderName': value['accountHolderName'],
         'iban': value['iban'],

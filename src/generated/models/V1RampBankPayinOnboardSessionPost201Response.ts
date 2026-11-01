@@ -32,6 +32,10 @@ export interface V1RampBankPayinOnboardSessionPost201Response {
      */
     customerId: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampCustomerId?: string;
+    /**
      * 
      */
     onboardingUrl: string | null;
@@ -93,6 +97,7 @@ export function V1RampBankPayinOnboardSessionPost201ResponseFromJSONTyped(json: 
     return {
         
         'customerId': json['customerId'],
+        'bankRampCustomerId': json['bankRampCustomerId'] == null ? undefined : json['bankRampCustomerId'],
         'onboardingUrl': json['onboardingUrl'],
         'expiresAt': json['expiresAt'] === undefined ? undefined : json['expiresAt'] === null ? null : json['expiresAt'],
         'alreadyCompleted': json['alreadyCompleted'] == null ? undefined : json['alreadyCompleted'],
@@ -114,6 +119,7 @@ export function V1RampBankPayinOnboardSessionPost201ResponseToJSONTyped(value?: 
     return {
         
         'customerId': value['customerId'],
+        'bankRampCustomerId': value['bankRampCustomerId'],
         'onboardingUrl': value['onboardingUrl'],
         'expiresAt': value['expiresAt'],
         'alreadyCompleted': value['alreadyCompleted'],

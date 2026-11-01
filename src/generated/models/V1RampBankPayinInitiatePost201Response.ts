@@ -46,6 +46,10 @@ export interface V1RampBankPayinInitiatePost201Response {
      */
     paymentMethodId: string | null;
     /**
+     * The field before, under a neutral name: the same value, answered where neutral names are on for the tenant.
+     */
+    bankRampPaymentMethodId?: string;
+    /**
      * The account's primary rail, as the bank ramp names it (BankSepa for EUR).
      */
     paymentMethodType: string;
@@ -150,6 +154,7 @@ export function V1RampBankPayinInitiatePost201ResponseFromJSONTyped(json: any, i
     return {
         
         'paymentMethodId': json['paymentMethodId'],
+        'bankRampPaymentMethodId': json['bankRampPaymentMethodId'] == null ? undefined : json['bankRampPaymentMethodId'],
         'paymentMethodType': json['paymentMethodType'],
         'virtualAccountId': json['virtualAccountId'],
         'accountHolderName': json['accountHolderName'],
@@ -182,6 +187,7 @@ export function V1RampBankPayinInitiatePost201ResponseToJSONTyped(value?: V1Ramp
     return {
         
         'paymentMethodId': value['paymentMethodId'],
+        'bankRampPaymentMethodId': value['bankRampPaymentMethodId'],
         'paymentMethodType': value['paymentMethodType'],
         'virtualAccountId': value['virtualAccountId'],
         'accountHolderName': value['accountHolderName'],

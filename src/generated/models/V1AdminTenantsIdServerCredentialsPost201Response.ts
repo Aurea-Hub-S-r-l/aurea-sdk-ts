@@ -99,6 +99,10 @@ export interface V1AdminTenantsIdServerCredentialsPost201Response {
      * Whether its role decides which tenant-signed routes its tokens reach: true for every credential registered since 06/10/2026 (its role must hold each route's permission, else 403 `SERVER_CREDENTIAL_ROLE_NOT_ALLOWED`); false for one registered before, which reaches every tenant-signed route as the tenant's API key does. Never changes.
      */
     roleNarrows: boolean;
+    /**
+     * Present, `true`, only on a credential registered for test networks only: its tokens reach a route only when the request names a testnet — `isTestnet: true` in the query or body, and every `chainId` it carries a testnet's. A request for a mainnet, and a route that does not take the network from the request (sign-up and sign-in, `GET /v1/tenant/public`, the MPC service token, a record read or acted on by its id), answer 403 `TEST_ONLY_CREDENTIAL` with `details.network` (`mainnet` or `undetermined`); nothing is done and the token's nonce is not used. Never changes. Absent on every other credential.
+     */
+    testOnly?: boolean;
 }
 
 
@@ -182,6 +186,7 @@ export function V1AdminTenantsIdServerCredentialsPost201ResponseFromJSONTyped(js
         'revokedBy': json['revokedBy'],
         'revokeReason': json['revokeReason'],
         'roleNarrows': json['roleNarrows'],
+        'testOnly': json['testOnly'] == null ? undefined : json['testOnly'],
     };
 }
 
@@ -214,6 +219,7 @@ export function V1AdminTenantsIdServerCredentialsPost201ResponseToJSONTyped(valu
         'revokedBy': value['revokedBy'],
         'revokeReason': value['revokeReason'],
         'roleNarrows': value['roleNarrows'],
+        'testOnly': value['testOnly'],
     };
 }
 

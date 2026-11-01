@@ -29,6 +29,11 @@ import {
     V1CardProgramAuthNonceGet403ResponseToJSON,
 } from '../models/V1CardProgramAuthNonceGet403Response';
 import {
+    type V1CardProgramAuthSignInMessageGet200Response,
+    V1CardProgramAuthSignInMessageGet200ResponseFromJSON,
+    V1CardProgramAuthSignInMessageGet200ResponseToJSON,
+} from '../models/V1CardProgramAuthSignInMessageGet200Response';
+import {
     type V1CardProgramAuthSignupPostRequest,
     V1CardProgramAuthSignupPostRequestFromJSON,
     V1CardProgramAuthSignupPostRequestToJSON,
@@ -114,6 +119,13 @@ export interface V1CardProgramAuthChallengePostOperationRequest {
 export interface V1CardProgramAuthNonceGetRequest {
     /**
      * 
+     */
+    address: string;
+}
+
+export interface V1CardProgramAuthSignInMessageGetRequest {
+    /**
+     * The EVM address the user signs in with (any case).
      */
     address: string;
 }
@@ -324,6 +336,64 @@ export class CardProgramApi extends runtime.BaseAPI {
      */
     async v1CardProgramAuthNonceGet(requestParameters: V1CardProgramAuthNonceGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<{ [key: string]: any | null; }> {
         const response = await this.v1CardProgramAuthNonceGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for v1CardProgramAuthSignInMessageGet without sending the request
+     */
+    async v1CardProgramAuthSignInMessageGetRequestOpts(requestParameters: V1CardProgramAuthSignInMessageGetRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['address'] == null) {
+            throw new runtime.RequiredError(
+                'address',
+                'Required parameter "address" was null or undefined when calling v1CardProgramAuthSignInMessageGet().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        if (requestParameters['address'] != null) {
+            queryParameters['address'] = requestParameters['address'];
+        }
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/v1/gnosis/auth/sign-in-message`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * The sign-in message (Sign-In with Ethereum, EIP-4361) the user\'s wallet signs to open its session with the card program, built by the API with a fresh nonce: the address in lower case, the nonce, the time it is issued at, and the card program\'s fixed texts. Sign `message` (its UTF-8 bytes; `messageHex` is the same bytes as 0x hex, for a custodial wallet\'s signing route) with personal_sign (EIP-191) by the wallet whose address it names, then send `message`, `signature` and `address` to POST /v1/gnosis/auth/challenge within a few minutes. 400: not an EVM address; 403: the card program is not available to the tenant; 503 `CARD_PROGRAM_NONCE_UNAVAILABLE`: the card program gave no nonce (retry).
+     * Get the card program\'s sign-in message, ready to sign
+     */
+    async v1CardProgramAuthSignInMessageGetRaw(requestParameters: V1CardProgramAuthSignInMessageGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1CardProgramAuthSignInMessageGet200Response>> {
+        const requestOptions = await this.v1CardProgramAuthSignInMessageGetRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => V1CardProgramAuthSignInMessageGet200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * The sign-in message (Sign-In with Ethereum, EIP-4361) the user\'s wallet signs to open its session with the card program, built by the API with a fresh nonce: the address in lower case, the nonce, the time it is issued at, and the card program\'s fixed texts. Sign `message` (its UTF-8 bytes; `messageHex` is the same bytes as 0x hex, for a custodial wallet\'s signing route) with personal_sign (EIP-191) by the wallet whose address it names, then send `message`, `signature` and `address` to POST /v1/gnosis/auth/challenge within a few minutes. 400: not an EVM address; 403: the card program is not available to the tenant; 503 `CARD_PROGRAM_NONCE_UNAVAILABLE`: the card program gave no nonce (retry).
+     * Get the card program\'s sign-in message, ready to sign
+     */
+    async v1CardProgramAuthSignInMessageGet(requestParameters: V1CardProgramAuthSignInMessageGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1CardProgramAuthSignInMessageGet200Response> {
+        const response = await this.v1CardProgramAuthSignInMessageGetRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
