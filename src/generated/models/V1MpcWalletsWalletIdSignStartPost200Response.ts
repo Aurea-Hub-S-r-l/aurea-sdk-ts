@@ -28,6 +28,14 @@ export interface V1MpcWalletsWalletIdSignStartPost200Response {
      * 
      */
     committee?: Array<V1MpcWalletsWalletIdSignStartPost200ResponseCommitteeEnum>;
+    /**
+     * A v3 signature that signs on a presignature: the one its DEVICE sub-parties use in the online round of committeeAttempt 1; absent, the full protocol
+     */
+    presignId?: string;
+    /**
+     * Where the platform has the transaction risk preview on and the signature carries an EIP-1559 or EIP-712 `intent`: the preview it stands on, as POST /v1/transactions/simulate answers it; absent otherwise
+     */
+    simulation?: { [key: string]: any | null; };
 }
 
 
@@ -62,6 +70,8 @@ export function V1MpcWalletsWalletIdSignStartPost200ResponseFromJSONTyped(json: 
             ...json,
         'sessionId': json['sessionId'] == null ? undefined : json['sessionId'],
         'committee': json['committee'] == null ? undefined : json['committee'],
+        'presignId': json['presignId'] == null ? undefined : json['presignId'],
+        'simulation': json['simulation'] == null ? undefined : json['simulation'],
     };
 }
 
@@ -79,6 +89,8 @@ export function V1MpcWalletsWalletIdSignStartPost200ResponseToJSONTyped(value?: 
             ...value,
         'sessionId': value['sessionId'],
         'committee': value['committee'],
+        'presignId': value['presignId'],
+        'simulation': value['simulation'],
     };
 }
 

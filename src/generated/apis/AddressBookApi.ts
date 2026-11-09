@@ -263,7 +263,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * There is no approval step: an entry cools from its request. An entry still in pending_approval (asked for while approvals were required, or an external address waiting for the proof its tenant requires) starts its cooling until `activeAt`, by any of the tenant\'s administrators; where the tenant requires a proof, an external address is proven first (409 ADDRESS_BOOK_PROOF_REQUIRED). A cooling or active entry has nothing to approve: 409 ADDRESS_BOOK_ENTRY_NOT_PENDING (`details.approvalStep`: none). On the caller\'s own tenant.
+     * pending_approval → cooling until `activeAt` (the tenant\'s cooling period; active at once with none). Where the tenant\'s quorum applies (an institutional tenant, or two administrators or more) someone other than who asked approves (403 ADDRESS_BOOK_QUORUM_REQUESTER). Where the tenant requires a proof, an external address is proven first (409 ADDRESS_BOOK_PROOF_REQUIRED). On the caller\'s own tenant.
      * Approve an address book entry
      */
     async v1AddressBookEntriesEntryIdApprovePostRaw(requestParameters: V1AddressBookEntriesEntryIdApprovePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AddressBookEntriesPost201Response>> {
@@ -274,7 +274,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * There is no approval step: an entry cools from its request. An entry still in pending_approval (asked for while approvals were required, or an external address waiting for the proof its tenant requires) starts its cooling until `activeAt`, by any of the tenant\'s administrators; where the tenant requires a proof, an external address is proven first (409 ADDRESS_BOOK_PROOF_REQUIRED). A cooling or active entry has nothing to approve: 409 ADDRESS_BOOK_ENTRY_NOT_PENDING (`details.approvalStep`: none). On the caller\'s own tenant.
+     * pending_approval → cooling until `activeAt` (the tenant\'s cooling period; active at once with none). Where the tenant\'s quorum applies (an institutional tenant, or two administrators or more) someone other than who asked approves (403 ADDRESS_BOOK_QUORUM_REQUESTER). Where the tenant requires a proof, an external address is proven first (409 ADDRESS_BOOK_PROOF_REQUIRED). On the caller\'s own tenant.
      * Approve an address book entry
      */
     async v1AddressBookEntriesEntryIdApprovePost(requestParameters: V1AddressBookEntriesEntryIdApprovePostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AddressBookEntriesPost201Response> {
@@ -431,7 +431,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * Its label, tags and customerRefId change at once. A new address (`address`, `network`, `chain`; an internal entry\'s `walletId`) is the entry\'s next version, unproven: it cools again from this request (an external address the tenant requires to be proven waits in pending_approval for its proof). A rejected or removed entry never changes (409 ADDRESS_BOOK_ENTRY_FINAL). On the caller\'s own tenant.
+     * Its label, tags and customerRefId change at once. A new address (`address`, `network`, `chain`; an internal entry\'s `walletId`) sends the entry back to pending_approval as its next version, unproven: it is approved again and cools again. A rejected or removed entry never changes (409 ADDRESS_BOOK_ENTRY_FINAL). On the caller\'s own tenant.
      * Change an address book entry
      */
     async v1AddressBookEntriesEntryIdPatchRaw(requestParameters: V1AddressBookEntriesEntryIdPatchOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AddressBookEntriesPost201Response>> {
@@ -442,7 +442,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * Its label, tags and customerRefId change at once. A new address (`address`, `network`, `chain`; an internal entry\'s `walletId`) is the entry\'s next version, unproven: it cools again from this request (an external address the tenant requires to be proven waits in pending_approval for its proof). A rejected or removed entry never changes (409 ADDRESS_BOOK_ENTRY_FINAL). On the caller\'s own tenant.
+     * Its label, tags and customerRefId change at once. A new address (`address`, `network`, `chain`; an internal entry\'s `walletId`) sends the entry back to pending_approval as its next version, unproven: it is approved again and cools again. A rejected or removed entry never changes (409 ADDRESS_BOOK_ENTRY_FINAL). On the caller\'s own tenant.
      * Change an address book entry
      */
     async v1AddressBookEntriesEntryIdPatch(requestParameters: V1AddressBookEntriesEntryIdPatchOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AddressBookEntriesPost201Response> {
@@ -551,7 +551,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * A signature over one of the entry\'s challenges. Valid: the entry is proven (its proof\'s method and time), and an entry waiting in pending_approval starts its cooling from its proof. Wrong or unreadable: 400 ADDRESS_BOOK_SIGNATURE_WRONG_SIGNER / ADDRESS_BOOK_SIGNATURE_MALFORMED with `attemptsLeft`, the fifth 409 ADDRESS_BOOK_CHALLENGE_BURNT; expired 410, used 409, issued for an earlier address 409 ADDRESS_BOOK_CHALLENGE_STALE. On the caller\'s own tenant.
+     * A signature over one of the entry\'s challenges. Valid: the entry is proven (its proof\'s method and time). Wrong or unreadable: 400 ADDRESS_BOOK_SIGNATURE_WRONG_SIGNER / ADDRESS_BOOK_SIGNATURE_MALFORMED with `attemptsLeft`, the fifth 409 ADDRESS_BOOK_CHALLENGE_BURNT; expired 410, used 409, issued for an earlier address 409 ADDRESS_BOOK_CHALLENGE_STALE. On the caller\'s own tenant.
      * Prove an address book entry\'s owner
      */
     async v1AddressBookEntriesEntryIdProofVerifyPostRaw(requestParameters: V1AddressBookEntriesEntryIdProofVerifyPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AddressBookEntriesPost201Response>> {
@@ -562,7 +562,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * A signature over one of the entry\'s challenges. Valid: the entry is proven (its proof\'s method and time), and an entry waiting in pending_approval starts its cooling from its proof. Wrong or unreadable: 400 ADDRESS_BOOK_SIGNATURE_WRONG_SIGNER / ADDRESS_BOOK_SIGNATURE_MALFORMED with `attemptsLeft`, the fifth 409 ADDRESS_BOOK_CHALLENGE_BURNT; expired 410, used 409, issued for an earlier address 409 ADDRESS_BOOK_CHALLENGE_STALE. On the caller\'s own tenant.
+     * A signature over one of the entry\'s challenges. Valid: the entry is proven (its proof\'s method and time). Wrong or unreadable: 400 ADDRESS_BOOK_SIGNATURE_WRONG_SIGNER / ADDRESS_BOOK_SIGNATURE_MALFORMED with `attemptsLeft`, the fifth 409 ADDRESS_BOOK_CHALLENGE_BURNT; expired 410, used 409, issued for an earlier address 409 ADDRESS_BOOK_CHALLENGE_STALE. On the caller\'s own tenant.
      * Prove an address book entry\'s owner
      */
     async v1AddressBookEntriesEntryIdProofVerifyPost(requestParameters: V1AddressBookEntriesEntryIdProofVerifyPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AddressBookEntriesPost201Response> {
@@ -606,7 +606,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * pending_approval → rejected (final); cooling → removed (final): the entry is withdrawn before it is active, as DELETE removes it. An active entry is removed with DELETE (409 ADDRESS_BOOK_ENTRY_NOT_PENDING). On the caller\'s own tenant.
+     * pending_approval → rejected (final). Who asked may withdraw it this way. On the caller\'s own tenant.
      * Reject an address book entry
      */
     async v1AddressBookEntriesEntryIdRejectPostRaw(requestParameters: V1AddressBookEntriesEntryIdRejectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AddressBookEntriesPost201Response>> {
@@ -617,7 +617,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * pending_approval → rejected (final); cooling → removed (final): the entry is withdrawn before it is active, as DELETE removes it. An active entry is removed with DELETE (409 ADDRESS_BOOK_ENTRY_NOT_PENDING). On the caller\'s own tenant.
+     * pending_approval → rejected (final). Who asked may withdraw it this way. On the caller\'s own tenant.
      * Reject an address book entry
      */
     async v1AddressBookEntriesEntryIdRejectPost(requestParameters: V1AddressBookEntriesEntryIdRejectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AddressBookEntriesPost201Response> {
@@ -754,7 +754,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * A new entry, cooling from its request until `activeAt` (the tenant\'s cooling period, an institutional tenant\'s at least 24 hours; active at once with none): there is no approval step, and `approval.approvedBy` is null. An external address the tenant requires to be proven waits in pending_approval for its proof, which starts its cooling. Internal (`walletId`: one of the tenant\'s wallets, its address resolved), external (`family`, `network`, `address`, an optional `chain`) or contract (`network`, `chain`, `address`: EVM, and the address must hold code on that chain — 422 ADDRESS_BOOK_ADDRESS_NOT_A_CONTRACT, 503 ADDRESS_BOOK_CONTRACT_UNVERIFIED when the platform\'s node cannot tell). A mixed-case EVM address with a wrong checksum is refused (400 ADDRESS_BOOK_ADDRESS_CHECKSUM_INVALID). 409 ADDRESS_BOOK_ENTRY_EXISTS when a live entry already holds the address. On the caller\'s own tenant.
+     * A new entry, pending its approval: internal (`walletId`: one of the tenant\'s wallets, its address resolved), external (`family`, `network`, `address`, an optional `chain`) or contract (`network`, `chain`, `address`: EVM, and the address must hold code on that chain — 422 ADDRESS_BOOK_ADDRESS_NOT_A_CONTRACT, 503 ADDRESS_BOOK_CONTRACT_UNVERIFIED when the platform\'s node cannot tell). A mixed-case EVM address with a wrong checksum is refused (400 ADDRESS_BOOK_ADDRESS_CHECKSUM_INVALID). 409 ADDRESS_BOOK_ENTRY_EXISTS when a live entry already holds the address. On the caller\'s own tenant.
      * Add an address book entry
      */
     async v1AddressBookEntriesPostRaw(requestParameters: V1AddressBookEntriesPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AddressBookEntriesPost201Response>> {
@@ -765,7 +765,7 @@ export class AddressBookApi extends runtime.BaseAPI {
     }
 
     /**
-     * A new entry, cooling from its request until `activeAt` (the tenant\'s cooling period, an institutional tenant\'s at least 24 hours; active at once with none): there is no approval step, and `approval.approvedBy` is null. An external address the tenant requires to be proven waits in pending_approval for its proof, which starts its cooling. Internal (`walletId`: one of the tenant\'s wallets, its address resolved), external (`family`, `network`, `address`, an optional `chain`) or contract (`network`, `chain`, `address`: EVM, and the address must hold code on that chain — 422 ADDRESS_BOOK_ADDRESS_NOT_A_CONTRACT, 503 ADDRESS_BOOK_CONTRACT_UNVERIFIED when the platform\'s node cannot tell). A mixed-case EVM address with a wrong checksum is refused (400 ADDRESS_BOOK_ADDRESS_CHECKSUM_INVALID). 409 ADDRESS_BOOK_ENTRY_EXISTS when a live entry already holds the address. On the caller\'s own tenant.
+     * A new entry, pending its approval: internal (`walletId`: one of the tenant\'s wallets, its address resolved), external (`family`, `network`, `address`, an optional `chain`) or contract (`network`, `chain`, `address`: EVM, and the address must hold code on that chain — 422 ADDRESS_BOOK_ADDRESS_NOT_A_CONTRACT, 503 ADDRESS_BOOK_CONTRACT_UNVERIFIED when the platform\'s node cannot tell). A mixed-case EVM address with a wrong checksum is refused (400 ADDRESS_BOOK_ADDRESS_CHECKSUM_INVALID). 409 ADDRESS_BOOK_ENTRY_EXISTS when a live entry already holds the address. On the caller\'s own tenant.
      * Add an address book entry
      */
     async v1AddressBookEntriesPost(requestParameters: V1AddressBookEntriesPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AddressBookEntriesPost201Response> {

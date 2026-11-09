@@ -27,6 +27,7 @@ export * from './FeesApi';
 export * from './GasStationApi';
 export * from './GroupsApi';
 export * from './HealthApi';
+export * from './IdentityApi';
 export * from './LendingApi';
 export * from './MpcApi';
 export * from './NotificationsApi';

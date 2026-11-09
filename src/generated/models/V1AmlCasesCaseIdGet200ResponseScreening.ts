@@ -39,11 +39,11 @@ export interface V1AmlCasesCaseIdGet200ResponseScreening {
      */
     id: string;
     /**
-     * 
+     * outbound: an operation's counterparty; inbound: a received transfer's sender; onboarding: identity verification's screening of a person or company when it was verified (its matches stay with the verification provider).
      */
     direction: V1AmlCasesCaseIdGet200ResponseScreeningDirectionEnum;
     /**
-     * The signing point screened (outbound), or inbound_transfers.
+     * The signing point screened (outbound), inbound_transfers, or onboarding.
      */
     point: string;
     /**
@@ -51,7 +51,7 @@ export interface V1AmlCasesCaseIdGet200ResponseScreening {
      */
     mode: V1AmlCasesCaseIdGet200ResponseScreeningModeEnum;
     /**
-     * The screening's provider: public_lists.
+     * The screening's provider: public_lists, or identity_verification (onboarding).
      */
     provider: string;
     /**
@@ -110,6 +110,10 @@ export interface V1AmlCasesCaseIdGet200ResponseScreening {
      * 
      */
     createdAt: Date;
+    /**
+     * The identity verification an onboarding screening is about; absent for every other screening.
+     */
+    identityVerificationId?: string;
 }
 
 
@@ -119,6 +123,7 @@ export interface V1AmlCasesCaseIdGet200ResponseScreening {
 export const V1AmlCasesCaseIdGet200ResponseScreeningDirectionEnum = {
     Outbound: 'outbound',
     Inbound: 'inbound',
+    Onboarding: 'onboarding',
 } as const;
 export type V1AmlCasesCaseIdGet200ResponseScreeningDirectionEnum = typeof V1AmlCasesCaseIdGet200ResponseScreeningDirectionEnum[keyof typeof V1AmlCasesCaseIdGet200ResponseScreeningDirectionEnum];
 
@@ -209,6 +214,7 @@ export function V1AmlCasesCaseIdGet200ResponseScreeningFromJSONTyped(json: any, 
         'matches': ((json['matches'] as Array<any>).map(V1AmlCasesGet200ResponseDataInnerScreeningMatchesInnerFromJSON)),
         'lists': ((json['lists'] as Array<any>).map(V1AmlCasesCaseIdGet200ResponseScreeningListsInnerFromJSON)),
         'createdAt': (json['createdAt'] == null ? json['createdAt'] : parseDateTime(json['createdAt'])),
+        'identityVerificationId': json['identityVerificationId'] == null ? undefined : json['identityVerificationId'],
     };
 }
 
@@ -242,6 +248,7 @@ export function V1AmlCasesCaseIdGet200ResponseScreeningToJSONTyped(value?: V1Aml
         'matches': ((value['matches'] as Array<any>).map(V1AmlCasesGet200ResponseDataInnerScreeningMatchesInnerToJSON)),
         'lists': ((value['lists'] as Array<any>).map(V1AmlCasesCaseIdGet200ResponseScreeningListsInnerToJSON)),
         'createdAt': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
+        'identityVerificationId': value['identityVerificationId'],
     };
 }
 
