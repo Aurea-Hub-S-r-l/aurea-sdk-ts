@@ -229,6 +229,11 @@ import {
     V1RampBankCustomerVerificationGet403ResponseToJSON,
 } from '../models/V1RampBankCustomerVerificationGet403Response';
 import {
+    type V1RampBankCustomerVerificationPost200Response,
+    V1RampBankCustomerVerificationPost200ResponseFromJSON,
+    V1RampBankCustomerVerificationPost200ResponseToJSON,
+} from '../models/V1RampBankCustomerVerificationPost200Response';
+import {
     type V1RampBankCustomerVerificationPost400Response,
     V1RampBankCustomerVerificationPost400ResponseFromJSON,
     V1RampBankCustomerVerificationPost400ResponseToJSON,
@@ -1303,18 +1308,18 @@ export class BankRampLocalApi extends runtime.BaseAPI {
      * Records the user as a customer of the local rails (`individual` or `business`) with who they are: `legalName` and `country` (ISO 3166-1 alpha-2), and `dateOfBirth` (YYYY-MM-DD) for a person — payouts to the user\'s own wallet name them as the beneficiary. The bank ramp\'s operations then verify them. Registering again with the same details answers the same record; different details replace them only before the verification starts (409 `BANK_RAMP_CUSTOMER_INVALID` afterwards). 422 `BANK_RAMP_FUNCTION_OFF` when the tenant offers neither pay-ins nor withdrawals here.
      * Register the user for the bank ramp\'s local rails
      */
-    async v1RampBankCustomerVerificationPostRaw(requestParameters: V1RampBankCustomerVerificationPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1RampBankCustomerVerificationGet200Response>> {
+    async v1RampBankCustomerVerificationPostRaw(requestParameters: V1RampBankCustomerVerificationPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1RampBankCustomerVerificationPost200Response>> {
         const requestOptions = await this.v1RampBankCustomerVerificationPostRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => V1RampBankCustomerVerificationGet200ResponseFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => V1RampBankCustomerVerificationPost200ResponseFromJSON(jsonValue));
     }
 
     /**
      * Records the user as a customer of the local rails (`individual` or `business`) with who they are: `legalName` and `country` (ISO 3166-1 alpha-2), and `dateOfBirth` (YYYY-MM-DD) for a person — payouts to the user\'s own wallet name them as the beneficiary. The bank ramp\'s operations then verify them. Registering again with the same details answers the same record; different details replace them only before the verification starts (409 `BANK_RAMP_CUSTOMER_INVALID` afterwards). 422 `BANK_RAMP_FUNCTION_OFF` when the tenant offers neither pay-ins nor withdrawals here.
      * Register the user for the bank ramp\'s local rails
      */
-    async v1RampBankCustomerVerificationPost(requestParameters: V1RampBankCustomerVerificationPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankCustomerVerificationGet200Response> {
+    async v1RampBankCustomerVerificationPost(requestParameters: V1RampBankCustomerVerificationPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankCustomerVerificationPost200Response> {
         const response = await this.v1RampBankCustomerVerificationPostRaw(requestParameters, initOverrides);
         return await response.value();
     }

@@ -29,6 +29,11 @@ import {
     V1RampBankPayinInitiatePost201ResponseToJSON,
 } from '../models/V1RampBankPayinInitiatePost201Response';
 import {
+    type V1RampBankPayinInitiatePost202Response,
+    V1RampBankPayinInitiatePost202ResponseFromJSON,
+    V1RampBankPayinInitiatePost202ResponseToJSON,
+} from '../models/V1RampBankPayinInitiatePost202Response';
+import {
     type V1RampBankPayinInitiatePostRequest,
     V1RampBankPayinInitiatePostRequestFromJSON,
     V1RampBankPayinInitiatePostRequestToJSON,

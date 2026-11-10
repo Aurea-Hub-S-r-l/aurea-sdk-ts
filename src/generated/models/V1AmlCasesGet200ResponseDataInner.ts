@@ -137,6 +137,7 @@ export type V1AmlCasesGet200ResponseDataInnerStatusEnum = typeof V1AmlCasesGet20
 export const V1AmlCasesGet200ResponseDataInnerDirectionEnum = {
     Outbound: 'outbound',
     Inbound: 'inbound',
+    Onboarding: 'onboarding',
 } as const;
 export type V1AmlCasesGet200ResponseDataInnerDirectionEnum = typeof V1AmlCasesGet200ResponseDataInnerDirectionEnum[keyof typeof V1AmlCasesGet200ResponseDataInnerDirectionEnum];
 

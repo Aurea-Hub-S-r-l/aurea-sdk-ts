@@ -124,6 +124,11 @@ import {
     V1RampBankCustomerDeskQuotesPost400ResponseToJSON,
 } from '../models/V1RampBankCustomerDeskQuotesPost400Response';
 import {
+    type V1RampBankCustomerDeskQuotesPost403Response,
+    V1RampBankCustomerDeskQuotesPost403ResponseFromJSON,
+    V1RampBankCustomerDeskQuotesPost403ResponseToJSON,
+} from '../models/V1RampBankCustomerDeskQuotesPost403Response';
+import {
     type V1RampBankCustomerDeskQuotesPost409Response,
     V1RampBankCustomerDeskQuotesPost409ResponseFromJSON,
     V1RampBankCustomerDeskQuotesPost409ResponseToJSON,

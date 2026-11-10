@@ -1801,7 +1801,7 @@
     "tags": [
      "auth"
     ],
-    "description": "The caller's passkeys, newest first (revoked ones included), and `stepUp`: the step-up mode of the caller's tenant (`log`: recorded, `enforce`: required before a policy set is published or rolled back to, and before one's passkeys change) and whether passkeys are available on this platform. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
+    "description": "The caller's passkeys, newest first (revoked ones included), and `stepUp`: the step-up mode of the caller's tenant (`log`: recorded, `enforce`: required before a policy set is published or rolled back to, and before one's passkeys change) and whether passkeys are available on this platform. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
     "security": [
      {
       "bearerAuth": []
@@ -2001,7 +2001,7 @@
     "tags": [
      "auth"
     ],
-    "description": "The authenticator's answer to the registration's options (`credential`: the RegistrationResponseJSON — `PublicKeyCredential.toJSON()`), verified against its challenge, the relying party its options named and that relying party's origins, with user verification. A credential is registered once; at most ten active passkeys. Refusals: 400 `PASSKEY_CHALLENGE_INVALID`, `PASSKEY_REGISTRATION_INVALID`, `PASSKEY_NAME_INVALID`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`; 409 `PASSKEY_IN_USE`, `PASSKEY_LIMIT`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
+    "description": "The authenticator's answer to the registration's options (`credential`: the RegistrationResponseJSON — `PublicKeyCredential.toJSON()`), verified against its challenge, the relying party its options named and that relying party's origins, with user verification. A credential is registered once; at most ten active passkeys. Refusals: 400 `PASSKEY_CHALLENGE_INVALID`, `PASSKEY_REGISTRATION_INVALID`, `PASSKEY_NAME_INVALID`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`; 409 `PASSKEY_IN_USE`, `PASSKEY_LIMIT`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -2285,7 +2285,7 @@
     "tags": [
      "auth"
     ],
-    "description": "The options for `navigator.credentials.create({ publicKey })` (the WebAuthn JSON form: decode `challenge` and `user.id` from base64url), and `ceremonyId`, which the answer names (POST /v1/auth/passkeys). Five minutes, once. Attestation none, user verification required. `stepUpAction` is `passkey.register` when the caller has a passkey already: the new one is then confirmed with one of theirs. `rpId` names the relying party (your tenant's passkey address); absent, Aurea's own. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
+    "description": "The options for `navigator.credentials.create({ publicKey })` (the WebAuthn JSON form: decode `challenge` and `user.id` from base64url), and `ceremonyId`, which the answer names (POST /v1/auth/passkeys). Five minutes, once. Attestation none, user verification required. `stepUpAction` is `passkey.register` when the caller has a passkey already: the new one is then confirmed with one of theirs. `rpId` names the relying party (your tenant's passkey address); absent, Aurea's own. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -2465,7 +2465,7 @@
     "tags": [
      "auth"
     ],
-    "description": "One of the caller's passkeys, revoked for good. Refusals: 404 `PASSKEY_NOT_FOUND`; 409 `PASSKEY_REVOKED`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
+    "description": "One of the caller's passkeys, revoked for good. Refusals: 404 `PASSKEY_NOT_FOUND`; 409 `PASSKEY_REVOKED`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -2749,7 +2749,7 @@
     "tags": [
      "auth"
     ],
-    "description": "The options for `navigator.credentials.get({ publicKey })` (decode `challenge` and each `allowCredentials[].id` from base64url) for one action on one target — the challenge commits to it — and `ceremonyId`. Actions: `approval.approve` and `approval.reject` {operationId} (an approver of the caller's tenant: the operation's newest approval request and its canonical payload for that action), `policy_set.publish` and `policy_set.rollback` {setId} (`tenant.policies.write`; a platform role names {tenantId}), `passkey.register` {} and `passkey.revoke` {passkeyId} (one's own), `agent_execution.approve` and `agent_execution.reject` {executionId} (an approver of the tenant's agent payments, on one of its agent payments). `rpId` names the relying party (your tenant's passkey address); absent, Aurea's own — only the caller's passkeys of that relying party may answer. Refusals: 400 `STEP_UP_ACTION_INVALID`, `PASSKEY_RP_NOT_ALLOWED`; 403 `STEP_UP_ACTION_FORBIDDEN`; 404 `STEP_UP_TARGET_NOT_FOUND`; 409 `STEP_UP_NO_PASSKEY`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
+    "description": "The options for `navigator.credentials.get({ publicKey })` (decode `challenge` and each `allowCredentials[].id` from base64url) for one action on one target — the challenge commits to it — and `ceremonyId`. Actions: `approval.approve` and `approval.reject` {operationId} (an approver of the caller's tenant: the operation's newest approval request and its canonical payload for that action), `policy_set.publish` and `policy_set.rollback` {setId} (`tenant.policies.write`; a platform role names {tenantId}), `passkey.register` {} and `passkey.revoke` {passkeyId} (one's own), `agent_execution.approve` and `agent_execution.reject` {executionId} (an approver of the tenant's agent payments, on one of its agent payments). `rpId` names the relying party (your tenant's passkey address); absent, Aurea's own — only the caller's passkeys of that relying party may answer. Refusals: 400 `STEP_UP_ACTION_INVALID`, `PASSKEY_RP_NOT_ALLOWED`; 403 `STEP_UP_ACTION_FORBIDDEN`; 404 `STEP_UP_TARGET_NOT_FOUND`; 409 `STEP_UP_NO_PASSKEY`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -2770,7 +2770,9 @@
            "passkey.register",
            "passkey.revoke",
            "agent_execution.approve",
-           "agent_execution.reject"
+           "agent_execution.reject",
+           "bank_ramp.payout",
+           "bank_ramp.destination_change"
           ]
          },
          "operationId": {
@@ -2838,7 +2840,9 @@
             "passkey.register",
             "passkey.revoke",
             "agent_execution.approve",
-            "agent_execution.reject"
+            "agent_execution.reject",
+            "bank_ramp.payout",
+            "bank_ramp.destination_change"
            ]
           },
           "expiresAt": {
@@ -3039,7 +3043,7 @@
     "tags": [
      "auth"
     ],
-    "description": "The assertion that answers the step-up's options (`credential`: the AuthenticationResponseJSON), verified with the caller's passkey it names — one of the relying party its options named — (user verification, its counter, its signature over the challenge). Answers `stepUpToken`: two minutes, used once, by the caller, for that action on that target only — send it with the action (`stepUpToken`). Refusal: 403 `STEP_UP_INVALID` (unknown, used or expired options, another passkey, a signature that does not verify). Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
+    "description": "The assertion that answers the step-up's options (`credential`: the AuthenticationResponseJSON), verified with the caller's passkey it names — one of the relying party its options named — (user verification, its counter, its signature over the challenge). Answers `stepUpToken`: two minutes, used once, by the caller, for that action on that target only — send it with the action (`stepUpToken`). Refusal: 403 `STEP_UP_INVALID` (unknown, used or expired options, another passkey, a signature that does not verify). Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -3097,7 +3101,9 @@
             "passkey.register",
             "passkey.revoke",
             "agent_execution.approve",
-            "agent_execution.reject"
+            "agent_execution.reject",
+            "bank_ramp.payout",
+            "bank_ramp.destination_change"
            ]
           },
           "expiresAt": {
@@ -6495,6 +6501,9 @@
              "type": "boolean"
             },
             "remittance": {
+             "type": "boolean"
+            },
+            "identity_verification": {
              "type": "boolean"
             }
            }
@@ -10983,6 +10992,100 @@
     "tags": [
      "mpc"
     ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "chain": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The chain the wallet is for: an EVM chain family's slug, or solana."
+         },
+         "curve": {
+          "type": "string",
+          "enum": [
+           "secp256k1",
+           "ed25519"
+          ],
+          "description": "secp256k1 for EVM chains, ed25519 for Solana."
+         },
+         "isTestnet": {
+          "type": "boolean",
+          "description": "A testnet wallet. Omitted: false."
+         },
+         "scheme": {
+          "type": "string",
+          "enum": [
+           "gg18",
+           "cggmp"
+          ],
+          "description": "The MPC engine: cggmp, or gg18. Omitted: gg18."
+         },
+         "wireVersion": {
+          "type": "integer",
+          "enum": [
+           1,
+           2
+          ],
+          "description": "The relay version the client speaks: 2, or 1 where the tenant is still allowed version 1. Omitted: 1."
+         },
+         "rosterStatement": {
+          "type": "boolean",
+          "description": "Ask Aurea's cosigner for its signed roster statement, which the client checks against the cosigner's pinned identity key before it sends anything (relay version 2). Omitted: no statement."
+         },
+         "approvalBinding": {
+          "type": "boolean",
+          "description": "The client sends the wallet's approval key inside the key generation (relay version 2): Aurea's cosigner binds it to the wallet, and from then on a signature of the wallet needs that key's approval of the digest (sign/start `approval`). Omitted: no approval key is bound."
+         },
+         "approvalKey": {
+          "type": "object",
+          "properties": {
+           "alg": {
+            "type": "string",
+            "enum": [
+             "webauthn-es256"
+            ]
+           },
+           "rpId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 253
+           },
+           "credentialId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1366,
+            "pattern": "^[A-Za-z0-9_-]+$"
+           },
+           "spki": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9+/]{120,124}={0,2}$"
+           }
+          },
+          "required": [
+           "alg",
+           "rpId",
+           "credentialId",
+           "spki"
+          ],
+          "additionalProperties": false,
+          "description": "With `approvalBinding`: the public part of the approval key, a passkey (WebAuthn ES256): its relying party id, credential id and P-256 public key (SubjectPublicKeyInfo, base64). Kept with the wallet, so that the owner can confirm sensitive changes (such as naming a successor wallet) with the same passkey."
+         }
+        },
+        "required": [
+         "chain",
+         "curve"
+        ],
+        "additionalProperties": false,
+        "description": "The wallet to generate. Unknown members are ignored."
+       }
+      }
+     },
+     "required": true,
+     "description": "The wallet to generate. Unknown members are ignored."
+    },
     "security": [
      {
       "bearerAuth": []
@@ -11005,8 +11108,40 @@
           "walletId": {
            "type": "string",
            "format": "uuid"
+          },
+          "approvalBinding": {
+           "type": "boolean",
+           "description": "Only when the request sent `approvalBinding`: whether the cosigner's grant carries it (true: send the approval key inside the DKG; false: it was dropped — relay version 1 — and the key must not be sent)"
           }
          }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "`rosterStatement` without relay version 2 (`{ error }`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "`rosterStatement` without relay version 2 (`{ error }`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
         }
        }
       }
@@ -11068,12 +11203,12 @@
       }
      },
      "409": {
-      "description": "The tenant must use the version 2 relay (`{ error }`)",
+      "description": "The tenant must use the version 2 relay, or a new wallet's gg18 engine is retired (MPC_GG18_DKG_RETIRED: send scheme cggmp) (`{ error }`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The tenant must use the version 2 relay (`{ error }`)",
+         "description": "The tenant must use the version 2 relay, or a new wallet's gg18 engine is retired (MPC_GG18_DKG_RETIRED: send scheme cggmp) (`{ error }`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -11152,12 +11287,12 @@
       }
      },
      "503": {
-      "description": "The cosigner is not ready for the tenant's custody tier",
+      "description": "The cosigner is not ready for the tenant's custody tier; or, for a v3 wallet, a cosigner is unavailable (`{ error: party_unavailable, party, next }`, Retry-After)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The cosigner is not ready for the tenant's custody tier",
+         "description": "The cosigner is not ready for the tenant's custody tier; or, for a v3 wallet, a cosigner is unavailable (`{ error: party_unavailable, party, next }`, Retry-After)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -11446,6 +11581,399 @@
     "tags": [
      "mpc"
     ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "committee": {
+          "type": "array",
+          "items": {
+           "type": "string",
+           "enum": [
+            "DEVICE",
+            "BACKUP",
+            "AUREA"
+           ]
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "The two parties that sign: DEVICE and AUREA (the default), or BACKUP and AUREA (a signature from the backup, after a lost device), which may need the owner's step-up (`stepUpToken` or `password`)."
+         },
+         "msgHashHex": {
+          "type": "string",
+          "pattern": "^(0x)?[0-9a-fA-F]+$",
+          "description": "The digest to sign, hex (an optional 0x prefix)."
+         },
+         "wireVersion": {
+          "type": "integer",
+          "enum": [
+           1,
+           2
+          ],
+          "description": "The relay version the client speaks: 2, or 1 where the tenant is still allowed version 1. Omitted: 1."
+         },
+         "rosterStatement": {
+          "type": "boolean",
+          "description": "Ask Aurea's cosigner for its signed roster statement, which the client checks against the cosigner's pinned identity key before it sends anything (relay version 2). Omitted: no statement."
+         },
+         "intent": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "v": {
+              "type": "integer",
+              "enum": [
+               1
+              ]
+             },
+             "kind": {
+              "type": "string",
+              "enum": [
+               "eip1559"
+              ]
+             },
+             "chainId": {
+              "type": "string",
+              "maxLength": 78,
+              "pattern": "^(0|[1-9][0-9]*)$"
+             },
+             "tx": {
+              "type": "object",
+              "properties": {
+               "nonce": {
+                "type": "string",
+                "maxLength": 78,
+                "pattern": "^(0|[1-9][0-9]*)$"
+               },
+               "to": {
+                "type": "string",
+                "pattern": "^0x[0-9a-fA-F]{40}$"
+               },
+               "value": {
+                "type": "string",
+                "maxLength": 78,
+                "pattern": "^(0|[1-9][0-9]*)$"
+               },
+               "data": {
+                "type": "string",
+                "maxLength": 131074,
+                "pattern": "^0x([0-9a-fA-F]{2})*$"
+               },
+               "gas": {
+                "type": "string",
+                "maxLength": 78,
+                "pattern": "^(0|[1-9][0-9]*)$"
+               },
+               "maxFeePerGas": {
+                "type": "string",
+                "maxLength": 78,
+                "pattern": "^(0|[1-9][0-9]*)$"
+               },
+               "maxPriorityFeePerGas": {
+                "type": "string",
+                "maxLength": 78,
+                "pattern": "^(0|[1-9][0-9]*)$"
+               },
+               "accessList": {
+                "type": "array",
+                "items": {
+                 "type": "object",
+                 "properties": {
+                  "address": {
+                   "type": "string",
+                   "pattern": "^0x[0-9a-fA-F]{40}$"
+                  },
+                  "storageKeys": {
+                   "type": "array",
+                   "items": {
+                    "type": "string",
+                    "pattern": "^0x[0-9a-fA-F]{64}$"
+                   },
+                   "maxItems": 64
+                  }
+                 },
+                 "required": [
+                  "address",
+                  "storageKeys"
+                 ],
+                 "additionalProperties": false
+                },
+                "maxItems": 64
+               }
+              },
+              "required": [
+               "nonce",
+               "value",
+               "data",
+               "gas",
+               "maxFeePerGas",
+               "maxPriorityFeePerGas",
+               "accessList"
+              ],
+              "additionalProperties": false
+             }
+            },
+            "required": [
+             "v",
+             "kind",
+             "chainId",
+             "tx"
+            ],
+            "additionalProperties": false
+           },
+           {
+            "type": "object",
+            "properties": {
+             "v": {
+              "type": "integer",
+              "enum": [
+               1
+              ]
+             },
+             "kind": {
+              "type": "string",
+              "enum": [
+               "eip712"
+              ]
+             },
+             "typedData": {
+              "type": "object",
+              "properties": {
+               "types": {
+                "type": "object",
+                "additionalProperties": {
+                 "type": "array",
+                 "items": {
+                  "type": "object",
+                  "properties": {
+                   "name": {
+                    "type": "string",
+                    "maxLength": 256
+                   },
+                   "type": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                   }
+                  },
+                  "required": [
+                   "name",
+                   "type"
+                  ],
+                  "additionalProperties": false
+                 },
+                 "maxItems": 256
+                },
+                "propertyNames": {
+                 "minLength": 1,
+                 "maxLength": 256
+                }
+               },
+               "primaryType": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+               },
+               "domain": {
+                "type": "object",
+                "additionalProperties": {},
+                "propertyNames": {
+                 "maxLength": 256
+                }
+               },
+               "message": {
+                "type": "object",
+                "additionalProperties": {},
+                "propertyNames": {
+                 "maxLength": 256
+                }
+               }
+              },
+              "required": [
+               "types",
+               "primaryType",
+               "domain",
+               "message"
+              ],
+              "additionalProperties": false
+             }
+            },
+            "required": [
+             "v",
+             "kind",
+             "typedData"
+            ],
+            "additionalProperties": false
+           },
+           {
+            "type": "object",
+            "properties": {
+             "v": {
+              "type": "integer",
+              "enum": [
+               1
+              ]
+             },
+             "kind": {
+              "type": "string",
+              "enum": [
+               "eip191"
+              ]
+             },
+             "message": {
+              "type": "string",
+              "maxLength": 131074,
+              "pattern": "^0x([0-9a-fA-F]{2})*$"
+             }
+            },
+            "required": [
+             "v",
+             "kind",
+             "message"
+            ],
+            "additionalProperties": false
+           },
+           {
+            "type": "object",
+            "properties": {
+             "v": {
+              "type": "integer",
+              "enum": [
+               1
+              ]
+             },
+             "kind": {
+              "type": "string",
+              "enum": [
+               "backup_proof"
+              ]
+             }
+            },
+            "required": [
+             "v",
+             "kind"
+            ],
+            "additionalProperties": false
+           }
+          ],
+          "description": "What the digest signs, decoded (an EIP-1559 transaction, EIP-712 typed data, an EIP-191 message, or a backup proof), by its `kind`: it is checked against the digest before the signature is given."
+         },
+         "approval": {
+          "anyOf": [
+           {
+            "type": "object",
+            "properties": {
+             "alg": {
+              "type": "string",
+              "enum": [
+               "webauthn-es256"
+              ]
+             },
+             "credentialId": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1366,
+              "pattern": "^[A-Za-z0-9_-]+$"
+             },
+             "authenticatorData": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048,
+              "pattern": "^[A-Za-z0-9_-]+$"
+             },
+             "clientDataJSON": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4096,
+              "pattern": "^[A-Za-z0-9_-]+$"
+             },
+             "signature": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100,
+              "pattern": "^[A-Za-z0-9_-]+$"
+             }
+            },
+            "required": [
+             "alg",
+             "credentialId",
+             "authenticatorData",
+             "clientDataJSON",
+             "signature"
+            ],
+            "additionalProperties": false
+           },
+           {
+            "type": "object",
+            "properties": {
+             "alg": {
+              "type": "string",
+              "enum": [
+               "p256-raw"
+              ]
+             },
+             "signature": {
+              "type": "string",
+              "minLength": 86,
+              "maxLength": 86,
+              "pattern": "^[A-Za-z0-9_-]+$"
+             }
+            },
+            "required": [
+             "alg",
+             "signature"
+            ],
+            "additionalProperties": false
+           }
+          ],
+          "description": "The wallet approval key's approval of this digest, for a wallet with a bound approval key (dkg/start `approvalBinding`): `{\"alg\":\"webauthn-es256\",\"credentialId\",\"authenticatorData\",\"clientDataJSON\",\"signature\"}` (base64url), or `{\"alg\":\"p256-raw\",\"signature\"}` (r ‖ s, base64url), over the challenge SHA-256(\"aurea-mpc-approval/v1\" 0x00 ‖ lp16(walletId) ‖ digest). Aurea's cosigner verifies it."
+         },
+         "stepUpToken": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "A BACKUP committee, where the owner's step-up is required: the owner's passkey step-up token for this signature."
+         },
+         "password": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024,
+          "description": "A BACKUP committee, where the owner's step-up is required: the owner's current password, instead of `stepUpToken`."
+         },
+         "presignIds": {
+          "type": "array",
+          "items": {
+           "type": "string",
+           "pattern": "^[A-Za-z0-9._-]{1,128}$"
+          },
+          "maxItems": 16,
+          "description": "A version 3 wallet: the ids of the presignatures the client holds for it (at most 16); the signature may use one of them."
+         },
+         "holdId": {
+          "type": "string",
+          "pattern": "^[\\x21-\\x7e]{1,64}$",
+          "description": "The retry of a payment the wallet's co-signing policy held: the hold's id."
+         },
+         "riskAcknowledged": {
+          "type": "string",
+          "pattern": "^sim_[0-9a-f]{32}$",
+          "description": "Where the platform has the transaction risk preview on: the `simulationId` of the preview whose risk the user acknowledged before the passkey (recorded; never required)."
+         }
+        },
+        "required": [
+         "msgHashHex"
+        ],
+        "additionalProperties": false,
+        "description": "The digest to sign and what it is. Unknown members are ignored."
+       }
+      }
+     },
+     "required": true,
+     "description": "The digest to sign and what it is. Unknown members are ignored."
+    },
     "security": [
      {
       "bearerAuth": []
@@ -11485,6 +12013,15 @@
              "AUREA"
             ]
            }
+          },
+          "presignId": {
+           "type": "string",
+           "description": "A v3 signature that signs on a presignature: the one its DEVICE sub-parties use in the online round of committeeAttempt 1; absent, the full protocol"
+          },
+          "simulation": {
+           "type": "object",
+           "additionalProperties": true,
+           "description": "Where the platform has the transaction risk preview on and the signature carries an EIP-1559 or EIP-712 `intent`: the preview it stands on, as POST /v1/transactions/simulate answers it; absent otherwise"
           }
          }
         }
@@ -11520,12 +12057,12 @@
       }
      },
      "403": {
-      "description": "The role cannot run MPC ceremonies, or (`{ error }`) the tenant's wallet mode is not mpc and is enforced, or the wallet is not the caller's",
+      "description": "The role cannot run MPC ceremonies, the wallet mode is enforced, the wallet is not the caller's, or a BACKUP committee without a valid step-up where the owner's step-up is required (STEP_UP_REQUIRED, STEP_UP_INVALID)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The role cannot run MPC ceremonies, or (`{ error }`) the tenant's wallet mode is not mpc and is enforced, or the wallet is not the caller's",
+         "description": "The role cannot run MPC ceremonies, the wallet mode is enforced, the wallet is not the caller's, or a BACKUP committee without a valid step-up where the owner's step-up is required (STEP_UP_REQUIRED, STEP_UP_INVALID)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -11576,12 +12113,12 @@
       }
      },
      "409": {
-      "description": "The tenant must use the version 2 relay (`{ error }`)",
+      "description": "The tenant must use the version 2 relay (`{ error }`); a v3 wallet pending its aux (`{ error: wallet_pending_aux, next }`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The tenant must use the version 2 relay (`{ error }`)",
+         "description": "The tenant must use the version 2 relay (`{ error }`); a v3 wallet pending its aux (`{ error: wallet_pending_aux, next }`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -11604,12 +12141,12 @@
       }
      },
      "422": {
-      "description": "The body is not valid",
+      "description": "The body is not valid, or the intent does not stand for msgHashHex (MPC_INTENT_MISMATCH)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The body is not valid",
+         "description": "The body is not valid, or the intent does not stand for msgHashHex (MPC_INTENT_MISMATCH)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -11686,6 +12223,34 @@
         }
        }
       }
+     },
+     "503": {
+      "description": "A v3 wallet with fewer than two cosigners available (`{ error: party_unavailable, next, alternatives }`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "A v3 wallet with fewer than two cosigners available (`{ error: party_unavailable, next, alternatives }`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
      }
     }
    }
@@ -11696,6 +12261,36 @@
     "tags": [
      "mpc"
     ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "properties": {
+         "wireVersion": {
+          "type": "integer",
+          "enum": [
+           1,
+           2
+          ],
+          "description": "The relay version the client speaks: 2, or 1 where the tenant is still allowed version 1. Omitted: 1."
+         },
+         "rosterStatement": {
+          "type": "boolean",
+          "description": "Ask Aurea's cosigner for its signed roster statement, which the client checks against the cosigner's pinned identity key before it sends anything (relay version 2). Omitted: no statement."
+         },
+         "auxRecovery": {
+          "type": "boolean",
+          "description": "The aux of a wallet whose device was lost before its first signature, run by the client restored from the backup. Only where the tenant has it switched on (otherwise 403 MPC_AUX_RECOVERY_OFF); refused for a wallet that cannot run one (409 MPC_AUX_RECOVERY_REFUSED)."
+         }
+        },
+        "additionalProperties": false,
+        "description": "The auxiliary-info ceremony's options; the body may be empty. Unknown members are ignored."
+       }
+      }
+     },
+     "description": "The auxiliary-info ceremony's options; the body may be empty. Unknown members are ignored."
+    },
     "security": [
      {
       "bearerAuth": []
@@ -11759,12 +12354,12 @@
       }
      },
      "403": {
-      "description": "The role cannot run MPC ceremonies, or (`{ error }`) the tenant's wallet mode is not mpc and is enforced, or the wallet is not the caller's",
+      "description": "The role cannot run MPC ceremonies, or (`{ error }`) the tenant's wallet mode is not mpc and is enforced, or the wallet is not the caller's; or a recovery aux (`auxRecovery`) is not switched on for the tenant (MPC_AUX_RECOVERY_OFF)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The role cannot run MPC ceremonies, or (`{ error }`) the tenant's wallet mode is not mpc and is enforced, or the wallet is not the caller's",
+         "description": "The role cannot run MPC ceremonies, or (`{ error }`) the tenant's wallet mode is not mpc and is enforced, or the wallet is not the caller's; or a recovery aux (`auxRecovery`) is not switched on for the tenant (MPC_AUX_RECOVERY_OFF)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -11815,12 +12410,12 @@
       }
      },
      "409": {
-      "description": "A GG18 wallet has no aux ceremony, or the tenant must use the version 2 relay (`{ error }`)",
+      "description": "A GG18 wallet has no aux ceremony, or the tenant must use the version 2 relay, or a v3 wallet's aux is complete — it has signed (`{ error }`); or a recovery aux for a wallet that cannot run one (MPC_AUX_RECOVERY_REFUSED: it signed, no backup, a v3 wallet, relay version 1, the tenant's own co-signer)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "A GG18 wallet has no aux ceremony, or the tenant must use the version 2 relay (`{ error }`)",
+         "description": "A GG18 wallet has no aux ceremony, or the tenant must use the version 2 relay, or a v3 wallet's aux is complete — it has signed (`{ error }`); or a recovery aux for a wallet that cannot run one (MPC_AUX_RECOVERY_REFUSED: it signed, no backup, a v3 wallet, relay version 1, the tenant's own co-signer)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -11905,6 +12500,34 @@
         "schema": {
          "type": "object",
          "description": "Too many aux requests (`{ error }`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "A v3 wallet's cosigner is unavailable (`{ error: party_unavailable, party, next }`, Retry-After)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "A v3 wallet's cosigner is unavailable (`{ error: party_unavailable, party, next }`, Retry-After)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -13777,6 +14400,12 @@
            2
           ],
           "description": "The relay version wanted (as at sign/start): 2 for any tenant, 1 only where the tenant may still use it"
+         },
+         "prepared": {
+          "description": "Where the backup proof's approval is on: the `prepared` token of POST …/backup-proof/prepare, a string. The proof then signs that message, and the cosigner's grant carries the backup proof intent and `approval`. Send it with `approval`, both or neither."
+         },
+         "approval": {
+          "description": "With `prepared`: the wallet approval key's approval of the prepared digest, an object — `{\"alg\":\"webauthn-es256\",\"credentialId\",\"authenticatorData\",\"clientDataJSON\",\"signature\"}` (base64url) or `{\"alg\":\"p256-raw\",\"signature\"}` — over challenge = SHA-256(\"aurea-mpc-approval/v1\" 0x00 ‖ lp16(walletId) ‖ digest), exactly as at sign/start. The Hub forwards it; the cosigner verifies it."
          }
         }
        }
@@ -13815,18 +14444,25 @@
           },
           "sessionId": {
            "type": "string",
-           "description": "The relay session: bkp- followed by a UUID"
+           "description": "The relay session: bkp- followed by a UUID (a v3 wallet's: v3bkp-)"
           },
           "committee": {
            "type": "array",
            "items": {
-            "type": "string",
-            "enum": [
-             "BACKUP",
-             "AUREA"
-            ]
+            "type": "string"
            },
-           "description": "Always BACKUP and AUREA"
+           "description": "BACKUP and AUREA; for a v3 wallet BACKUP_A, BACKUP_B and the two cosigners that sign with them"
+          },
+          "committeeAttempt": {
+           "type": "string",
+           "description": "A v3 wallet's proof only: 1"
+          },
+          "signers": {
+           "type": "array",
+           "items": {
+            "type": "integer"
+           },
+           "description": "A v3 wallet's proof only: the committee's keygen indices, ascending"
           },
           "message": {
            "type": "string",
@@ -13964,6 +14600,62 @@
         "schema": {
          "type": "object",
          "description": "The tenant must use the version 2 relay (`{ error }`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "410": {
+      "description": "The prepared message expired (BACKUP_PROOF_EXPIRED)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The prepared message expired (BACKUP_PROOF_EXPIRED)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "`prepared` is not a message prepared for this wallet and user, or `approval` is not an approval, or only one of the two was sent (BACKUP_PROOF_PREPARED_INVALID)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "`prepared` is not a message prepared for this wallet and user, or `approval` is not an approval, or only one of the two was sent (BACKUP_PROOF_PREPARED_INVALID)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -14844,7 +15536,7 @@
     "tags": [
      "mpc"
     ],
-    "description": "Lets an authenticated first-party app (e.g. the aurea-pay payment-link product) obtain a short-lived Hub JWT for ONE of its merchants, so that merchant's browser can drive an MPC ceremony through `/v1/mpc/relay/*` + the live AUREA cosigner WITHOUT being a hand-created Hub user. This is the integration entry point for any external client.\n\n**Auth:** the existing tenant-HMAC scheme — send `x-tenant-api-key`, `x-timestamp`, and `x-signature` = HMAC-SHA256(apiSecret, `METHOD\\nPATH\\nTIMESTAMP\\nSHA256(rawBody)`), ±300s window. The call runs under that tenant; the merchant is find-or-created beneath it, keyed deterministically by `externalMerchantId` (same id → same Hub user → same wallet).\n\n**Request body:** `{ externalMerchantId: string }` (≤80 chars).\n\n**Response 200:** `{ accessToken, expiresIn, sub, tenantId }` — a short-lived HS256 JWT `{ sub, tenantId, role:'user' }` accepted unchanged by the relay `authenticate`/`relayAuth` hooks.",
+    "description": "Lets an authenticated first-party app (e.g. the aurea-pay payment-link product) obtain a short-lived Hub JWT for ONE of its merchants, so that merchant's browser can drive an MPC ceremony through `/v1/mpc/relay/*` + the live AUREA cosigner WITHOUT being a hand-created Hub user. This is the integration entry point for any external client.\n\n**Auth:** the existing tenant-HMAC scheme — send `x-tenant-api-key`, `x-timestamp`, and `x-signature` = HMAC-SHA256(apiSecret, `METHOD\\nPATH\\nTIMESTAMP\\nSHA256(rawBody)`), ±300s window. The call runs under that tenant; the merchant is find-or-created beneath it, keyed deterministically by `externalMerchantId` (same id → same Hub user → same wallet).\n\n**Request body:** `{ externalMerchantId: string }` (≤80 chars); optional `scopes: [\"ramp\"]`: where moving an app's accounts to the Hub is switched on, a scoped token also reaches the bank ramp's user routes (`/v1/ramp/bank/payin/*`, `/v1/ramp/bank/customer/*`).\n\n**Response 200:** `{ accessToken, expiresIn, sub, tenantId }` — a short-lived HS256 JWT `{ sub, tenantId, role:'user' }` accepted unchanged by the relay `authenticate`/`relayAuth` hooks.",
     "responses": {
      "200": {
       "description": "A short-lived Hub access token for the merchant's user (found or created)",
@@ -15040,6 +15732,13 @@
             "updatedAt": {
              "type": "string",
              "format": "date-time"
+            },
+            "party": {
+             "type": "string",
+             "enum": [
+              "C3"
+             ],
+             "description": "C3: the co-signer is also the C3 party of the tenant's v3 MPC wallets (weighted 4-of-7). Absent: it co-signs the tenant's v2 wallets only"
             }
            }
           }
@@ -15100,6 +15799,17 @@
          "rotateSecret": {
           "type": "boolean",
           "description": "Generate a new HMAC secret (answered once)"
+         },
+         "party": {
+          "type": [
+           "string",
+           "null"
+          ],
+          "enum": [
+           "C3",
+           null
+          ],
+          "description": "C3: the co-signer also becomes the C3 party of the tenant's new v3 MPC wallets (a wallet made with it keeps it). Absent or null: the tenant's v2 co-signer only, as before"
          }
         }
        }
@@ -15194,6 +15904,13 @@
             "updatedAt": {
              "type": "string",
              "format": "date-time"
+            },
+            "party": {
+             "type": "string",
+             "enum": [
+              "C3"
+             ],
+             "description": "C3: the co-signer is also the C3 party of the tenant's v3 MPC wallets (weighted 4-of-7). Absent: it co-signs the tenant's v2 wallets only"
             }
            }
           },
@@ -15280,6 +15997,13 @@
             "updatedAt": {
              "type": "string",
              "format": "date-time"
+            },
+            "party": {
+             "type": "string",
+             "enum": [
+              "C3"
+             ],
+             "description": "C3: the co-signer is also the C3 party of the tenant's v3 MPC wallets (weighted 4-of-7). Absent: it co-signs the tenant's v2 wallets only"
             }
            }
           },
@@ -17807,6 +18531,70 @@
            ]
           },
           "expiresAt": {
+           "type": [
+            "string",
+            "null"
+           ]
+          },
+          "gaslessContract": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "properties": {
+            "version": {
+             "type": "number"
+            },
+            "address": {
+             "type": "string"
+            }
+           }
+          },
+          "deadline": {
+           "type": [
+            "number",
+            "null"
+           ]
+          },
+          "permitIntent": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "description": "EIP-712 typed data to sign: { v: 1, kind: 'eip712', typedData: { types, primaryType, domain, message } }, numbers as decimal strings. Its digest is the hash this answer asks to sign.",
+           "properties": {
+            "v": {
+             "type": "number"
+            },
+            "kind": {
+             "type": "string"
+            },
+            "typedData": {
+             "type": "object",
+             "additionalProperties": true
+            }
+           }
+          },
+          "authorizationIntent": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "description": "EIP-712 typed data to sign: { v: 1, kind: 'eip712', typedData: { types, primaryType, domain, message } }, numbers as decimal strings. Its digest is the hash this answer asks to sign.",
+           "properties": {
+            "v": {
+             "type": "number"
+            },
+            "kind": {
+             "type": "string"
+            },
+            "typedData": {
+             "type": "object",
+             "additionalProperties": true
+            }
+           }
+          },
+          "authorizationHashToSign": {
            "type": [
             "string",
             "null"
@@ -22478,6 +23266,9 @@
           "type": "string",
           "minLength": 26,
           "maxLength": 255
+         },
+         "bindOnApproval": {
+          "type": "boolean"
          }
         },
         "additionalProperties": false
@@ -22764,6 +23555,100 @@
           "message"
          ],
          "additionalProperties": false
+        }
+       }
+      }
+     },
+     "202": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "waiting"
+         ],
+         "properties": {
+          "waiting": {
+           "type": "object",
+           "description": "An account asked for while the verification is under way: it is opened by itself when the approval arrives and the wallet can receive.",
+           "required": [
+            "requestId",
+            "accountKind",
+            "currency",
+            "isSandbox",
+            "status",
+            "attempts",
+            "createdAt",
+            "nextStep"
+           ],
+           "properties": {
+            "requestId": {
+             "type": "string",
+             "format": "uuid"
+            },
+            "accountKind": {
+             "type": "string",
+             "enum": [
+              "bank_payin",
+              "remittance_account",
+              "bank_iban"
+             ]
+            },
+            "currency": {
+             "type": "string"
+            },
+            "isSandbox": {
+             "type": "boolean"
+            },
+            "status": {
+             "type": "string",
+             "enum": [
+              "waiting",
+              "bound",
+              "failed",
+              "cancelled"
+             ]
+            },
+            "attempts": {
+             "type": "integer"
+            },
+            "lastErrorCode": {
+             "type": [
+              "string",
+              "null"
+             ]
+            },
+            "accountId": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "uuid"
+            },
+            "createdAt": {
+             "type": "string",
+             "format": "date-time"
+            },
+            "closedAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "nextStep": {
+             "type": "string",
+             "enum": [
+              "wait_for_approval",
+              "none",
+              "ask_again"
+             ],
+             "description": "wait_for_approval: nothing to do, the account opens by itself; none: it is open (accountId); ask_again: it was given up (lastErrorCode) or withdrawn — ask for the account again"
+            }
+           }
+          }
+         }
         }
        }
       }
@@ -23128,6 +24013,15 @@
              },
              "isExpired": {
               "type": "boolean"
+             },
+             "accountStatus": {
+              "type": "string",
+              "enum": [
+               "Active",
+               "PendingClosure",
+               "Closed",
+               "Missing"
+              ]
              },
              "lastRefreshedAt": {
               "type": "string"
@@ -37382,6 +38276,18 @@
             "string"
            ],
            "format": "date-time"
+          },
+          "verificationId": {
+           "type": "string",
+           "format": "uuid",
+           "description": "The user's identity verification (GET /v1/identity/verifications/{id}); present only where Aurea's identity verification serves the tenant's environment."
+          },
+          "verificationUrl": {
+           "type": [
+            "null",
+            "string"
+           ],
+           "description": "The verification page while the verification is started (a fresh one each call, never stored; open it in a browser or a WebView), null when there is nothing to complete; present only with verificationId."
           }
          }
         }
@@ -37459,6 +38365,18 @@
             "string"
            ],
            "format": "date-time"
+          },
+          "verificationId": {
+           "type": "string",
+           "format": "uuid",
+           "description": "The user's identity verification (GET /v1/identity/verifications/{id}); present only where Aurea's identity verification serves the tenant's environment."
+          },
+          "verificationUrl": {
+           "type": [
+            "null",
+            "string"
+           ],
+           "description": "The verification page while the verification is started (a fresh one each call, never stored; open it in a browser or a WebView), null when there is nothing to complete; present only with verificationId."
           }
          }
         }
@@ -39446,12 +40364,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), or the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`), or a passkey step-up is required and missing or not valid (`STEP_UP_REQUIRED`, `STEP_UP_INVALID`: when Aurea requires it, the request carries the user's step-up token for `bank_ramp.payout` in the `x-aurea-step-up` header)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), or the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`), or a passkey step-up is required and missing or not valid (`STEP_UP_REQUIRED`, `STEP_UP_INVALID`: when Aurea requires it, the request carries the user's step-up token for `bank_ramp.payout` in the `x-aurea-step-up` header)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -41190,12 +42108,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), or the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`), or a passkey step-up is required and missing or not valid (`STEP_UP_REQUIRED`, `STEP_UP_INVALID`: when Aurea requires it, the request carries the user's step-up token for `bank_ramp.payout` in the `x-aurea-step-up` header)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), or the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`), or a passkey step-up is required and missing or not valid (`STEP_UP_REQUIRED`, `STEP_UP_INVALID`: when Aurea requires it, the request carries the user's step-up token for `bank_ramp.payout` in the `x-aurea-step-up` header)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -41246,12 +42164,12 @@
       }
      },
      "409": {
-      "description": "Not enough on the user's balance for the payout and its fees (`BANK_RAMP_PAYOUT_BALANCE_LOW`), the USD beneficiary is not active (`BANK_RAMP_BENEFICIARY_NOT_ACTIVE`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`",
+      "description": "Not enough on the user's balance for the payout and its fees (`BANK_RAMP_PAYOUT_BALANCE_LOW`), payouts are held while the bank ramp's ledger is being reconciled (`BANK_RAMP_PAYOUTS_HELD_RECONCILIATION`: try again later), the USD beneficiary is not active (`BANK_RAMP_BENEFICIARY_NOT_ACTIVE`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "Not enough on the user's balance for the payout and its fees (`BANK_RAMP_PAYOUT_BALANCE_LOW`), the USD beneficiary is not active (`BANK_RAMP_BENEFICIARY_NOT_ACTIVE`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`",
+         "description": "Not enough on the user's balance for the payout and its fees (`BANK_RAMP_PAYOUT_BALANCE_LOW`), payouts are held while the bank ramp's ledger is being reconciled (`BANK_RAMP_PAYOUTS_HELD_RECONCILIATION`: try again later), the USD beneficiary is not active (`BANK_RAMP_BENEFICIARY_NOT_ACTIVE`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -42752,12 +43670,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), or the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`), or a passkey step-up is required and missing or not valid (`STEP_UP_REQUIRED`, `STEP_UP_INVALID`: when Aurea requires it, the request carries the user's step-up token for `bank_ramp.payout` in the `x-aurea-step-up` header)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), or the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`), or a passkey step-up is required and missing or not valid (`STEP_UP_REQUIRED`, `STEP_UP_INVALID`: when Aurea requires it, the request carries the user's step-up token for `bank_ramp.payout` in the `x-aurea-step-up` header)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -42808,12 +43726,12 @@
       }
      },
      "409": {
-      "description": "Not waiting to be confirmed, the quote expired, or not enough on the balance (`BANK_RAMP_ORDER_NOT_PREPARED`, `BANK_RAMP_QUOTE_EXPIRED`, `BANK_RAMP_ORDER_BALANCE_LOW`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`",
+      "description": "Not waiting to be confirmed, the quote expired, or not enough on the balance (`BANK_RAMP_ORDER_NOT_PREPARED`, `BANK_RAMP_QUOTE_EXPIRED`, `BANK_RAMP_ORDER_BALANCE_LOW`), a to-bank order held while the bank ramp's ledger is being reconciled (`BANK_RAMP_PAYOUTS_HELD_RECONCILIATION`: try again later), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "Not waiting to be confirmed, the quote expired, or not enough on the balance (`BANK_RAMP_ORDER_NOT_PREPARED`, `BANK_RAMP_QUOTE_EXPIRED`, `BANK_RAMP_ORDER_BALANCE_LOW`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`",
+         "description": "Not waiting to be confirmed, the quote expired, or not enough on the balance (`BANK_RAMP_ORDER_NOT_PREPARED`, `BANK_RAMP_QUOTE_EXPIRED`, `BANK_RAMP_ORDER_BALANCE_LOW`), a to-bank order held while the bank ramp's ledger is being reconciled (`BANK_RAMP_PAYOUTS_HELD_RECONCILIATION`: try again later), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -45633,10 +46551,17 @@
                 "address_book.destination.unlisted",
                 "transaction.created",
                 "transaction.status_changed",
+                "transaction.flagged",
                 "wallet.created",
                 "wallet.frozen",
                 "wallet.unfrozen",
                 "wallet.custody_changed",
+                "wallet.setup.aux_started",
+                "wallet.setup.ready_for_backup",
+                "wallet.setup.backup_confirmed",
+                "wallet.setup.completed",
+                "wallet.setup.retired",
+                "account.bound",
                 "policy.set_published",
                 "policy.set_archived",
                 "policy.decision_refused",
@@ -45667,7 +46592,20 @@
                 "remittance.payout.cancelled",
                 "remittance.payout.submitted",
                 "remittance.payout.completed",
-                "remittance.payout.failed"
+                "remittance.payout.failed",
+                "policy.hold",
+                "policy.hold_released",
+                "policy.hold_expired",
+                "policy.cosigner_version",
+                "recovery.requested",
+                "recovery.opened",
+                "recovery.cancelled",
+                "recovery.completed",
+                "recovery.safe_queued",
+                "recovery.safe_executed",
+                "recovery.safe_cancelled",
+                "identity.verification.updated",
+                "identity.handoff.updated"
                ]
               },
               "description": "The types it receives. Empty receives the ramp.* and earn.* types only; operation.*, tokenized_asset.* and every type published later reach the endpoint only when named"
@@ -45745,10 +46683,17 @@
                "address_book.destination.unlisted",
                "transaction.created",
                "transaction.status_changed",
+               "transaction.flagged",
                "wallet.created",
                "wallet.frozen",
                "wallet.unfrozen",
                "wallet.custody_changed",
+               "wallet.setup.aux_started",
+               "wallet.setup.ready_for_backup",
+               "wallet.setup.backup_confirmed",
+               "wallet.setup.completed",
+               "wallet.setup.retired",
+               "account.bound",
                "policy.set_published",
                "policy.set_archived",
                "policy.decision_refused",
@@ -45779,7 +46724,20 @@
                "remittance.payout.cancelled",
                "remittance.payout.submitted",
                "remittance.payout.completed",
-               "remittance.payout.failed"
+               "remittance.payout.failed",
+               "policy.hold",
+               "policy.hold_released",
+               "policy.hold_expired",
+               "policy.cosigner_version",
+               "recovery.requested",
+               "recovery.opened",
+               "recovery.cancelled",
+               "recovery.completed",
+               "recovery.safe_queued",
+               "recovery.safe_executed",
+               "recovery.safe_cancelled",
+               "identity.verification.updated",
+               "identity.handoff.updated"
               ]
              },
              "version": {
@@ -45934,7 +46892,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 69,
+          "maxItems": 89,
           "items": {
            "type": "string",
            "enum": [
@@ -45972,10 +46930,17 @@
             "address_book.destination.unlisted",
             "transaction.created",
             "transaction.status_changed",
+            "transaction.flagged",
             "wallet.created",
             "wallet.frozen",
             "wallet.unfrozen",
             "wallet.custody_changed",
+            "wallet.setup.aux_started",
+            "wallet.setup.ready_for_backup",
+            "wallet.setup.backup_confirmed",
+            "wallet.setup.completed",
+            "wallet.setup.retired",
+            "account.bound",
             "policy.set_published",
             "policy.set_archived",
             "policy.decision_refused",
@@ -46006,7 +46971,20 @@
             "remittance.payout.cancelled",
             "remittance.payout.submitted",
             "remittance.payout.completed",
-            "remittance.payout.failed"
+            "remittance.payout.failed",
+            "policy.hold",
+            "policy.hold_released",
+            "policy.hold_expired",
+            "policy.cosigner_version",
+            "recovery.requested",
+            "recovery.opened",
+            "recovery.cancelled",
+            "recovery.completed",
+            "recovery.safe_queued",
+            "recovery.safe_executed",
+            "recovery.safe_cancelled",
+            "identity.verification.updated",
+            "identity.handoff.updated"
            ]
           }
          },
@@ -46121,10 +47099,17 @@
                "address_book.destination.unlisted",
                "transaction.created",
                "transaction.status_changed",
+               "transaction.flagged",
                "wallet.created",
                "wallet.frozen",
                "wallet.unfrozen",
                "wallet.custody_changed",
+               "wallet.setup.aux_started",
+               "wallet.setup.ready_for_backup",
+               "wallet.setup.backup_confirmed",
+               "wallet.setup.completed",
+               "wallet.setup.retired",
+               "account.bound",
                "policy.set_published",
                "policy.set_archived",
                "policy.decision_refused",
@@ -46155,7 +47140,20 @@
                "remittance.payout.cancelled",
                "remittance.payout.submitted",
                "remittance.payout.completed",
-               "remittance.payout.failed"
+               "remittance.payout.failed",
+               "policy.hold",
+               "policy.hold_released",
+               "policy.hold_expired",
+               "policy.cosigner_version",
+               "recovery.requested",
+               "recovery.opened",
+               "recovery.cancelled",
+               "recovery.completed",
+               "recovery.safe_queued",
+               "recovery.safe_executed",
+               "recovery.safe_cancelled",
+               "identity.verification.updated",
+               "identity.handoff.updated"
               ]
              },
              "description": "The types it receives. Empty receives the ramp.* and earn.* types only; operation.*, tokenized_asset.* and every type published later reach the endpoint only when named"
@@ -46372,7 +47370,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 69,
+          "maxItems": 89,
           "items": {
            "type": "string",
            "enum": [
@@ -46410,10 +47408,17 @@
             "address_book.destination.unlisted",
             "transaction.created",
             "transaction.status_changed",
+            "transaction.flagged",
             "wallet.created",
             "wallet.frozen",
             "wallet.unfrozen",
             "wallet.custody_changed",
+            "wallet.setup.aux_started",
+            "wallet.setup.ready_for_backup",
+            "wallet.setup.backup_confirmed",
+            "wallet.setup.completed",
+            "wallet.setup.retired",
+            "account.bound",
             "policy.set_published",
             "policy.set_archived",
             "policy.decision_refused",
@@ -46444,7 +47449,20 @@
             "remittance.payout.cancelled",
             "remittance.payout.submitted",
             "remittance.payout.completed",
-            "remittance.payout.failed"
+            "remittance.payout.failed",
+            "policy.hold",
+            "policy.hold_released",
+            "policy.hold_expired",
+            "policy.cosigner_version",
+            "recovery.requested",
+            "recovery.opened",
+            "recovery.cancelled",
+            "recovery.completed",
+            "recovery.safe_queued",
+            "recovery.safe_executed",
+            "recovery.safe_cancelled",
+            "identity.verification.updated",
+            "identity.handoff.updated"
            ]
           }
          },
@@ -46568,10 +47586,17 @@
                "address_book.destination.unlisted",
                "transaction.created",
                "transaction.status_changed",
+               "transaction.flagged",
                "wallet.created",
                "wallet.frozen",
                "wallet.unfrozen",
                "wallet.custody_changed",
+               "wallet.setup.aux_started",
+               "wallet.setup.ready_for_backup",
+               "wallet.setup.backup_confirmed",
+               "wallet.setup.completed",
+               "wallet.setup.retired",
+               "account.bound",
                "policy.set_published",
                "policy.set_archived",
                "policy.decision_refused",
@@ -46602,7 +47627,20 @@
                "remittance.payout.cancelled",
                "remittance.payout.submitted",
                "remittance.payout.completed",
-               "remittance.payout.failed"
+               "remittance.payout.failed",
+               "policy.hold",
+               "policy.hold_released",
+               "policy.hold_expired",
+               "policy.cosigner_version",
+               "recovery.requested",
+               "recovery.opened",
+               "recovery.cancelled",
+               "recovery.completed",
+               "recovery.safe_queued",
+               "recovery.safe_executed",
+               "recovery.safe_cancelled",
+               "identity.verification.updated",
+               "identity.handoff.updated"
               ]
              },
              "description": "The types it receives. Empty receives the ramp.* and earn.* types only; operation.*, tokenized_asset.* and every type published later reach the endpoint only when named"
@@ -47033,10 +48071,17 @@
                "address_book.destination.unlisted",
                "transaction.created",
                "transaction.status_changed",
+               "transaction.flagged",
                "wallet.created",
                "wallet.frozen",
                "wallet.unfrozen",
                "wallet.custody_changed",
+               "wallet.setup.aux_started",
+               "wallet.setup.ready_for_backup",
+               "wallet.setup.backup_confirmed",
+               "wallet.setup.completed",
+               "wallet.setup.retired",
+               "account.bound",
                "policy.set_published",
                "policy.set_archived",
                "policy.decision_refused",
@@ -47067,7 +48112,20 @@
                "remittance.payout.cancelled",
                "remittance.payout.submitted",
                "remittance.payout.completed",
-               "remittance.payout.failed"
+               "remittance.payout.failed",
+               "policy.hold",
+               "policy.hold_released",
+               "policy.hold_expired",
+               "policy.cosigner_version",
+               "recovery.requested",
+               "recovery.opened",
+               "recovery.cancelled",
+               "recovery.completed",
+               "recovery.safe_queued",
+               "recovery.safe_executed",
+               "recovery.safe_cancelled",
+               "identity.verification.updated",
+               "identity.handoff.updated"
               ]
              },
              "description": "The types it receives. Empty receives the ramp.* and earn.* types only; operation.*, tokenized_asset.* and every type published later reach the endpoint only when named"
@@ -67615,13 +68673,1058 @@
     }
    }
   },
+  "/v1/identity/verifications": {
+   "post": {
+    "summary": "Start or continue a user's identity verification",
+    "tags": [
+     "identity"
+    ],
+    "description": "Verifies one of the tenant's users: a person (`kind: person`, KYC) or a company (`kind: company`, KYB), for a purpose (`bank_ramp`). 201 with a new verification, 200 with the live one (started, in review or verified: never a second one); a rejected or expired verification is replaced by a new one. While it is `started` the answer carries a fresh `verificationUrl`. `returnUrl` (https or the app's own scheme) is accepted and checked, but the hosted page does not use it: when the person is done the page shows the verification flow's own completion page, and the result reaches the tenant as `identity.verification.updated`. Every change is sent as `identity.verification.updated`.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "required": [
+         "userId",
+         "kind",
+         "purpose"
+        ],
+        "additionalProperties": false,
+        "properties": {
+         "userId": {
+          "type": "string",
+          "format": "uuid"
+         },
+         "kind": {
+          "type": "string",
+          "enum": [
+           "person",
+           "company"
+          ]
+         },
+         "purpose": {
+          "type": "string",
+          "enum": [
+           "bank_ramp"
+          ]
+         },
+         "returnUrl": {
+          "type": [
+           "string",
+           "null"
+          ],
+          "maxLength": 2048,
+          "description": "https or the app's own scheme. Accepted and checked; not passed to the hosted page, which ends on the flow's own completion page."
+         },
+         "isTestnet": {
+          "type": "boolean",
+          "default": false
+         }
+        }
+       }
+      }
+     },
+     "required": true
+    },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-timestamp",
+      "required": false,
+      "description": "Unix time in seconds; a call more than 300 seconds from the Hub's clock is refused"
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-signature",
+      "required": false,
+      "description": "hex HMAC-SHA256 with the tenant's API secret of METHOD + \\n + PATH (with its query) + \\n + x-timestamp + \\n + hex SHA-256 of the exact body (of an empty body without one). A signature is accepted once."
+     }
+    ],
+    "security": [
+     {
+      "tenantSignature": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "id",
+          "userId",
+          "kind",
+          "purpose",
+          "state",
+          "nextStep",
+          "reason",
+          "aml",
+          "createdAt",
+          "updatedAt",
+          "verificationUrl"
+         ],
+         "properties": {
+          "id": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "userId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "kind": {
+           "type": "string",
+           "enum": [
+            "person",
+            "company"
+           ]
+          },
+          "purpose": {
+           "type": "string",
+           "enum": [
+            "bank_ramp"
+           ]
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "started",
+            "in_review",
+            "verified",
+            "rejected",
+            "expired"
+           ],
+           "description": "started: the person or company has the verification page to complete; in_review: the provider (or Aurea's compliance) reviews it; verified; rejected; expired (a re-verification is due)."
+          },
+          "nextStep": {
+           "type": "string",
+           "enum": [
+            "start_verification",
+            "continue_verification",
+            "wait_for_review",
+            "approved",
+            "rejected",
+            "expired"
+           ],
+           "description": "continue_verification (started), wait_for_review (in_review), approved (verified), rejected, expired; start_verification when there is nothing to continue."
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Why the state is what it is, as a code (manual_review, aml_review, kyb_review, reopened, risk_reevaluated, kyc_expired, failed, rejected, cancelled, kyb_rejected, kyb_cancelled, or the decision's reason code); null when none."
+          },
+          "aml": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "status"
+           ],
+           "properties": {
+            "status": {
+             "type": "string",
+             "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "ESCALATED"
+             ]
+            }
+           },
+           "description": "The screening's status; null until a screening has a result."
+          },
+          "createdAt": {
+           "type": "string",
+           "format": "date-time"
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          },
+          "verificationUrl": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "The verification page, while the verification is started: open it in a browser or a WebView (camera and microphone allowed). A fresh one each call; never stored. null when there is nothing to complete."
+          }
+         }
+        }
+       }
+      }
+     },
+     "201": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "id",
+          "userId",
+          "kind",
+          "purpose",
+          "state",
+          "nextStep",
+          "reason",
+          "aml",
+          "createdAt",
+          "updatedAt",
+          "verificationUrl"
+         ],
+         "properties": {
+          "id": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "userId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "kind": {
+           "type": "string",
+           "enum": [
+            "person",
+            "company"
+           ]
+          },
+          "purpose": {
+           "type": "string",
+           "enum": [
+            "bank_ramp"
+           ]
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "started",
+            "in_review",
+            "verified",
+            "rejected",
+            "expired"
+           ],
+           "description": "started: the person or company has the verification page to complete; in_review: the provider (or Aurea's compliance) reviews it; verified; rejected; expired (a re-verification is due)."
+          },
+          "nextStep": {
+           "type": "string",
+           "enum": [
+            "start_verification",
+            "continue_verification",
+            "wait_for_review",
+            "approved",
+            "rejected",
+            "expired"
+           ],
+           "description": "continue_verification (started), wait_for_review (in_review), approved (verified), rejected, expired; start_verification when there is nothing to continue."
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Why the state is what it is, as a code (manual_review, aml_review, kyb_review, reopened, risk_reevaluated, kyc_expired, failed, rejected, cancelled, kyb_rejected, kyb_cancelled, or the decision's reason code); null when none."
+          },
+          "aml": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "status"
+           ],
+           "properties": {
+            "status": {
+             "type": "string",
+             "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "ESCALATED"
+             ]
+            }
+           },
+           "description": "The screening's status; null until a screening has a result."
+          },
+          "createdAt": {
+           "type": "string",
+           "format": "date-time"
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          },
+          "verificationUrl": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "The verification page, while the verification is started: open it in a browser or a WebView (camera and microphone allowed). A fresh one each call; never stored. null when there is nothing to complete."
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "The body is not valid (`IDENTITY_INVALID`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The body is not valid (`IDENTITY_INVALID`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "A missing, wrong, expired or replayed signature",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "A missing, wrong, expired or replayed signature",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "Identity verification is not on for the tenant's environment (`IDENTITY_DISABLED`), or the module is off (`MODULE_NOT_ENABLED`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "Identity verification is not on for the tenant's environment (`IDENTITY_DISABLED`), or the module is off (`MODULE_NOT_ENABLED`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "No such user in the tenant (`IDENTITY_SUBJECT_NOT_FOUND`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No such user in the tenant (`IDENTITY_SUBJECT_NOT_FOUND`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "The verification page could not be opened for this run (`IDENTITY_SESSION_CONFLICT`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The verification page could not be opened for this run (`IDENTITY_SESSION_CONFLICT`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "502": {
+      "description": "The verification provider refused the request (`IDENTITY_PROVIDER_REFUSED`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The verification provider refused the request (`IDENTITY_PROVIDER_REFUSED`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "Identity verification is not configured or not available (`IDENTITY_NOT_CONFIGURED`, `IDENTITY_PROVIDER_UNAVAILABLE`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "Identity verification is not configured or not available (`IDENTITY_NOT_CONFIGURED`, `IDENTITY_PROVIDER_UNAVAILABLE`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/identity/verifications/{id}": {
+   "get": {
+    "summary": "A user's identity verification",
+    "tags": [
+     "identity"
+    ],
+    "description": "The verification's state and what the user does next. Its environment is the one it was started in.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "in": "path",
+      "name": "id",
+      "required": true
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-timestamp",
+      "required": false,
+      "description": "Unix time in seconds; a call more than 300 seconds from the Hub's clock is refused"
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-signature",
+      "required": false,
+      "description": "hex HMAC-SHA256 with the tenant's API secret of METHOD + \\n + PATH (with its query) + \\n + x-timestamp + \\n + hex SHA-256 of the exact body (of an empty body without one). A signature is accepted once."
+     }
+    ],
+    "security": [
+     {
+      "tenantSignature": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "id",
+          "userId",
+          "kind",
+          "purpose",
+          "state",
+          "nextStep",
+          "reason",
+          "aml",
+          "createdAt",
+          "updatedAt"
+         ],
+         "properties": {
+          "id": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "userId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "kind": {
+           "type": "string",
+           "enum": [
+            "person",
+            "company"
+           ]
+          },
+          "purpose": {
+           "type": "string",
+           "enum": [
+            "bank_ramp"
+           ]
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "started",
+            "in_review",
+            "verified",
+            "rejected",
+            "expired"
+           ],
+           "description": "started: the person or company has the verification page to complete; in_review: the provider (or Aurea's compliance) reviews it; verified; rejected; expired (a re-verification is due)."
+          },
+          "nextStep": {
+           "type": "string",
+           "enum": [
+            "start_verification",
+            "continue_verification",
+            "wait_for_review",
+            "approved",
+            "rejected",
+            "expired"
+           ],
+           "description": "continue_verification (started), wait_for_review (in_review), approved (verified), rejected, expired; start_verification when there is nothing to continue."
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "description": "Why the state is what it is, as a code (manual_review, aml_review, kyb_review, reopened, risk_reevaluated, kyc_expired, failed, rejected, cancelled, kyb_rejected, kyb_cancelled, or the decision's reason code); null when none."
+          },
+          "aml": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "status"
+           ],
+           "properties": {
+            "status": {
+             "type": "string",
+             "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "ESCALATED"
+             ]
+            }
+           },
+           "description": "The screening's status; null until a screening has a result."
+          },
+          "createdAt": {
+           "type": "string",
+           "format": "date-time"
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "The id is not valid (`IDENTITY_INVALID`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The id is not valid (`IDENTITY_INVALID`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "A missing, wrong, expired or replayed signature",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "A missing, wrong, expired or replayed signature",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "The module is off (`MODULE_NOT_ENABLED`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The module is off (`MODULE_NOT_ENABLED`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "No such verification in the tenant (`IDENTITY_VERIFICATION_NOT_FOUND`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No such verification in the tenant (`IDENTITY_VERIFICATION_NOT_FOUND`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/identity/subjects/{userId}/verifications": {
+   "get": {
+    "summary": "A user's identity verifications",
+    "tags": [
+     "identity"
+    ],
+    "description": "Every verification of the user in the environment, newest first; a replaced one stays listed after the one that replaced it.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "boolean",
+       "default": false
+      },
+      "in": "query",
+      "name": "isTestnet",
+      "required": false
+     },
+     {
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "in": "path",
+      "name": "userId",
+      "required": true
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-timestamp",
+      "required": false,
+      "description": "Unix time in seconds; a call more than 300 seconds from the Hub's clock is refused"
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-signature",
+      "required": false,
+      "description": "hex HMAC-SHA256 with the tenant's API secret of METHOD + \\n + PATH (with its query) + \\n + x-timestamp + \\n + hex SHA-256 of the exact body (of an empty body without one). A signature is accepted once."
+     }
+    ],
+    "security": [
+     {
+      "tenantSignature": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "verifications"
+         ],
+         "properties": {
+          "verifications": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "id",
+             "userId",
+             "kind",
+             "purpose",
+             "state",
+             "nextStep",
+             "reason",
+             "aml",
+             "createdAt",
+             "updatedAt"
+            ],
+            "properties": {
+             "id": {
+              "type": "string",
+              "format": "uuid"
+             },
+             "userId": {
+              "type": "string",
+              "format": "uuid"
+             },
+             "kind": {
+              "type": "string",
+              "enum": [
+               "person",
+               "company"
+              ]
+             },
+             "purpose": {
+              "type": "string",
+              "enum": [
+               "bank_ramp"
+              ]
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "started",
+               "in_review",
+               "verified",
+               "rejected",
+               "expired"
+              ],
+              "description": "started: the person or company has the verification page to complete; in_review: the provider (or Aurea's compliance) reviews it; verified; rejected; expired (a re-verification is due)."
+             },
+             "nextStep": {
+              "type": "string",
+              "enum": [
+               "start_verification",
+               "continue_verification",
+               "wait_for_review",
+               "approved",
+               "rejected",
+               "expired"
+              ],
+              "description": "continue_verification (started), wait_for_review (in_review), approved (verified), rejected, expired; start_verification when there is nothing to continue."
+             },
+             "reason": {
+              "type": [
+               "string",
+               "null"
+              ],
+              "description": "Why the state is what it is, as a code (manual_review, aml_review, kyb_review, reopened, risk_reevaluated, kyc_expired, failed, rejected, cancelled, kyb_rejected, kyb_cancelled, or the decision's reason code); null when none."
+             },
+             "aml": {
+              "type": [
+               "object",
+               "null"
+              ],
+              "required": [
+               "status"
+              ],
+              "properties": {
+               "status": {
+                "type": "string",
+                "enum": [
+                 "PENDING",
+                 "APPROVED",
+                 "REJECTED",
+                 "ESCALATED"
+                ]
+               }
+              },
+              "description": "The screening's status; null until a screening has a result."
+             },
+             "createdAt": {
+              "type": "string",
+              "format": "date-time"
+             },
+             "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "The query is not valid (`IDENTITY_INVALID`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The query is not valid (`IDENTITY_INVALID`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "401": {
+      "description": "A missing, wrong, expired or replayed signature",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "A missing, wrong, expired or replayed signature",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "403": {
+      "description": "The module is off (`MODULE_NOT_ENABLED`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "The module is off (`MODULE_NOT_ENABLED`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "No such user in the tenant (`IDENTITY_SUBJECT_NOT_FOUND`)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "No such user in the tenant (`IDENTITY_SUBJECT_NOT_FOUND`)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/v1/aml-cases": {
    "get": {
     "summary": "List AML cases",
     "tags": [
      "aml-cases"
     ],
-    "description": "The cases, newest first. On the caller's own tenant.",
+    "description": "The cases, newest first. On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "parameters": [
      {
       "schema": {
@@ -67739,7 +69842,8 @@
               "type": "string",
               "enum": [
                "outbound",
-               "inbound"
+               "inbound",
+               "onboarding"
               ]
              },
              "operationId": {
@@ -67925,12 +70029,14 @@
                 "type": "string",
                 "enum": [
                  "outbound",
-                 "inbound"
-                ]
+                 "inbound",
+                 "onboarding"
+                ],
+                "description": "outbound: an operation's counterparty; inbound: a received transfer's sender; onboarding: identity verification's screening of a person or company when it was verified (its matches stay with the verification provider)."
                },
                "point": {
                 "type": "string",
-                "description": "The signing point screened (outbound), or inbound_transfers."
+                "description": "The signing point screened (outbound), inbound_transfers, or onboarding."
                },
                "mode": {
                 "type": "string",
@@ -67941,7 +70047,7 @@
                },
                "provider": {
                 "type": "string",
-                "description": "The screening's provider: public_lists."
+                "description": "The screening's provider: public_lists, or identity_verification (onboarding)."
                },
                "state": {
                 "type": "string",
@@ -68128,6 +70234,11 @@
                "createdAt": {
                 "type": "string",
                 "format": "date-time"
+               },
+               "identityVerificationId": {
+                "type": "string",
+                "format": "uuid",
+                "description": "The identity verification an onboarding screening is about; absent for every other screening."
                }
               },
               "description": "The screening that opened the case."
@@ -68264,7 +70375,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "The case, its screening and its comments. On the caller's own tenant.",
+    "description": "The case, its screening and its comments. On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "parameters": [
      {
       "schema": {
@@ -68340,7 +70451,8 @@
            "type": "string",
            "enum": [
             "outbound",
-            "inbound"
+            "inbound",
+            "onboarding"
            ]
           },
           "operationId": {
@@ -68526,12 +70638,14 @@
              "type": "string",
              "enum": [
               "outbound",
-              "inbound"
-             ]
+              "inbound",
+              "onboarding"
+             ],
+             "description": "outbound: an operation's counterparty; inbound: a received transfer's sender; onboarding: identity verification's screening of a person or company when it was verified (its matches stay with the verification provider)."
             },
             "point": {
              "type": "string",
-             "description": "The signing point screened (outbound), or inbound_transfers."
+             "description": "The signing point screened (outbound), inbound_transfers, or onboarding."
             },
             "mode": {
              "type": "string",
@@ -68542,7 +70656,7 @@
             },
             "provider": {
              "type": "string",
-             "description": "The screening's provider: public_lists."
+             "description": "The screening's provider: public_lists, or identity_verification (onboarding)."
             },
             "state": {
              "type": "string",
@@ -68729,6 +70843,11 @@
             "createdAt": {
              "type": "string",
              "format": "date-time"
+            },
+            "identityVerificationId": {
+             "type": "string",
+             "format": "uuid",
+             "description": "The identity verification an onboarding screening is about; absent for every other screening."
             }
            },
            "description": "The screening that opened the case."
@@ -68899,7 +71018,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "Who works the case (null: nobody); an open case only (409 AML_CASE_DECIDED). On the caller's own tenant.",
+    "description": "Who works the case (null: nobody); an open case only (409 AML_CASE_DECIDED). On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -68998,7 +71117,8 @@
            "type": "string",
            "enum": [
             "outbound",
-            "inbound"
+            "inbound",
+            "onboarding"
            ]
           },
           "operationId": {
@@ -69184,12 +71304,14 @@
              "type": "string",
              "enum": [
               "outbound",
-              "inbound"
-             ]
+              "inbound",
+              "onboarding"
+             ],
+             "description": "outbound: an operation's counterparty; inbound: a received transfer's sender; onboarding: identity verification's screening of a person or company when it was verified (its matches stay with the verification provider)."
             },
             "point": {
              "type": "string",
-             "description": "The signing point screened (outbound), or inbound_transfers."
+             "description": "The signing point screened (outbound), inbound_transfers, or onboarding."
             },
             "mode": {
              "type": "string",
@@ -69200,7 +71322,7 @@
             },
             "provider": {
              "type": "string",
-             "description": "The screening's provider: public_lists."
+             "description": "The screening's provider: public_lists, or identity_verification (onboarding)."
             },
             "state": {
              "type": "string",
@@ -69387,6 +71509,11 @@
             "createdAt": {
              "type": "string",
              "format": "date-time"
+            },
+            "identityVerificationId": {
+             "type": "string",
+             "format": "uuid",
+             "description": "The identity verification an onboarding screening is about; absent for every other screening."
             }
            },
            "description": "The screening that opened the case."
@@ -69538,7 +71665,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "A comment kept with the case (the audit trail records that one was written, never its text). On the caller's own tenant.",
+    "description": "A comment kept with the case (the audit trail records that one was written, never its text). On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -69734,7 +71861,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "Once (409 AML_CASE_DECIDED): release or confirm, with a written reason. Audited, and told to the tenant's endpoints that name aml_case.released or aml_case.confirmed. On the caller's own tenant.",
+    "description": "Once (409 AML_CASE_DECIDED): release or confirm, with a written reason. Audited, and told to the tenant's endpoints that name aml_case.released or aml_case.confirmed. On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -69840,7 +71967,8 @@
            "type": "string",
            "enum": [
             "outbound",
-            "inbound"
+            "inbound",
+            "onboarding"
            ]
           },
           "operationId": {
@@ -70026,12 +72154,14 @@
              "type": "string",
              "enum": [
               "outbound",
-              "inbound"
-             ]
+              "inbound",
+              "onboarding"
+             ],
+             "description": "outbound: an operation's counterparty; inbound: a received transfer's sender; onboarding: identity verification's screening of a person or company when it was verified (its matches stay with the verification provider)."
             },
             "point": {
              "type": "string",
-             "description": "The signing point screened (outbound), or inbound_transfers."
+             "description": "The signing point screened (outbound), inbound_transfers, or onboarding."
             },
             "mode": {
              "type": "string",
@@ -70042,7 +72172,7 @@
             },
             "provider": {
              "type": "string",
-             "description": "The screening's provider: public_lists."
+             "description": "The screening's provider: public_lists, or identity_verification (onboarding)."
             },
             "state": {
              "type": "string",
@@ -70229,6 +72359,11 @@
             "createdAt": {
              "type": "string",
              "format": "date-time"
+            },
+            "identityVerificationId": {
+             "type": "string",
+             "format": "uuid",
+             "description": "The identity verification an onboarding screening is about; absent for every other screening."
             }
            },
            "description": "The screening that opened the case."
@@ -83998,6 +86133,7 @@
        "enum": [
         "users.tenant_user.create",
         "users.tenant_invitation.create",
+        "users.platform_invitation.create",
         "users.tenant_user.delete",
         "users.role.change",
         "users.email_change.start",
@@ -84022,6 +86158,12 @@
         "credentials.webhook_endpoint.change",
         "credentials.webhook_endpoint.delete",
         "credentials.webhook_endpoint_secret.rotate",
+        "tenant.wallet_embed_key.create",
+        "tenant.wallet_embed_key.origins",
+        "tenant.wallet_embed_key.revoke",
+        "credentials.identity_platform.change",
+        "credentials.identity_webhook_endpoint.change",
+        "credentials.bank_ramp_webhook_secret.change",
         "credentials.server_credential.create",
         "credentials.server_credential.update",
         "credentials.wallet_key.rotate",

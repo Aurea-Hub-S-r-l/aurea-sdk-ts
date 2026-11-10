@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Identity verification: `aurea.identity` — start or continue a user's verification
+  (`POST /v1/identity/verifications`), read one (`GET /v1/identity/verifications/{id}`) and list a user's
+  (`GET /v1/identity/subjects/{userId}/verifications`), generated from the production OpenAPI document.
+- Regenerated from the production OpenAPI document (533 operations): the routes and answer fields added since 0.1.0.
+
 ## 0.1.0 — first release
 
 - Typed methods for the 530 routes docs.aureahub.com documents, generated with openapi-generator 7.25.0

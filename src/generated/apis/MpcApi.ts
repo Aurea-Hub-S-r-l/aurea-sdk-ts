@@ -114,6 +114,11 @@ import {
     V1MpcWalletsDkgStartPost200ResponseToJSON,
 } from '../models/V1MpcWalletsDkgStartPost200Response';
 import {
+    type V1MpcWalletsDkgStartPost400Response,
+    V1MpcWalletsDkgStartPost400ResponseFromJSON,
+    V1MpcWalletsDkgStartPost400ResponseToJSON,
+} from '../models/V1MpcWalletsDkgStartPost400Response';
+import {
     type V1MpcWalletsDkgStartPost409Response,
     V1MpcWalletsDkgStartPost409ResponseFromJSON,
     V1MpcWalletsDkgStartPost409ResponseToJSON,
@@ -128,6 +133,11 @@ import {
     V1MpcWalletsDkgStartPost503ResponseFromJSON,
     V1MpcWalletsDkgStartPost503ResponseToJSON,
 } from '../models/V1MpcWalletsDkgStartPost503Response';
+import {
+    type V1MpcWalletsDkgStartPostRequest,
+    V1MpcWalletsDkgStartPostRequestFromJSON,
+    V1MpcWalletsDkgStartPostRequestToJSON,
+} from '../models/V1MpcWalletsDkgStartPostRequest';
 import {
     type V1MpcWalletsPost201Response,
     V1MpcWalletsPost201ResponseFromJSON,
@@ -154,6 +164,11 @@ import {
     V1MpcWalletsWalletIdAuxStartPost200ResponseToJSON,
 } from '../models/V1MpcWalletsWalletIdAuxStartPost200Response';
 import {
+    type V1MpcWalletsWalletIdAuxStartPost403Response,
+    V1MpcWalletsWalletIdAuxStartPost403ResponseFromJSON,
+    V1MpcWalletsWalletIdAuxStartPost403ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdAuxStartPost403Response';
+import {
     type V1MpcWalletsWalletIdAuxStartPost409Response,
     V1MpcWalletsWalletIdAuxStartPost409ResponseFromJSON,
     V1MpcWalletsWalletIdAuxStartPost409ResponseToJSON,
@@ -163,6 +178,16 @@ import {
     V1MpcWalletsWalletIdAuxStartPost429ResponseFromJSON,
     V1MpcWalletsWalletIdAuxStartPost429ResponseToJSON,
 } from '../models/V1MpcWalletsWalletIdAuxStartPost429Response';
+import {
+    type V1MpcWalletsWalletIdAuxStartPost503Response,
+    V1MpcWalletsWalletIdAuxStartPost503ResponseFromJSON,
+    V1MpcWalletsWalletIdAuxStartPost503ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdAuxStartPost503Response';
+import {
+    type V1MpcWalletsWalletIdAuxStartPostRequest,
+    V1MpcWalletsWalletIdAuxStartPostRequestFromJSON,
+    V1MpcWalletsWalletIdAuxStartPostRequestToJSON,
+} from '../models/V1MpcWalletsWalletIdAuxStartPostRequest';
 import {
     type V1MpcWalletsWalletIdBackupProofCompletePost200Response,
     V1MpcWalletsWalletIdBackupProofCompletePost200ResponseFromJSON,
@@ -219,6 +244,21 @@ import {
     V1MpcWalletsWalletIdBackupProofStartPost404ResponseToJSON,
 } from '../models/V1MpcWalletsWalletIdBackupProofStartPost404Response';
 import {
+    type V1MpcWalletsWalletIdBackupProofStartPost409Response,
+    V1MpcWalletsWalletIdBackupProofStartPost409ResponseFromJSON,
+    V1MpcWalletsWalletIdBackupProofStartPost409ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdBackupProofStartPost409Response';
+import {
+    type V1MpcWalletsWalletIdBackupProofStartPost410Response,
+    V1MpcWalletsWalletIdBackupProofStartPost410ResponseFromJSON,
+    V1MpcWalletsWalletIdBackupProofStartPost410ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdBackupProofStartPost410Response';
+import {
+    type V1MpcWalletsWalletIdBackupProofStartPost422Response,
+    V1MpcWalletsWalletIdBackupProofStartPost422ResponseFromJSON,
+    V1MpcWalletsWalletIdBackupProofStartPost422ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdBackupProofStartPost422Response';
+import {
     type V1MpcWalletsWalletIdBackupProofStartPost429Response,
     V1MpcWalletsWalletIdBackupProofStartPost429ResponseFromJSON,
     V1MpcWalletsWalletIdBackupProofStartPost429ResponseToJSON,
@@ -234,10 +274,25 @@ import {
     V1MpcWalletsWalletIdSignStartPost200ResponseToJSON,
 } from '../models/V1MpcWalletsWalletIdSignStartPost200Response';
 import {
+    type V1MpcWalletsWalletIdSignStartPost403Response,
+    V1MpcWalletsWalletIdSignStartPost403ResponseFromJSON,
+    V1MpcWalletsWalletIdSignStartPost403ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdSignStartPost403Response';
+import {
     type V1MpcWalletsWalletIdSignStartPost404Response,
     V1MpcWalletsWalletIdSignStartPost404ResponseFromJSON,
     V1MpcWalletsWalletIdSignStartPost404ResponseToJSON,
 } from '../models/V1MpcWalletsWalletIdSignStartPost404Response';
+import {
+    type V1MpcWalletsWalletIdSignStartPost409Response,
+    V1MpcWalletsWalletIdSignStartPost409ResponseFromJSON,
+    V1MpcWalletsWalletIdSignStartPost409ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdSignStartPost409Response';
+import {
+    type V1MpcWalletsWalletIdSignStartPost422Response,
+    V1MpcWalletsWalletIdSignStartPost422ResponseFromJSON,
+    V1MpcWalletsWalletIdSignStartPost422ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdSignStartPost422Response';
 import {
     type V1MpcWalletsWalletIdSignStartPost423Response,
     V1MpcWalletsWalletIdSignStartPost423ResponseFromJSON,
@@ -248,6 +303,16 @@ import {
     V1MpcWalletsWalletIdSignStartPost429ResponseFromJSON,
     V1MpcWalletsWalletIdSignStartPost429ResponseToJSON,
 } from '../models/V1MpcWalletsWalletIdSignStartPost429Response';
+import {
+    type V1MpcWalletsWalletIdSignStartPost503Response,
+    V1MpcWalletsWalletIdSignStartPost503ResponseFromJSON,
+    V1MpcWalletsWalletIdSignStartPost503ResponseToJSON,
+} from '../models/V1MpcWalletsWalletIdSignStartPost503Response';
+import {
+    type V1MpcWalletsWalletIdSignStartPostRequest,
+    V1MpcWalletsWalletIdSignStartPostRequestFromJSON,
+    V1MpcWalletsWalletIdSignStartPostRequestToJSON,
+} from '../models/V1MpcWalletsWalletIdSignStartPostRequest';
 import {
     type V1TenantMpcRecoveryKeyGet200Response,
     V1TenantMpcRecoveryKeyGet200ResponseFromJSON,
@@ -346,11 +411,22 @@ export interface V1MpcRelaySessionIdResultsGetRequest {
     id: string;
 }
 
-export interface V1MpcWalletsWalletIdAuxStartPostRequest {
+export interface V1MpcWalletsDkgStartPostOperationRequest {
+    /**
+     * 
+     */
+    v1MpcWalletsDkgStartPostRequest: V1MpcWalletsDkgStartPostRequest;
+}
+
+export interface V1MpcWalletsWalletIdAuxStartPostOperationRequest {
     /**
      * 
      */
     walletId: string;
+    /**
+     * 
+     */
+    v1MpcWalletsWalletIdAuxStartPostRequest?: V1MpcWalletsWalletIdAuxStartPostRequest;
 }
 
 export interface V1MpcWalletsWalletIdBackupGetRequest {
@@ -382,11 +458,15 @@ export interface V1MpcWalletsWalletIdBackupProofStartPostOperationRequest {
     v1MpcWalletsWalletIdBackupProofStartPostRequest?: V1MpcWalletsWalletIdBackupProofStartPostRequest;
 }
 
-export interface V1MpcWalletsWalletIdSignStartPostRequest {
+export interface V1MpcWalletsWalletIdSignStartPostOperationRequest {
     /**
      * 
      */
     walletId: string | null;
+    /**
+     * 
+     */
+    v1MpcWalletsWalletIdSignStartPostRequest: V1MpcWalletsWalletIdSignStartPostRequest;
 }
 
 export interface V1TenantMpcRecoveryKeyPutOperationRequest {
@@ -849,7 +929,7 @@ export class MpcApi extends runtime.BaseAPI {
     }
 
     /**
-     * Lets an authenticated first-party app (e.g. the aurea-pay payment-link product) obtain a short-lived Hub JWT for ONE of its merchants, so that merchant\'s browser can drive an MPC ceremony through `/v1/mpc/relay/_*` + the live AUREA cosigner WITHOUT being a hand-created Hub user. This is the integration entry point for any external client.  **Auth:** the existing tenant-HMAC scheme — send `x-tenant-api-key`, `x-timestamp`, and `x-signature` = HMAC-SHA256(apiSecret, `METHOD\\nPATH\\nTIMESTAMP\\nSHA256(rawBody)`), ±300s window. The call runs under that tenant; the merchant is find-or-created beneath it, keyed deterministically by `externalMerchantId` (same id → same Hub user → same wallet).  **Request body:** `{ externalMerchantId: string }` (≤80 chars).  **Response 200:** `{ accessToken, expiresIn, sub, tenantId }` — a short-lived HS256 JWT `{ sub, tenantId, role:\'user\' }` accepted unchanged by the relay `authenticate`/`relayAuth` hooks.
+     * Lets an authenticated first-party app (e.g. the aurea-pay payment-link product) obtain a short-lived Hub JWT for ONE of its merchants, so that merchant\'s browser can drive an MPC ceremony through `/v1/mpc/relay/_*` + the live AUREA cosigner WITHOUT being a hand-created Hub user. This is the integration entry point for any external client.  **Auth:** the existing tenant-HMAC scheme — send `x-tenant-api-key`, `x-timestamp`, and `x-signature` = HMAC-SHA256(apiSecret, `METHOD\\nPATH\\nTIMESTAMP\\nSHA256(rawBody)`), ±300s window. The call runs under that tenant; the merchant is find-or-created beneath it, keyed deterministically by `externalMerchantId` (same id → same Hub user → same wallet).  **Request body:** `{ externalMerchantId: string }` (≤80 chars); optional `scopes: [\"ramp\"]`: where moving an app\'s accounts to the Hub is switched on, a scoped token also reaches the bank ramp\'s user routes (`/v1/ramp/bank/payin/_*`, `/v1/ramp/bank/customer/_*`).  **Response 200:** `{ accessToken, expiresIn, sub, tenantId }` — a short-lived HS256 JWT `{ sub, tenantId, role:\'user\' }` accepted unchanged by the relay `authenticate`/`relayAuth` hooks.
      * Auth bridge — issue a scoped MPC Hub JWT for a first-party app\'s merchant
      */
     async v1MpcServiceTokenPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1MpcServiceTokenPost200Response>> {
@@ -860,7 +940,7 @@ export class MpcApi extends runtime.BaseAPI {
     }
 
     /**
-     * Lets an authenticated first-party app (e.g. the aurea-pay payment-link product) obtain a short-lived Hub JWT for ONE of its merchants, so that merchant\'s browser can drive an MPC ceremony through `/v1/mpc/relay/_*` + the live AUREA cosigner WITHOUT being a hand-created Hub user. This is the integration entry point for any external client.  **Auth:** the existing tenant-HMAC scheme — send `x-tenant-api-key`, `x-timestamp`, and `x-signature` = HMAC-SHA256(apiSecret, `METHOD\\nPATH\\nTIMESTAMP\\nSHA256(rawBody)`), ±300s window. The call runs under that tenant; the merchant is find-or-created beneath it, keyed deterministically by `externalMerchantId` (same id → same Hub user → same wallet).  **Request body:** `{ externalMerchantId: string }` (≤80 chars).  **Response 200:** `{ accessToken, expiresIn, sub, tenantId }` — a short-lived HS256 JWT `{ sub, tenantId, role:\'user\' }` accepted unchanged by the relay `authenticate`/`relayAuth` hooks.
+     * Lets an authenticated first-party app (e.g. the aurea-pay payment-link product) obtain a short-lived Hub JWT for ONE of its merchants, so that merchant\'s browser can drive an MPC ceremony through `/v1/mpc/relay/_*` + the live AUREA cosigner WITHOUT being a hand-created Hub user. This is the integration entry point for any external client.  **Auth:** the existing tenant-HMAC scheme — send `x-tenant-api-key`, `x-timestamp`, and `x-signature` = HMAC-SHA256(apiSecret, `METHOD\\nPATH\\nTIMESTAMP\\nSHA256(rawBody)`), ±300s window. The call runs under that tenant; the merchant is find-or-created beneath it, keyed deterministically by `externalMerchantId` (same id → same Hub user → same wallet).  **Request body:** `{ externalMerchantId: string }` (≤80 chars); optional `scopes: [\"ramp\"]`: where moving an app\'s accounts to the Hub is switched on, a scoped token also reaches the bank ramp\'s user routes (`/v1/ramp/bank/payin/_*`, `/v1/ramp/bank/customer/_*`).  **Response 200:** `{ accessToken, expiresIn, sub, tenantId }` — a short-lived HS256 JWT `{ sub, tenantId, role:\'user\' }` accepted unchanged by the relay `authenticate`/`relayAuth` hooks.
      * Auth bridge — issue a scoped MPC Hub JWT for a first-party app\'s merchant
      */
     async v1MpcServiceTokenPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1MpcServiceTokenPost200Response> {
@@ -871,10 +951,19 @@ export class MpcApi extends runtime.BaseAPI {
     /**
      * Creates request options for v1MpcWalletsDkgStartPost without sending the request
      */
-    async v1MpcWalletsDkgStartPostRequestOpts(): Promise<runtime.RequestOpts> {
+    async v1MpcWalletsDkgStartPostRequestOpts(requestParameters: V1MpcWalletsDkgStartPostOperationRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['v1MpcWalletsDkgStartPostRequest'] == null) {
+            throw new runtime.RequiredError(
+                'v1MpcWalletsDkgStartPostRequest',
+                'Required parameter "v1MpcWalletsDkgStartPostRequest" was null or undefined when calling v1MpcWalletsDkgStartPost().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -892,14 +981,15 @@ export class MpcApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: V1MpcWalletsDkgStartPostRequestToJSON(requestParameters['v1MpcWalletsDkgStartPostRequest']),
         };
     }
 
     /**
      * Start a 2-of-3 DKG ceremony to create an MPC wallet
      */
-    async v1MpcWalletsDkgStartPostRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1MpcWalletsDkgStartPost200Response>> {
-        const requestOptions = await this.v1MpcWalletsDkgStartPostRequestOpts();
+    async v1MpcWalletsDkgStartPostRaw(requestParameters: V1MpcWalletsDkgStartPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1MpcWalletsDkgStartPost200Response>> {
+        const requestOptions = await this.v1MpcWalletsDkgStartPostRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => V1MpcWalletsDkgStartPost200ResponseFromJSON(jsonValue));
@@ -908,8 +998,8 @@ export class MpcApi extends runtime.BaseAPI {
     /**
      * Start a 2-of-3 DKG ceremony to create an MPC wallet
      */
-    async v1MpcWalletsDkgStartPost(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1MpcWalletsDkgStartPost200Response> {
-        const response = await this.v1MpcWalletsDkgStartPostRaw(initOverrides);
+    async v1MpcWalletsDkgStartPost(requestParameters: V1MpcWalletsDkgStartPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1MpcWalletsDkgStartPost200Response> {
+        const response = await this.v1MpcWalletsDkgStartPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 
@@ -961,7 +1051,7 @@ export class MpcApi extends runtime.BaseAPI {
     /**
      * Creates request options for v1MpcWalletsWalletIdAuxStartPost without sending the request
      */
-    async v1MpcWalletsWalletIdAuxStartPostRequestOpts(requestParameters: V1MpcWalletsWalletIdAuxStartPostRequest): Promise<runtime.RequestOpts> {
+    async v1MpcWalletsWalletIdAuxStartPostRequestOpts(requestParameters: V1MpcWalletsWalletIdAuxStartPostOperationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['walletId'] == null) {
             throw new runtime.RequiredError(
                 'walletId',
@@ -972,6 +1062,8 @@ export class MpcApi extends runtime.BaseAPI {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -990,13 +1082,14 @@ export class MpcApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: V1MpcWalletsWalletIdAuxStartPostRequestToJSON(requestParameters['v1MpcWalletsWalletIdAuxStartPostRequest']),
         };
     }
 
     /**
      * Start the CGGMP auxiliary-info ceremony for an MPC wallet
      */
-    async v1MpcWalletsWalletIdAuxStartPostRaw(requestParameters: V1MpcWalletsWalletIdAuxStartPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1MpcWalletsWalletIdAuxStartPost200Response>> {
+    async v1MpcWalletsWalletIdAuxStartPostRaw(requestParameters: V1MpcWalletsWalletIdAuxStartPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1MpcWalletsWalletIdAuxStartPost200Response>> {
         const requestOptions = await this.v1MpcWalletsWalletIdAuxStartPostRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
@@ -1006,7 +1099,7 @@ export class MpcApi extends runtime.BaseAPI {
     /**
      * Start the CGGMP auxiliary-info ceremony for an MPC wallet
      */
-    async v1MpcWalletsWalletIdAuxStartPost(requestParameters: V1MpcWalletsWalletIdAuxStartPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1MpcWalletsWalletIdAuxStartPost200Response> {
+    async v1MpcWalletsWalletIdAuxStartPost(requestParameters: V1MpcWalletsWalletIdAuxStartPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1MpcWalletsWalletIdAuxStartPost200Response> {
         const response = await this.v1MpcWalletsWalletIdAuxStartPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
@@ -1192,7 +1285,7 @@ export class MpcApi extends runtime.BaseAPI {
     /**
      * Creates request options for v1MpcWalletsWalletIdSignStartPost without sending the request
      */
-    async v1MpcWalletsWalletIdSignStartPostRequestOpts(requestParameters: V1MpcWalletsWalletIdSignStartPostRequest): Promise<runtime.RequestOpts> {
+    async v1MpcWalletsWalletIdSignStartPostRequestOpts(requestParameters: V1MpcWalletsWalletIdSignStartPostOperationRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['walletId'] == null) {
             throw new runtime.RequiredError(
                 'walletId',
@@ -1200,9 +1293,18 @@ export class MpcApi extends runtime.BaseAPI {
             );
         }
 
+        if (requestParameters['v1MpcWalletsWalletIdSignStartPostRequest'] == null) {
+            throw new runtime.RequiredError(
+                'v1MpcWalletsWalletIdSignStartPostRequest',
+                'Required parameter "v1MpcWalletsWalletIdSignStartPostRequest" was null or undefined when calling v1MpcWalletsWalletIdSignStartPost().'
+            );
+        }
+
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
@@ -1221,13 +1323,14 @@ export class MpcApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
+            body: V1MpcWalletsWalletIdSignStartPostRequestToJSON(requestParameters['v1MpcWalletsWalletIdSignStartPostRequest']),
         };
     }
 
     /**
      * Start a threshold signing ceremony for an MPC wallet (DEVICE+AUREA, or BACKUP recovery)
      */
-    async v1MpcWalletsWalletIdSignStartPostRaw(requestParameters: V1MpcWalletsWalletIdSignStartPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1MpcWalletsWalletIdSignStartPost200Response>> {
+    async v1MpcWalletsWalletIdSignStartPostRaw(requestParameters: V1MpcWalletsWalletIdSignStartPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1MpcWalletsWalletIdSignStartPost200Response>> {
         const requestOptions = await this.v1MpcWalletsWalletIdSignStartPostRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
@@ -1237,7 +1340,7 @@ export class MpcApi extends runtime.BaseAPI {
     /**
      * Start a threshold signing ceremony for an MPC wallet (DEVICE+AUREA, or BACKUP recovery)
      */
-    async v1MpcWalletsWalletIdSignStartPost(requestParameters: V1MpcWalletsWalletIdSignStartPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1MpcWalletsWalletIdSignStartPost200Response> {
+    async v1MpcWalletsWalletIdSignStartPost(requestParameters: V1MpcWalletsWalletIdSignStartPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1MpcWalletsWalletIdSignStartPost200Response> {
         const response = await this.v1MpcWalletsWalletIdSignStartPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
