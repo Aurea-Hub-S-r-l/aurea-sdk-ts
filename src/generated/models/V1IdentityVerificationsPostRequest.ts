@@ -32,7 +32,7 @@ export interface V1IdentityVerificationsPostRequest {
      */
     purpose: V1IdentityVerificationsPostRequestPurposeEnum;
     /**
-     * 
+     * https or the app's own scheme. Accepted and checked; not passed to the hosted page, which ends on the flow's own completion page.
      */
     returnUrl?: string | null;
     /**

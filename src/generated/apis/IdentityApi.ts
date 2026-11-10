@@ -312,7 +312,7 @@ export class IdentityApi extends runtime.BaseAPI {
     }
 
     /**
-     * Verifies one of the tenant\'s users: a person (`kind: person`, KYC) or a company (`kind: company`, KYB), for a purpose (`bank_ramp`). 201 with a new verification, 200 with the live one (started, in review or verified: never a second one); a rejected or expired verification is replaced by a new one. While it is `started` the answer carries a fresh `verificationUrl`. `returnUrl` (https or the app\'s own scheme) is where the page sends the person back. Every change is sent as `identity.verification.updated`.
+     * Verifies one of the tenant\'s users: a person (`kind: person`, KYC) or a company (`kind: company`, KYB), for a purpose (`bank_ramp`). 201 with a new verification, 200 with the live one (started, in review or verified: never a second one); a rejected or expired verification is replaced by a new one. While it is `started` the answer carries a fresh `verificationUrl`. `returnUrl` (https or the app\'s own scheme) is accepted and checked, but the hosted page does not use it: when the person is done the page shows the verification flow\'s own completion page, and the result reaches the tenant as `identity.verification.updated`. Every change is sent as `identity.verification.updated`.
      * Start or continue a user\'s identity verification
      */
     async v1IdentityVerificationsPostRaw(requestParameters: V1IdentityVerificationsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1IdentityVerificationsPost200Response>> {
@@ -323,7 +323,7 @@ export class IdentityApi extends runtime.BaseAPI {
     }
 
     /**
-     * Verifies one of the tenant\'s users: a person (`kind: person`, KYC) or a company (`kind: company`, KYB), for a purpose (`bank_ramp`). 201 with a new verification, 200 with the live one (started, in review or verified: never a second one); a rejected or expired verification is replaced by a new one. While it is `started` the answer carries a fresh `verificationUrl`. `returnUrl` (https or the app\'s own scheme) is where the page sends the person back. Every change is sent as `identity.verification.updated`.
+     * Verifies one of the tenant\'s users: a person (`kind: person`, KYC) or a company (`kind: company`, KYB), for a purpose (`bank_ramp`). 201 with a new verification, 200 with the live one (started, in review or verified: never a second one); a rejected or expired verification is replaced by a new one. While it is `started` the answer carries a fresh `verificationUrl`. `returnUrl` (https or the app\'s own scheme) is accepted and checked, but the hosted page does not use it: when the person is done the page shows the verification flow\'s own completion page, and the result reaches the tenant as `identity.verification.updated`. Every change is sent as `identity.verification.updated`.
      * Start or continue a user\'s identity verification
      */
     async v1IdentityVerificationsPost(requestParameters: V1IdentityVerificationsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1IdentityVerificationsPost200Response> {

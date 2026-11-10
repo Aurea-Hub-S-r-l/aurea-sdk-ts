@@ -484,6 +484,8 @@ export const V1QuorumRequestsGetActionEnum = {
     TenantWalletEmbedKeyCreate: 'tenant.wallet_embed_key.create',
     TenantWalletEmbedKeyOrigins: 'tenant.wallet_embed_key.origins',
     TenantWalletEmbedKeyRevoke: 'tenant.wallet_embed_key.revoke',
+    CredentialsIdentityPlatformChange: 'credentials.identity_platform.change',
+    CredentialsIdentityWebhookEndpointChange: 'credentials.identity_webhook_endpoint.change',
     CredentialsBankRampWebhookSecretChange: 'credentials.bank_ramp_webhook_secret.change',
     CredentialsServerCredentialCreate: 'credentials.server_credential.create',
     CredentialsServerCredentialUpdate: 'credentials.server_credential.update',

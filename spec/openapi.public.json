@@ -63571,7 +63571,7 @@
     "tags": [
      "address-book"
     ],
-    "description": "A new entry, pending its approval: internal (`walletId`: one of the tenant's wallets, its address resolved), external (`family`, `network`, `address`, an optional `chain`) or contract (`network`, `chain`, `address`: EVM, and the address must hold code on that chain — 422 ADDRESS_BOOK_ADDRESS_NOT_A_CONTRACT, 503 ADDRESS_BOOK_CONTRACT_UNVERIFIED when the platform's node cannot tell). A mixed-case EVM address with a wrong checksum is refused (400 ADDRESS_BOOK_ADDRESS_CHECKSUM_INVALID). 409 ADDRESS_BOOK_ENTRY_EXISTS when a live entry already holds the address. On the caller's own tenant.",
+    "description": "A new entry, cooling from its request until `activeAt` (the tenant's cooling period, an institutional tenant's at least 24 hours; active at once with none): there is no approval step, and `approval.approvedBy` is null. An external address the tenant requires to be proven waits in pending_approval for its proof, which starts its cooling. Internal (`walletId`: one of the tenant's wallets, its address resolved), external (`family`, `network`, `address`, an optional `chain`) or contract (`network`, `chain`, `address`: EVM, and the address must hold code on that chain — 422 ADDRESS_BOOK_ADDRESS_NOT_A_CONTRACT, 503 ADDRESS_BOOK_CONTRACT_UNVERIFIED when the platform's node cannot tell). A mixed-case EVM address with a wrong checksum is refused (400 ADDRESS_BOOK_ADDRESS_CHECKSUM_INVALID). 409 ADDRESS_BOOK_ENTRY_EXISTS when a live entry already holds the address. On the caller's own tenant.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -64540,7 +64540,7 @@
     "tags": [
      "address-book"
     ],
-    "description": "Its label, tags and customerRefId change at once. A new address (`address`, `network`, `chain`; an internal entry's `walletId`) sends the entry back to pending_approval as its next version, unproven: it is approved again and cools again. A rejected or removed entry never changes (409 ADDRESS_BOOK_ENTRY_FINAL). On the caller's own tenant.",
+    "description": "Its label, tags and customerRefId change at once. A new address (`address`, `network`, `chain`; an internal entry's `walletId`) is the entry's next version, unproven: it cools again from this request (an external address the tenant requires to be proven waits in pending_approval for its proof). A rejected or removed entry never changes (409 ADDRESS_BOOK_ENTRY_FINAL). On the caller's own tenant.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -65405,7 +65405,7 @@
     "tags": [
      "address-book"
     ],
-    "description": "pending_approval → cooling until `activeAt` (the tenant's cooling period; active at once with none). Where the tenant's quorum applies (an institutional tenant, or two administrators or more) someone other than who asked approves (403 ADDRESS_BOOK_QUORUM_REQUESTER). Where the tenant requires a proof, an external address is proven first (409 ADDRESS_BOOK_PROOF_REQUIRED). On the caller's own tenant.",
+    "description": "There is no approval step: an entry cools from its request. An entry still in pending_approval (asked for while approvals were required, or an external address waiting for the proof its tenant requires) starts its cooling until `activeAt`, by any of the tenant's administrators; where the tenant requires a proof, an external address is proven first (409 ADDRESS_BOOK_PROOF_REQUIRED). A cooling or active entry has nothing to approve: 409 ADDRESS_BOOK_ENTRY_NOT_PENDING (`details.approvalStep`: none). On the caller's own tenant.",
     "parameters": [
      {
       "schema": {
@@ -65810,7 +65810,7 @@
     "tags": [
      "address-book"
     ],
-    "description": "pending_approval → rejected (final). Who asked may withdraw it this way. On the caller's own tenant.",
+    "description": "pending_approval → rejected (final); cooling → removed (final): the entry is withdrawn before it is active, as DELETE removes it. An active entry is removed with DELETE (409 ADDRESS_BOOK_ENTRY_NOT_PENDING). On the caller's own tenant.",
     "parameters": [
      {
       "schema": {
@@ -66355,7 +66355,7 @@
     "tags": [
      "address-book"
     ],
-    "description": "A signature over one of the entry's challenges. Valid: the entry is proven (its proof's method and time). Wrong or unreadable: 400 ADDRESS_BOOK_SIGNATURE_WRONG_SIGNER / ADDRESS_BOOK_SIGNATURE_MALFORMED with `attemptsLeft`, the fifth 409 ADDRESS_BOOK_CHALLENGE_BURNT; expired 410, used 409, issued for an earlier address 409 ADDRESS_BOOK_CHALLENGE_STALE. On the caller's own tenant.",
+    "description": "A signature over one of the entry's challenges. Valid: the entry is proven (its proof's method and time), and an entry waiting in pending_approval starts its cooling from its proof. Wrong or unreadable: 400 ADDRESS_BOOK_SIGNATURE_WRONG_SIGNER / ADDRESS_BOOK_SIGNATURE_MALFORMED with `attemptsLeft`, the fifth 409 ADDRESS_BOOK_CHALLENGE_BURNT; expired 410, used 409, issued for an earlier address 409 ADDRESS_BOOK_CHALLENGE_STALE. On the caller's own tenant.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -68679,7 +68679,7 @@
     "tags": [
      "identity"
     ],
-    "description": "Verifies one of the tenant's users: a person (`kind: person`, KYC) or a company (`kind: company`, KYB), for a purpose (`bank_ramp`). 201 with a new verification, 200 with the live one (started, in review or verified: never a second one); a rejected or expired verification is replaced by a new one. While it is `started` the answer carries a fresh `verificationUrl`. `returnUrl` (https or the app's own scheme) is where the page sends the person back. Every change is sent as `identity.verification.updated`.",
+    "description": "Verifies one of the tenant's users: a person (`kind: person`, KYC) or a company (`kind: company`, KYB), for a purpose (`bank_ramp`). 201 with a new verification, 200 with the live one (started, in review or verified: never a second one); a rejected or expired verification is replaced by a new one. While it is `started` the answer carries a fresh `verificationUrl`. `returnUrl` (https or the app's own scheme) is accepted and checked, but the hosted page does not use it: when the person is done the page shows the verification flow's own completion page, and the result reaches the tenant as `identity.verification.updated`. Every change is sent as `identity.verification.updated`.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -68714,7 +68714,8 @@
            "string",
            "null"
           ],
-          "maxLength": 2048
+          "maxLength": 2048,
+          "description": "https or the app's own scheme. Accepted and checked; not passed to the hosted page, which ends on the flow's own completion page."
          },
          "isTestnet": {
           "type": "boolean",
@@ -69723,7 +69724,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "The cases, newest first. On the caller's own tenant.",
+    "description": "The cases, newest first. On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "parameters": [
      {
       "schema": {
@@ -70374,7 +70375,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "The case, its screening and its comments. On the caller's own tenant.",
+    "description": "The case, its screening and its comments. On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "parameters": [
      {
       "schema": {
@@ -71017,7 +71018,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "Who works the case (null: nobody); an open case only (409 AML_CASE_DECIDED). On the caller's own tenant.",
+    "description": "Who works the case (null: nobody); an open case only (409 AML_CASE_DECIDED). On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -71664,7 +71665,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "A comment kept with the case (the audit trail records that one was written, never its text). On the caller's own tenant.",
+    "description": "A comment kept with the case (the audit trail records that one was written, never its text). On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -71860,7 +71861,7 @@
     "tags": [
      "aml-cases"
     ],
-    "description": "Once (409 AML_CASE_DECIDED): release or confirm, with a written reason. Audited, and told to the tenant's endpoints that name aml_case.released or aml_case.confirmed. On the caller's own tenant.",
+    "description": "Once (409 AML_CASE_DECIDED): release or confirm, with a written reason. Audited, and told to the tenant's endpoints that name aml_case.released or aml_case.confirmed. On the caller's own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.",
     "requestBody": {
      "content": {
       "application/json": {
@@ -86160,6 +86161,8 @@
         "tenant.wallet_embed_key.create",
         "tenant.wallet_embed_key.origins",
         "tenant.wallet_embed_key.revoke",
+        "credentials.identity_platform.change",
+        "credentials.identity_webhook_endpoint.change",
         "credentials.bank_ramp_webhook_secret.change",
         "credentials.server_credential.create",
         "credentials.server_credential.update",
