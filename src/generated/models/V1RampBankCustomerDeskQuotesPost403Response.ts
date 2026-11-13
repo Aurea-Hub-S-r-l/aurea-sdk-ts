@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * The tenant or user is frozen
+ * No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), or the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`)
  * @export
- * @interface V1AgentPaymentsStatusGet423Response
+ * @interface V1RampBankCustomerDeskQuotesPost403Response
  */
-export interface V1AgentPaymentsStatusGet423Response {
+export interface V1RampBankCustomerDeskQuotesPost403Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1AgentPaymentsStatusGet423Response {
 }
 
 /**
- * Check if a given object implements the V1AgentPaymentsStatusGet423Response interface.
+ * Check if a given object implements the V1RampBankCustomerDeskQuotesPost403Response interface.
  */
-export function instanceOfV1AgentPaymentsStatusGet423Response(value: object): value is V1AgentPaymentsStatusGet423Response {
+export function instanceOfV1RampBankCustomerDeskQuotesPost403Response(value: object): value is V1RampBankCustomerDeskQuotesPost403Response {
     return true;
 }
 
-export function V1AgentPaymentsStatusGet423ResponseFromJSON(json: any): V1AgentPaymentsStatusGet423Response {
-    return V1AgentPaymentsStatusGet423ResponseFromJSONTyped(json, false);
+export function V1RampBankCustomerDeskQuotesPost403ResponseFromJSON(json: any): V1RampBankCustomerDeskQuotesPost403Response {
+    return V1RampBankCustomerDeskQuotesPost403ResponseFromJSONTyped(json, false);
 }
 
-export function V1AgentPaymentsStatusGet423ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1AgentPaymentsStatusGet423Response {
+export function V1RampBankCustomerDeskQuotesPost403ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerDeskQuotesPost403Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1AgentPaymentsStatusGet423ResponseFromJSONTyped(json: any, igno
     };
 }
 
-export function V1AgentPaymentsStatusGet423ResponseToJSON(json: any): V1AgentPaymentsStatusGet423Response {
-    return V1AgentPaymentsStatusGet423ResponseToJSONTyped(json, false);
+export function V1RampBankCustomerDeskQuotesPost403ResponseToJSON(json: any): V1RampBankCustomerDeskQuotesPost403Response {
+    return V1RampBankCustomerDeskQuotesPost403ResponseToJSONTyped(json, false);
 }
 
-export function V1AgentPaymentsStatusGet423ResponseToJSONTyped(value?: V1AgentPaymentsStatusGet423Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1RampBankCustomerDeskQuotesPost403ResponseToJSONTyped(value?: V1RampBankCustomerDeskQuotesPost403Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

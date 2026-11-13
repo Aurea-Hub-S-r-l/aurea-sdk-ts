@@ -83,6 +83,7 @@ export const V1AdminTenantsIdWebhooksGet200ResponseWebhooksInnerEventTypesEnum =
     RampWithdrawalUpdated: 'ramp.withdrawal.updated',
     RampDeskOrderUpdated: 'ramp.desk_order.updated',
     RampCollectionReversed: 'ramp.collection.reversed',
+    RampAccountUpdated: 'ramp.account.updated',
 } as const;
 export type V1AdminTenantsIdWebhooksGet200ResponseWebhooksInnerEventTypesEnum = typeof V1AdminTenantsIdWebhooksGet200ResponseWebhooksInnerEventTypesEnum[keyof typeof V1AdminTenantsIdWebhooksGet200ResponseWebhooksInnerEventTypesEnum];
 

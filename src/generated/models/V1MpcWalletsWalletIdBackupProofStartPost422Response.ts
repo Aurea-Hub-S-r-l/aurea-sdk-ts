@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * The role cannot run MPC ceremonies, or the wallet is not the caller's (MPC_WALLET_NOT_OWNED)
+ * `prepared` is not a message prepared for this wallet and user, or `approval` is not an approval, or only one of the two was sent (BACKUP_PROOF_PREPARED_INVALID)
  * @export
- * @interface V1MpcWalletsWalletIdBackupProofStartPost403Response
+ * @interface V1MpcWalletsWalletIdBackupProofStartPost422Response
  */
-export interface V1MpcWalletsWalletIdBackupProofStartPost403Response {
+export interface V1MpcWalletsWalletIdBackupProofStartPost422Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1MpcWalletsWalletIdBackupProofStartPost403Response {
 }
 
 /**
- * Check if a given object implements the V1MpcWalletsWalletIdBackupProofStartPost403Response interface.
+ * Check if a given object implements the V1MpcWalletsWalletIdBackupProofStartPost422Response interface.
  */
-export function instanceOfV1MpcWalletsWalletIdBackupProofStartPost403Response(value: object): value is V1MpcWalletsWalletIdBackupProofStartPost403Response {
+export function instanceOfV1MpcWalletsWalletIdBackupProofStartPost422Response(value: object): value is V1MpcWalletsWalletIdBackupProofStartPost422Response {
     return true;
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost403ResponseFromJSON(json: any): V1MpcWalletsWalletIdBackupProofStartPost403Response {
-    return V1MpcWalletsWalletIdBackupProofStartPost403ResponseFromJSONTyped(json, false);
+export function V1MpcWalletsWalletIdBackupProofStartPost422ResponseFromJSON(json: any): V1MpcWalletsWalletIdBackupProofStartPost422Response {
+    return V1MpcWalletsWalletIdBackupProofStartPost422ResponseFromJSONTyped(json, false);
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost403ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1MpcWalletsWalletIdBackupProofStartPost403Response {
+export function V1MpcWalletsWalletIdBackupProofStartPost422ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1MpcWalletsWalletIdBackupProofStartPost422Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1MpcWalletsWalletIdBackupProofStartPost403ResponseFromJSONTyped
     };
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost403ResponseToJSON(json: any): V1MpcWalletsWalletIdBackupProofStartPost403Response {
-    return V1MpcWalletsWalletIdBackupProofStartPost403ResponseToJSONTyped(json, false);
+export function V1MpcWalletsWalletIdBackupProofStartPost422ResponseToJSON(json: any): V1MpcWalletsWalletIdBackupProofStartPost422Response {
+    return V1MpcWalletsWalletIdBackupProofStartPost422ResponseToJSONTyped(json, false);
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost403ResponseToJSONTyped(value?: V1MpcWalletsWalletIdBackupProofStartPost403Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1MpcWalletsWalletIdBackupProofStartPost422ResponseToJSONTyped(value?: V1MpcWalletsWalletIdBackupProofStartPost422Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

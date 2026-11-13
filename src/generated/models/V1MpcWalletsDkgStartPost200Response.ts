@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from '../runtime';
+import type { V1MpcWalletsDkgStartPost200ResponsePreparation } from './V1MpcWalletsDkgStartPost200ResponsePreparation';
+import {
+    V1MpcWalletsDkgStartPost200ResponsePreparationFromJSON,
+    V1MpcWalletsDkgStartPost200ResponsePreparationFromJSONTyped,
+    V1MpcWalletsDkgStartPost200ResponsePreparationToJSON,
+    V1MpcWalletsDkgStartPost200ResponsePreparationToJSONTyped,
+} from './V1MpcWalletsDkgStartPost200ResponsePreparation';
+
 /**
  * The DKG session the device joins, and the id the wallet will have
  * @export
@@ -28,6 +36,14 @@ export interface V1MpcWalletsDkgStartPost200Response {
      * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     walletId?: string | null;
+    /**
+     * Only when the request sent `approvalBinding`: whether the cosigner's grant carries it (true: send the approval key inside the DKG; false: it was dropped — relay version 1 — and the key must not be sent)
+     */
+    approvalBinding?: boolean;
+    /**
+     * 
+     */
+    preparation?: V1MpcWalletsDkgStartPost200ResponsePreparation;
 }
 
 /**
@@ -50,6 +66,8 @@ export function V1MpcWalletsDkgStartPost200ResponseFromJSONTyped(json: any, igno
             ...json,
         'sessionId': json['sessionId'] == null ? undefined : json['sessionId'],
         'walletId': json['walletId'] === undefined ? undefined : json['walletId'] === null ? null : json['walletId'],
+        'approvalBinding': json['approvalBinding'] == null ? undefined : json['approvalBinding'],
+        'preparation': json['preparation'] == null ? undefined : V1MpcWalletsDkgStartPost200ResponsePreparationFromJSON(json['preparation']),
     };
 }
 
@@ -67,6 +85,8 @@ export function V1MpcWalletsDkgStartPost200ResponseToJSONTyped(value?: V1MpcWall
             ...value,
         'sessionId': value['sessionId'],
         'walletId': value['walletId'],
+        'approvalBinding': value['approvalBinding'],
+        'preparation': V1MpcWalletsDkgStartPost200ResponsePreparationToJSON(value['preparation']),
     };
 }
 

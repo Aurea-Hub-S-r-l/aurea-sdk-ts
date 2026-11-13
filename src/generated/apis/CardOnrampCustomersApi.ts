@@ -72,11 +72,11 @@ export interface V1RampCardCustomersExternalIdGetRequest {
     /**
      * Unix time in seconds; a call more than 300 seconds from the Hub's clock is refused
      */
-    xTimestamp?: string | null;
+    xTimestamp?: string;
     /**
      * hex HMAC-SHA256 with the tenant's API secret of METHOD + \n + PATH (with its query) + \n + x-timestamp + \n + hex SHA-256 of the exact body (of an empty body without one). A signature is accepted once.
      */
-    xSignature?: string | null;
+    xSignature?: string;
 }
 
 export interface V1RampCardCustomersExternalIdPutRequest {

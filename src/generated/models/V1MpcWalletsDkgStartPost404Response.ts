@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * The id is not a UUID
+ * The `preparation` sent is not one of the caller's (MPC_PREPARATION_NOT_FOUND): nothing was used up
  * @export
- * @interface V1TransactionsAggregatedIdGet400Response
+ * @interface V1MpcWalletsDkgStartPost404Response
  */
-export interface V1TransactionsAggregatedIdGet400Response {
+export interface V1MpcWalletsDkgStartPost404Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1TransactionsAggregatedIdGet400Response {
 }
 
 /**
- * Check if a given object implements the V1TransactionsAggregatedIdGet400Response interface.
+ * Check if a given object implements the V1MpcWalletsDkgStartPost404Response interface.
  */
-export function instanceOfV1TransactionsAggregatedIdGet400Response(value: object): value is V1TransactionsAggregatedIdGet400Response {
+export function instanceOfV1MpcWalletsDkgStartPost404Response(value: object): value is V1MpcWalletsDkgStartPost404Response {
     return true;
 }
 
-export function V1TransactionsAggregatedIdGet400ResponseFromJSON(json: any): V1TransactionsAggregatedIdGet400Response {
-    return V1TransactionsAggregatedIdGet400ResponseFromJSONTyped(json, false);
+export function V1MpcWalletsDkgStartPost404ResponseFromJSON(json: any): V1MpcWalletsDkgStartPost404Response {
+    return V1MpcWalletsDkgStartPost404ResponseFromJSONTyped(json, false);
 }
 
-export function V1TransactionsAggregatedIdGet400ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1TransactionsAggregatedIdGet400Response {
+export function V1MpcWalletsDkgStartPost404ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1MpcWalletsDkgStartPost404Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1TransactionsAggregatedIdGet400ResponseFromJSONTyped(json: any,
     };
 }
 
-export function V1TransactionsAggregatedIdGet400ResponseToJSON(json: any): V1TransactionsAggregatedIdGet400Response {
-    return V1TransactionsAggregatedIdGet400ResponseToJSONTyped(json, false);
+export function V1MpcWalletsDkgStartPost404ResponseToJSON(json: any): V1MpcWalletsDkgStartPost404Response {
+    return V1MpcWalletsDkgStartPost404ResponseToJSONTyped(json, false);
 }
 
-export function V1TransactionsAggregatedIdGet400ResponseToJSONTyped(value?: V1TransactionsAggregatedIdGet400Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1MpcWalletsDkgStartPost404ResponseToJSONTyped(value?: V1MpcWalletsDkgStartPost404Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

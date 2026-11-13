@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * The wallet id is not a UUID, or the body is not valid
+ * The module is off (`MODULE_NOT_ENABLED`)
  * @export
- * @interface V1MpcWalletsWalletIdBackupProofStartPost400Response
+ * @interface V1IdentityVerificationsIdGet403Response
  */
-export interface V1MpcWalletsWalletIdBackupProofStartPost400Response {
+export interface V1IdentityVerificationsIdGet403Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1MpcWalletsWalletIdBackupProofStartPost400Response {
 }
 
 /**
- * Check if a given object implements the V1MpcWalletsWalletIdBackupProofStartPost400Response interface.
+ * Check if a given object implements the V1IdentityVerificationsIdGet403Response interface.
  */
-export function instanceOfV1MpcWalletsWalletIdBackupProofStartPost400Response(value: object): value is V1MpcWalletsWalletIdBackupProofStartPost400Response {
+export function instanceOfV1IdentityVerificationsIdGet403Response(value: object): value is V1IdentityVerificationsIdGet403Response {
     return true;
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseFromJSON(json: any): V1MpcWalletsWalletIdBackupProofStartPost400Response {
-    return V1MpcWalletsWalletIdBackupProofStartPost400ResponseFromJSONTyped(json, false);
+export function V1IdentityVerificationsIdGet403ResponseFromJSON(json: any): V1IdentityVerificationsIdGet403Response {
+    return V1IdentityVerificationsIdGet403ResponseFromJSONTyped(json, false);
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1MpcWalletsWalletIdBackupProofStartPost400Response {
+export function V1IdentityVerificationsIdGet403ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1IdentityVerificationsIdGet403Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseFromJSONTyped
     };
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseToJSON(json: any): V1MpcWalletsWalletIdBackupProofStartPost400Response {
-    return V1MpcWalletsWalletIdBackupProofStartPost400ResponseToJSONTyped(json, false);
+export function V1IdentityVerificationsIdGet403ResponseToJSON(json: any): V1IdentityVerificationsIdGet403Response {
+    return V1IdentityVerificationsIdGet403ResponseToJSONTyped(json, false);
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseToJSONTyped(value?: V1MpcWalletsWalletIdBackupProofStartPost400Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1IdentityVerificationsIdGet403ResponseToJSONTyped(value?: V1IdentityVerificationsIdGet403Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
