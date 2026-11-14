@@ -13,6 +13,13 @@
  */
 
 import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
+import type { V1RampBankCustomerAccountsPost200ResponseBalancesInner } from './V1RampBankCustomerAccountsPost200ResponseBalancesInner';
+import {
+    V1RampBankCustomerAccountsPost200ResponseBalancesInnerFromJSON,
+    V1RampBankCustomerAccountsPost200ResponseBalancesInnerFromJSONTyped,
+    V1RampBankCustomerAccountsPost200ResponseBalancesInnerToJSON,
+    V1RampBankCustomerAccountsPost200ResponseBalancesInnerToJSONTyped,
+} from './V1RampBankCustomerAccountsPost200ResponseBalancesInner';
 import type { V1RampBankCustomerVerificationGet200ResponseAccountCapabilities } from './V1RampBankCustomerVerificationGet200ResponseAccountCapabilities';
 import {
     V1RampBankCustomerVerificationGet200ResponseAccountCapabilitiesFromJSON,
@@ -41,40 +48,33 @@ import {
     V1RampBankCustomerVerificationGet200ResponseAccountNextStepToJSON,
     V1RampBankCustomerVerificationGet200ResponseAccountNextStepToJSONTyped,
 } from './V1RampBankCustomerVerificationGet200ResponseAccountNextStep';
-import type { V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInner } from './V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInner';
-import {
-    V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInnerFromJSON,
-    V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInnerFromJSONTyped,
-    V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInnerToJSON,
-    V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInnerToJSONTyped,
-} from './V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInner';
 
 /**
  * 
  * @export
- * @interface V1RampBankCustomerVerificationDocumentsPost201Response
+ * @interface V1RampBankCustomerAccountsPost200Response
  */
-export interface V1RampBankCustomerVerificationDocumentsPost201Response {
+export interface V1RampBankCustomerAccountsPost200Response {
     /**
      * 
      */
-    environment: V1RampBankCustomerVerificationDocumentsPost201ResponseEnvironmentEnum;
+    environment: V1RampBankCustomerAccountsPost200ResponseEnvironmentEnum;
     /**
      * 
      */
-    currency: V1RampBankCustomerVerificationDocumentsPost201ResponseCurrencyEnum;
+    currency: V1RampBankCustomerAccountsPost200ResponseCurrencyEnum;
     /**
      * 
      */
-    rail: V1RampBankCustomerVerificationDocumentsPost201ResponseRailEnum;
+    rail: V1RampBankCustomerAccountsPost200ResponseRailEnum;
     /**
      * 
      */
-    custody: V1RampBankCustomerVerificationDocumentsPost201ResponseCustodyEnum | null;
+    custody: V1RampBankCustomerAccountsPost200ResponseCustodyEnum | null;
     /**
      * 
      */
-    status: V1RampBankCustomerVerificationDocumentsPost201ResponseStatusEnum | null;
+    status: V1RampBankCustomerAccountsPost200ResponseStatusEnum | null;
     /**
      * 
      */
@@ -94,7 +94,7 @@ export interface V1RampBankCustomerVerificationDocumentsPost201Response {
     /**
      * 
      */
-    balances: Array<V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInner>;
+    balances: Array<V1RampBankCustomerAccountsPost200ResponseBalancesInner>;
     /**
      * 
      */
@@ -105,43 +105,43 @@ export interface V1RampBankCustomerVerificationDocumentsPost201Response {
 /**
  * @export
  */
-export const V1RampBankCustomerVerificationDocumentsPost201ResponseEnvironmentEnum = {
+export const V1RampBankCustomerAccountsPost200ResponseEnvironmentEnum = {
     Production: 'production',
     Sandbox: 'sandbox',
 } as const;
-export type V1RampBankCustomerVerificationDocumentsPost201ResponseEnvironmentEnum = typeof V1RampBankCustomerVerificationDocumentsPost201ResponseEnvironmentEnum[keyof typeof V1RampBankCustomerVerificationDocumentsPost201ResponseEnvironmentEnum];
+export type V1RampBankCustomerAccountsPost200ResponseEnvironmentEnum = typeof V1RampBankCustomerAccountsPost200ResponseEnvironmentEnum[keyof typeof V1RampBankCustomerAccountsPost200ResponseEnvironmentEnum];
 
 /**
  * @export
  */
-export const V1RampBankCustomerVerificationDocumentsPost201ResponseCurrencyEnum = {
+export const V1RampBankCustomerAccountsPost200ResponseCurrencyEnum = {
     Usd: 'USD',
 } as const;
-export type V1RampBankCustomerVerificationDocumentsPost201ResponseCurrencyEnum = typeof V1RampBankCustomerVerificationDocumentsPost201ResponseCurrencyEnum[keyof typeof V1RampBankCustomerVerificationDocumentsPost201ResponseCurrencyEnum];
+export type V1RampBankCustomerAccountsPost200ResponseCurrencyEnum = typeof V1RampBankCustomerAccountsPost200ResponseCurrencyEnum[keyof typeof V1RampBankCustomerAccountsPost200ResponseCurrencyEnum];
 
 /**
  * @export
  */
-export const V1RampBankCustomerVerificationDocumentsPost201ResponseRailEnum = {
+export const V1RampBankCustomerAccountsPost200ResponseRailEnum = {
     UsdAccount: 'usd_account',
     BankRamp: 'bank_ramp',
     None: 'none',
 } as const;
-export type V1RampBankCustomerVerificationDocumentsPost201ResponseRailEnum = typeof V1RampBankCustomerVerificationDocumentsPost201ResponseRailEnum[keyof typeof V1RampBankCustomerVerificationDocumentsPost201ResponseRailEnum];
+export type V1RampBankCustomerAccountsPost200ResponseRailEnum = typeof V1RampBankCustomerAccountsPost200ResponseRailEnum[keyof typeof V1RampBankCustomerAccountsPost200ResponseRailEnum];
 
 /**
  * @export
  */
-export const V1RampBankCustomerVerificationDocumentsPost201ResponseCustodyEnum = {
+export const V1RampBankCustomerAccountsPost200ResponseCustodyEnum = {
     Custodial: 'custodial',
     SelfCustody: 'self_custody',
 } as const;
-export type V1RampBankCustomerVerificationDocumentsPost201ResponseCustodyEnum = typeof V1RampBankCustomerVerificationDocumentsPost201ResponseCustodyEnum[keyof typeof V1RampBankCustomerVerificationDocumentsPost201ResponseCustodyEnum];
+export type V1RampBankCustomerAccountsPost200ResponseCustodyEnum = typeof V1RampBankCustomerAccountsPost200ResponseCustodyEnum[keyof typeof V1RampBankCustomerAccountsPost200ResponseCustodyEnum];
 
 /**
  * @export
  */
-export const V1RampBankCustomerVerificationDocumentsPost201ResponseStatusEnum = {
+export const V1RampBankCustomerAccountsPost200ResponseStatusEnum = {
     NotOpened: 'not_opened',
     Opening: 'opening',
     Incomplete: 'incomplete',
@@ -151,13 +151,13 @@ export const V1RampBankCustomerVerificationDocumentsPost201ResponseStatusEnum = 
     Rejected: 'rejected',
     Suspended: 'suspended',
 } as const;
-export type V1RampBankCustomerVerificationDocumentsPost201ResponseStatusEnum = typeof V1RampBankCustomerVerificationDocumentsPost201ResponseStatusEnum[keyof typeof V1RampBankCustomerVerificationDocumentsPost201ResponseStatusEnum];
+export type V1RampBankCustomerAccountsPost200ResponseStatusEnum = typeof V1RampBankCustomerAccountsPost200ResponseStatusEnum[keyof typeof V1RampBankCustomerAccountsPost200ResponseStatusEnum];
 
 
 /**
- * Check if a given object implements the V1RampBankCustomerVerificationDocumentsPost201Response interface.
+ * Check if a given object implements the V1RampBankCustomerAccountsPost200Response interface.
  */
-export function instanceOfV1RampBankCustomerVerificationDocumentsPost201Response(value: object): value is V1RampBankCustomerVerificationDocumentsPost201Response {
+export function instanceOfV1RampBankCustomerAccountsPost200Response(value: object): value is V1RampBankCustomerAccountsPost200Response {
     if (!('environment' in value) || value['environment'] === undefined) return false;
     if (!('currency' in value) || value['currency'] === undefined) return false;
     if (value['currency'] !== 'USD') return false;
@@ -174,11 +174,11 @@ export function instanceOfV1RampBankCustomerVerificationDocumentsPost201Response
     return true;
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost201ResponseFromJSON(json: any): V1RampBankCustomerVerificationDocumentsPost201Response {
-    return V1RampBankCustomerVerificationDocumentsPost201ResponseFromJSONTyped(json, false);
+export function V1RampBankCustomerAccountsPost200ResponseFromJSON(json: any): V1RampBankCustomerAccountsPost200Response {
+    return V1RampBankCustomerAccountsPost200ResponseFromJSONTyped(json, false);
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost201ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerVerificationDocumentsPost201Response {
+export function V1RampBankCustomerAccountsPost200ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerAccountsPost200Response {
     if (json == null) {
         return json;
     }
@@ -193,16 +193,16 @@ export function V1RampBankCustomerVerificationDocumentsPost201ResponseFromJSONTy
         'requirements': ((json['requirements'] as Array<any>).map(V1RampBankCustomerVerificationGet200ResponseAccountRequirementsInnerFromJSON)),
         'nextStep': V1RampBankCustomerVerificationGet200ResponseAccountNextStepFromJSON(json['nextStep']),
         'bankDetails': ((json['bankDetails'] as Array<any>).map(V1RampBankCustomerAccountsGet200ResponseBankDetailsInnerFromJSON)),
-        'balances': ((json['balances'] as Array<any>).map(V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInnerFromJSON)),
+        'balances': ((json['balances'] as Array<any>).map(V1RampBankCustomerAccountsPost200ResponseBalancesInnerFromJSON)),
         'updatedAt': (json['updatedAt'] == null ? null : parseDateTime(json['updatedAt'])),
     };
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost201ResponseToJSON(json: any): V1RampBankCustomerVerificationDocumentsPost201Response {
-    return V1RampBankCustomerVerificationDocumentsPost201ResponseToJSONTyped(json, false);
+export function V1RampBankCustomerAccountsPost200ResponseToJSON(json: any): V1RampBankCustomerAccountsPost200Response {
+    return V1RampBankCustomerAccountsPost200ResponseToJSONTyped(json, false);
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost201ResponseToJSONTyped(value?: V1RampBankCustomerVerificationDocumentsPost201Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1RampBankCustomerAccountsPost200ResponseToJSONTyped(value?: V1RampBankCustomerAccountsPost200Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }
@@ -218,7 +218,7 @@ export function V1RampBankCustomerVerificationDocumentsPost201ResponseToJSONType
         'requirements': ((value['requirements'] as Array<any>).map(V1RampBankCustomerVerificationGet200ResponseAccountRequirementsInnerToJSON)),
         'nextStep': V1RampBankCustomerVerificationGet200ResponseAccountNextStepToJSON(value['nextStep']),
         'bankDetails': ((value['bankDetails'] as Array<any>).map(V1RampBankCustomerAccountsGet200ResponseBankDetailsInnerToJSON)),
-        'balances': ((value['balances'] as Array<any>).map(V1RampBankCustomerVerificationDocumentsPost201ResponseBalancesInnerToJSON)),
+        'balances': ((value['balances'] as Array<any>).map(V1RampBankCustomerAccountsPost200ResponseBalancesInnerToJSON)),
         'updatedAt': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),
     };
 }

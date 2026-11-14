@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Not a document the account asks for, or not readable (`BANK_RAMP_VERIFICATION_DOCUMENT_INVALID`); the query is not valid (`BANK_RAMP_ACCOUNT_INVALID`)
+ * Not a document the account asks for, not a PDF, PNG or JPEG of at most 5,000,000 bytes (`BANK_RAMP_VERIFICATION_DOCUMENT_INVALID`), or a field not valid (`BANK_RAMP_ACCOUNT_INVALID`)
  * @export
  * @interface V1RampBankCustomerVerificationDocumentsPost400Response
  */

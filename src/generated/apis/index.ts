@@ -10,7 +10,6 @@ export * from './ApprovalsApi';
 export * from './AssetsApi';
 export * from './AuditApi';
 export * from './AuthApi';
-export * from './BankRampAccountsApi';
 export * from './BankRampAddressesApi';
 export * from './BankRampCurrenciesApi';
 export * from './BankRampCustomersApi';

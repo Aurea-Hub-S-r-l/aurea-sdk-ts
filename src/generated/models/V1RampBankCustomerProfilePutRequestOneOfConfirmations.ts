@@ -29,7 +29,7 @@ import {
 } from './V1RampBankCustomerProfilePutRequestOneOfConfirmationsTaxId';
 
 /**
- * What the person confirms beyond the identity verification: contact, residence and nationality, the residential address (else the verified document's, with `subdivisionCode`), the identity document's issue date, and a tax id.
+ * What the person confirms beyond the identity verification: contact, residence and nationality, the identity document's issue date (the verification does not give it), the residential `address` or, to use the verified document's address, its `subdivisionCode` (one of the two), and a tax id.
  * @export
  * @interface V1RampBankCustomerProfilePutRequestOneOfConfirmations
  */
@@ -61,7 +61,7 @@ export interface V1RampBankCustomerProfilePutRequestOneOfConfirmations {
     /**
      * 
      */
-    identityDocumentIssueDate?: Date;
+    identityDocumentIssueDate: Date;
     /**
      * 
      */
@@ -76,6 +76,7 @@ export function instanceOfV1RampBankCustomerProfilePutRequestOneOfConfirmations(
     if (!('phone' in value) || value['phone'] === undefined) return false;
     if (!('countryOfResidence' in value) || value['countryOfResidence'] === undefined) return false;
     if (!('nationality' in value) || value['nationality'] === undefined) return false;
+    if (!('identityDocumentIssueDate' in value) || value['identityDocumentIssueDate'] === undefined) return false;
     return true;
 }
 
@@ -95,7 +96,7 @@ export function V1RampBankCustomerProfilePutRequestOneOfConfirmationsFromJSONTyp
         'nationality': json['nationality'],
         'address': json['address'] == null ? undefined : V1RampBankCustomerProfilePutRequestOneOfConfirmationsAddressFromJSON(json['address']),
         'subdivisionCode': json['subdivisionCode'] == null ? undefined : json['subdivisionCode'],
-        'identityDocumentIssueDate': json['identityDocumentIssueDate'] == null ? undefined : (parseDate(json['identityDocumentIssueDate'])),
+        'identityDocumentIssueDate': (json['identityDocumentIssueDate'] == null ? json['identityDocumentIssueDate'] : parseDate(json['identityDocumentIssueDate'])),
         'taxId': json['taxId'] == null ? undefined : V1RampBankCustomerProfilePutRequestOneOfConfirmationsTaxIdFromJSON(json['taxId']),
     };
 }

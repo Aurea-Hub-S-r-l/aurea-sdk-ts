@@ -28,7 +28,7 @@ export interface V1RampBankCustomerProfileListsGet200ResponseIndustryCategoriesI
      */
     label: string | null;
     /**
-     * `not_served`: the bank ramp opens no USD account for such a business; `reviewed`: accepted after an enhanced review.
+     * `not_served`: the bank ramp opens no USD account for such a business; `reviewed`: accepted and noted for the bank ramp's monitoring; the account opens as any other.
      */
     outcome: V1RampBankCustomerProfileListsGet200ResponseIndustryCategoriesInnerOutcomeEnum;
 }

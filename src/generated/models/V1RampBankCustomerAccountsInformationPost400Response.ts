@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * `BANK_RAMP_USD_RAIL_UNAVAILABLE`, `BANK_RAMP_USD_EXISTING_RAIL` or `BANK_RAMP_USD_ACCOUNT_NOT_READY`, each with `details.nextStep`
+ * The body is not valid (`BANK_RAMP_ACCOUNT_INVALID`) or the details are not (`BANK_RAMP_ONBOARDING_INVALID`), `details.fields` names them
  * @export
- * @interface V1RampBankCustomerAccountsCustodyPut409Response
+ * @interface V1RampBankCustomerAccountsInformationPost400Response
  */
-export interface V1RampBankCustomerAccountsCustodyPut409Response {
+export interface V1RampBankCustomerAccountsInformationPost400Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1RampBankCustomerAccountsCustodyPut409Response {
 }
 
 /**
- * Check if a given object implements the V1RampBankCustomerAccountsCustodyPut409Response interface.
+ * Check if a given object implements the V1RampBankCustomerAccountsInformationPost400Response interface.
  */
-export function instanceOfV1RampBankCustomerAccountsCustodyPut409Response(value: object): value is V1RampBankCustomerAccountsCustodyPut409Response {
+export function instanceOfV1RampBankCustomerAccountsInformationPost400Response(value: object): value is V1RampBankCustomerAccountsInformationPost400Response {
     return true;
 }
 
-export function V1RampBankCustomerAccountsCustodyPut409ResponseFromJSON(json: any): V1RampBankCustomerAccountsCustodyPut409Response {
-    return V1RampBankCustomerAccountsCustodyPut409ResponseFromJSONTyped(json, false);
+export function V1RampBankCustomerAccountsInformationPost400ResponseFromJSON(json: any): V1RampBankCustomerAccountsInformationPost400Response {
+    return V1RampBankCustomerAccountsInformationPost400ResponseFromJSONTyped(json, false);
 }
 
-export function V1RampBankCustomerAccountsCustodyPut409ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerAccountsCustodyPut409Response {
+export function V1RampBankCustomerAccountsInformationPost400ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerAccountsInformationPost400Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1RampBankCustomerAccountsCustodyPut409ResponseFromJSONTyped(jso
     };
 }
 
-export function V1RampBankCustomerAccountsCustodyPut409ResponseToJSON(json: any): V1RampBankCustomerAccountsCustodyPut409Response {
-    return V1RampBankCustomerAccountsCustodyPut409ResponseToJSONTyped(json, false);
+export function V1RampBankCustomerAccountsInformationPost400ResponseToJSON(json: any): V1RampBankCustomerAccountsInformationPost400Response {
+    return V1RampBankCustomerAccountsInformationPost400ResponseToJSONTyped(json, false);
 }
 
-export function V1RampBankCustomerAccountsCustodyPut409ResponseToJSONTyped(value?: V1RampBankCustomerAccountsCustodyPut409Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1RampBankCustomerAccountsInformationPost400ResponseToJSONTyped(value?: V1RampBankCustomerAccountsInformationPost400Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

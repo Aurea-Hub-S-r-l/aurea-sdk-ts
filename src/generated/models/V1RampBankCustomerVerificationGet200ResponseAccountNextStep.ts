@@ -40,6 +40,8 @@ export const V1RampBankCustomerVerificationGet200ResponseAccountNextStepActionEn
     ProvideProofOfAddress: 'provide_proof_of_address',
     OperatorReview: 'operator_review',
     OpenAccount: 'open_account',
+    CompleteProfile: 'complete_profile',
+    UpdateProfile: 'update_profile',
     ProvideInformation: 'provide_information',
     UploadDocument: 'upload_document',
     AcceptTerms: 'accept_terms',

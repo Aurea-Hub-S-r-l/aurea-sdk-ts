@@ -143,6 +143,7 @@ export const V1AdminTenantsIdWebhookEndpointsGet200ResponseEndpointsInnerEventTy
     RampDeskOrderUpdated: 'ramp.desk_order.updated',
     RampCollectionReversed: 'ramp.collection.reversed',
     RampAccountUpdated: 'ramp.account.updated',
+    RampWalletTransferUpdated: 'ramp.wallet_transfer.updated',
     FiatProfileUpdated: 'fiat.profile.updated',
     FiatBankAccountUpdated: 'fiat.bank_account.updated',
     FiatVirtualAccountUpdated: 'fiat.virtual_account.updated',

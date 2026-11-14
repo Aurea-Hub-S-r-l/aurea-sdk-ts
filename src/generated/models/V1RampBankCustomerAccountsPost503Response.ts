@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * Larger than 5 MB
+ * `BANK_RAMP_ACCOUNT_OPERATION_UNAVAILABLE` or `BANK_RAMP_ONBOARDING_UNAVAILABLE`: not available yet (next step contact_support)
  * @export
- * @interface V1RampBankCustomerVerificationDocumentsPost413Response
+ * @interface V1RampBankCustomerAccountsPost503Response
  */
-export interface V1RampBankCustomerVerificationDocumentsPost413Response {
+export interface V1RampBankCustomerAccountsPost503Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1RampBankCustomerVerificationDocumentsPost413Response {
 }
 
 /**
- * Check if a given object implements the V1RampBankCustomerVerificationDocumentsPost413Response interface.
+ * Check if a given object implements the V1RampBankCustomerAccountsPost503Response interface.
  */
-export function instanceOfV1RampBankCustomerVerificationDocumentsPost413Response(value: object): value is V1RampBankCustomerVerificationDocumentsPost413Response {
+export function instanceOfV1RampBankCustomerAccountsPost503Response(value: object): value is V1RampBankCustomerAccountsPost503Response {
     return true;
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost413ResponseFromJSON(json: any): V1RampBankCustomerVerificationDocumentsPost413Response {
-    return V1RampBankCustomerVerificationDocumentsPost413ResponseFromJSONTyped(json, false);
+export function V1RampBankCustomerAccountsPost503ResponseFromJSON(json: any): V1RampBankCustomerAccountsPost503Response {
+    return V1RampBankCustomerAccountsPost503ResponseFromJSONTyped(json, false);
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost413ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerVerificationDocumentsPost413Response {
+export function V1RampBankCustomerAccountsPost503ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerAccountsPost503Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1RampBankCustomerVerificationDocumentsPost413ResponseFromJSONTy
     };
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost413ResponseToJSON(json: any): V1RampBankCustomerVerificationDocumentsPost413Response {
-    return V1RampBankCustomerVerificationDocumentsPost413ResponseToJSONTyped(json, false);
+export function V1RampBankCustomerAccountsPost503ResponseToJSON(json: any): V1RampBankCustomerAccountsPost503Response {
+    return V1RampBankCustomerAccountsPost503ResponseToJSONTyped(json, false);
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost413ResponseToJSONTyped(value?: V1RampBankCustomerVerificationDocumentsPost413Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1RampBankCustomerAccountsPost503ResponseToJSONTyped(value?: V1RampBankCustomerAccountsPost503Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

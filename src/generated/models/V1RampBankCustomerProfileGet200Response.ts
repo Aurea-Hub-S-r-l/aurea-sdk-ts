@@ -48,7 +48,7 @@ export interface V1RampBankCustomerProfileGet200Response {
      */
     prohibitedIndustryCategories: Array<string>;
     /**
-     * A reviewed industry category was answered: the account opens after an enhanced review.
+     * A reviewed industry category was answered: noted for the bank ramp's monitoring; the account opens as any other.
      */
     reviewRequired: boolean;
     /**
@@ -89,6 +89,7 @@ export const V1RampBankCustomerProfileGet200ResponseNextStepEnum = {
     Register: 'register',
     CompleteProfile: 'complete_profile',
     UpdateProfile: 'update_profile',
+    ContactSupport: 'contact_support',
     None: 'none',
 } as const;
 export type V1RampBankCustomerProfileGet200ResponseNextStepEnum = typeof V1RampBankCustomerProfileGet200ResponseNextStepEnum[keyof typeof V1RampBankCustomerProfileGet200ResponseNextStepEnum];

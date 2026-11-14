@@ -89,7 +89,7 @@ export interface V1RampBankCustomerProfilePutRequestOneOf1 {
      */
     industryCodes: Array<string>;
     /**
-     * The keys of the lists' `industryCategories` that describe the business; an empty list when none does. A `not_served` one is refused (422); a `reviewed` one is accepted and reviewed before the account opens.
+     * The keys of the lists' `industryCategories` that describe the business; an empty list when none does. A `not_served` one is refused (422); a `reviewed` one is accepted and noted (it does not hold the account's opening).
      */
     industryCategories: Array<string | null>;
     /**

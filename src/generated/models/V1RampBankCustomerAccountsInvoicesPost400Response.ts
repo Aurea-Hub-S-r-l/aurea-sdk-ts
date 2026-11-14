@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * Not a PDF, PNG or JPEG
+ * Not a PDF, PNG or JPEG of at most 5,000,000 bytes (`BANK_RAMP_VERIFICATION_DOCUMENT_INVALID`)
  * @export
- * @interface V1RampBankCustomerVerificationDocumentsPost415Response
+ * @interface V1RampBankCustomerAccountsInvoicesPost400Response
  */
-export interface V1RampBankCustomerVerificationDocumentsPost415Response {
+export interface V1RampBankCustomerAccountsInvoicesPost400Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1RampBankCustomerVerificationDocumentsPost415Response {
 }
 
 /**
- * Check if a given object implements the V1RampBankCustomerVerificationDocumentsPost415Response interface.
+ * Check if a given object implements the V1RampBankCustomerAccountsInvoicesPost400Response interface.
  */
-export function instanceOfV1RampBankCustomerVerificationDocumentsPost415Response(value: object): value is V1RampBankCustomerVerificationDocumentsPost415Response {
+export function instanceOfV1RampBankCustomerAccountsInvoicesPost400Response(value: object): value is V1RampBankCustomerAccountsInvoicesPost400Response {
     return true;
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost415ResponseFromJSON(json: any): V1RampBankCustomerVerificationDocumentsPost415Response {
-    return V1RampBankCustomerVerificationDocumentsPost415ResponseFromJSONTyped(json, false);
+export function V1RampBankCustomerAccountsInvoicesPost400ResponseFromJSON(json: any): V1RampBankCustomerAccountsInvoicesPost400Response {
+    return V1RampBankCustomerAccountsInvoicesPost400ResponseFromJSONTyped(json, false);
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost415ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerVerificationDocumentsPost415Response {
+export function V1RampBankCustomerAccountsInvoicesPost400ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerAccountsInvoicesPost400Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1RampBankCustomerVerificationDocumentsPost415ResponseFromJSONTy
     };
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost415ResponseToJSON(json: any): V1RampBankCustomerVerificationDocumentsPost415Response {
-    return V1RampBankCustomerVerificationDocumentsPost415ResponseToJSONTyped(json, false);
+export function V1RampBankCustomerAccountsInvoicesPost400ResponseToJSON(json: any): V1RampBankCustomerAccountsInvoicesPost400Response {
+    return V1RampBankCustomerAccountsInvoicesPost400ResponseToJSONTyped(json, false);
 }
 
-export function V1RampBankCustomerVerificationDocumentsPost415ResponseToJSONTyped(value?: V1RampBankCustomerVerificationDocumentsPost415Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1RampBankCustomerAccountsInvoicesPost400ResponseToJSONTyped(value?: V1RampBankCustomerAccountsInvoicesPost400Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

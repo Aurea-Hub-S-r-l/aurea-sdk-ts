@@ -1,6 +1,6 @@
 // Written by scripts/write-services.mjs from src/generated/apis: do not edit.
 import type { Configuration } from "./generated/runtime";
-import { AccountsApi, AddressBookApi, AdminApi, AgentPaymentsApi, AggregatedTransactionsApi, AmlCasesApi, ApprovalsApi, AssetsApi, AuditApi, AuthApi, BankRampAccountsApi, BankRampAddressesApi, BankRampCurrenciesApi, BankRampCustomersApi, BankRampDeskApi, BankRampLocalApi, BankRampPayinApi, BankRampPayoutApi, BankRampUsdAccountsApi, CardOnrampApi, CardOnrampCustomersApi, CardProgramApi, CardsApi, DappsApi, EarnApi, FeesApi, GasStationApi, GroupsApi, HealthApi, IdentityApi, LendingApi, MpcApi, NotificationsApi, OperationsApi, PoliciesApi, PortfolioApi, QuorumApi, ReportsApi, StructuresApi, SwapApi, SwapRoutesApi, TenantsApi, TokenizedAssetsApi, TokensApi, TransactionsApi, UsersApi, WalletsApi, WebhooksApi } from "./generated/apis";
+import { AccountsApi, AddressBookApi, AdminApi, AgentPaymentsApi, AggregatedTransactionsApi, AmlCasesApi, ApprovalsApi, AssetsApi, AuditApi, AuthApi, BankRampAddressesApi, BankRampCurrenciesApi, BankRampCustomersApi, BankRampDeskApi, BankRampLocalApi, BankRampPayinApi, BankRampPayoutApi, BankRampUsdAccountsApi, CardOnrampApi, CardOnrampCustomersApi, CardProgramApi, CardsApi, DappsApi, EarnApi, FeesApi, GasStationApi, GroupsApi, HealthApi, IdentityApi, LendingApi, MpcApi, NotificationsApi, OperationsApi, PoliciesApi, PortfolioApi, QuorumApi, ReportsApi, StructuresApi, SwapApi, SwapRoutesApi, TenantsApi, TokenizedAssetsApi, TokensApi, TransactionsApi, UsersApi, WalletsApi, WebhooksApi } from "./generated/apis";
 
 /** The generated API classes, one property each, created on first use. */
 export class Services {
@@ -43,9 +43,6 @@ export class Services {
   }
   get auth(): AuthApi {
     return this.#get(AuthApi);
-  }
-  get bankRampAccounts(): BankRampAccountsApi {
-    return this.#get(BankRampAccountsApi);
   }
   get bankRampAddresses(): BankRampAddressesApi {
     return this.#get(BankRampAddressesApi);

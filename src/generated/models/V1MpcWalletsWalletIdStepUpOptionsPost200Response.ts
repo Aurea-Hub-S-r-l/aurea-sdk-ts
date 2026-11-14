@@ -45,6 +45,7 @@ export interface V1MpcWalletsWalletIdStepUpOptionsPost200Response {
 export const V1MpcWalletsWalletIdStepUpOptionsPost200ResponseActionEnum = {
     MpcWalletRecoverySign: 'mpc_wallet.recovery_sign',
     MpcWalletSuccessor: 'mpc_wallet.successor',
+    MpcWalletApprovalRebind: 'mpc_wallet.approval_rebind',
 } as const;
 export type V1MpcWalletsWalletIdStepUpOptionsPost200ResponseActionEnum = typeof V1MpcWalletsWalletIdStepUpOptionsPost200ResponseActionEnum[keyof typeof V1MpcWalletsWalletIdStepUpOptionsPost200ResponseActionEnum];
 
