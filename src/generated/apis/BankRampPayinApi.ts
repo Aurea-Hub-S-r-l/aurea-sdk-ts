@@ -14,6 +14,11 @@
 
 import * as runtime from '../runtime';
 import {
+    type V1AuthAdminSendResetPost401Response,
+    V1AuthAdminSendResetPost401ResponseFromJSON,
+    V1AuthAdminSendResetPost401ResponseToJSON,
+} from '../models/V1AuthAdminSendResetPost401Response';
+import {
     type V1AuthPasskeysGet401Response,
     V1AuthPasskeysGet401ResponseFromJSON,
     V1AuthPasskeysGet401ResponseToJSON,
@@ -28,6 +33,11 @@ import {
     V1RampBankPayinInitiatePost201ResponseFromJSON,
     V1RampBankPayinInitiatePost201ResponseToJSON,
 } from '../models/V1RampBankPayinInitiatePost201Response';
+import {
+    type V1RampBankPayinInitiatePost202Response,
+    V1RampBankPayinInitiatePost202ResponseFromJSON,
+    V1RampBankPayinInitiatePost202ResponseToJSON,
+} from '../models/V1RampBankPayinInitiatePost202Response';
 import {
     type V1RampBankPayinInitiatePostRequest,
     V1RampBankPayinInitiatePostRequestFromJSON,
@@ -78,6 +88,31 @@ import {
     V1RampBankPayinTransactionsGet200ResponseFromJSON,
     V1RampBankPayinTransactionsGet200ResponseToJSON,
 } from '../models/V1RampBankPayinTransactionsGet200Response';
+import {
+    type V1RampBankPayinWaitingGet200Response,
+    V1RampBankPayinWaitingGet200ResponseFromJSON,
+    V1RampBankPayinWaitingGet200ResponseToJSON,
+} from '../models/V1RampBankPayinWaitingGet200Response';
+import {
+    type V1RampBankPayinWaitingGet403Response,
+    V1RampBankPayinWaitingGet403ResponseFromJSON,
+    V1RampBankPayinWaitingGet403ResponseToJSON,
+} from '../models/V1RampBankPayinWaitingGet403Response';
+import {
+    type V1RampBankPayinWaitingRequestIdCancelPost200Response,
+    V1RampBankPayinWaitingRequestIdCancelPost200ResponseFromJSON,
+    V1RampBankPayinWaitingRequestIdCancelPost200ResponseToJSON,
+} from '../models/V1RampBankPayinWaitingRequestIdCancelPost200Response';
+import {
+    type V1RampBankPayinWaitingRequestIdCancelPost400Response,
+    V1RampBankPayinWaitingRequestIdCancelPost400ResponseFromJSON,
+    V1RampBankPayinWaitingRequestIdCancelPost400ResponseToJSON,
+} from '../models/V1RampBankPayinWaitingRequestIdCancelPost400Response';
+import {
+    type V1RampBankPayinWaitingRequestIdCancelPost404Response,
+    V1RampBankPayinWaitingRequestIdCancelPost404ResponseFromJSON,
+    V1RampBankPayinWaitingRequestIdCancelPost404ResponseToJSON,
+} from '../models/V1RampBankPayinWaitingRequestIdCancelPost404Response';
 
 export interface V1RampBankPayinDepositsGetRequest {
     /**
@@ -173,6 +208,13 @@ export interface V1RampBankPayinTransactionsGetRequest {
      * The bank ramp's environment: true for sandbox, false or omitted for production.
      */
     isTestnet?: boolean;
+}
+
+export interface V1RampBankPayinWaitingRequestIdCancelPostRequest {
+    /**
+     * 
+     */
+    requestId: string | null;
 }
 
 /**
@@ -629,6 +671,108 @@ export class BankRampPayinApi extends runtime.BaseAPI {
      */
     async v1RampBankPayinTransactionsGet(requestParameters: V1RampBankPayinTransactionsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankPayinTransactionsGet200Response> {
         const response = await this.v1RampBankPayinTransactionsGetRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for v1RampBankPayinWaitingGet without sending the request
+     */
+    async v1RampBankPayinWaitingGetRequestOpts(): Promise<runtime.RequestOpts> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/v1/ramp/bank/payin/waiting`;
+
+        return {
+            path: urlPath,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * Accounts asked for with bindOnApproval while the verification was under way: each opens by itself once the verification is approved and the wallet can receive (its backup confirmed). Newest first.
+     * The user\'s pay-in accounts waiting for their verification
+     */
+    async v1RampBankPayinWaitingGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1RampBankPayinWaitingGet200Response>> {
+        const requestOptions = await this.v1RampBankPayinWaitingGetRequestOpts();
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => V1RampBankPayinWaitingGet200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * Accounts asked for with bindOnApproval while the verification was under way: each opens by itself once the verification is approved and the wallet can receive (its backup confirmed). Newest first.
+     * The user\'s pay-in accounts waiting for their verification
+     */
+    async v1RampBankPayinWaitingGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankPayinWaitingGet200Response> {
+        const response = await this.v1RampBankPayinWaitingGetRaw(initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * Creates request options for v1RampBankPayinWaitingRequestIdCancelPost without sending the request
+     */
+    async v1RampBankPayinWaitingRequestIdCancelPostRequestOpts(requestParameters: V1RampBankPayinWaitingRequestIdCancelPostRequest): Promise<runtime.RequestOpts> {
+        if (requestParameters['requestId'] == null) {
+            throw new runtime.RequiredError(
+                'requestId',
+                'Required parameter "requestId" was null or undefined when calling v1RampBankPayinWaitingRequestIdCancelPost().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+
+        let urlPath = `/v1/ramp/bank/payin/waiting/{requestId}/cancel`;
+        urlPath = urlPath.replace('{requestId}', encodeURIComponent(String(requestParameters['requestId'])));
+
+        return {
+            path: urlPath,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+        };
+    }
+
+    /**
+     * The request is withdrawn (nothing reached the bank ramp); ask for the account again when it is wanted.
+     * Withdraw a pay-in account waiting for the verification
+     */
+    async v1RampBankPayinWaitingRequestIdCancelPostRaw(requestParameters: V1RampBankPayinWaitingRequestIdCancelPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1RampBankPayinWaitingRequestIdCancelPost200Response>> {
+        const requestOptions = await this.v1RampBankPayinWaitingRequestIdCancelPostRequestOpts(requestParameters);
+        const response = await this.request(requestOptions, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => V1RampBankPayinWaitingRequestIdCancelPost200ResponseFromJSON(jsonValue));
+    }
+
+    /**
+     * The request is withdrawn (nothing reached the bank ramp); ask for the account again when it is wanted.
+     * Withdraw a pay-in account waiting for the verification
+     */
+    async v1RampBankPayinWaitingRequestIdCancelPost(requestParameters: V1RampBankPayinWaitingRequestIdCancelPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankPayinWaitingRequestIdCancelPost200Response> {
+        const response = await this.v1RampBankPayinWaitingRequestIdCancelPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

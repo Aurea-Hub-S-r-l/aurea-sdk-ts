@@ -629,11 +629,6 @@ import {
     V1AgentPaymentsStatusGet403ResponseToJSON,
 } from '../models/V1AgentPaymentsStatusGet403Response';
 import {
-    type V1AgentPaymentsStatusGet423Response,
-    V1AgentPaymentsStatusGet423ResponseFromJSON,
-    V1AgentPaymentsStatusGet423ResponseToJSON,
-} from '../models/V1AgentPaymentsStatusGet423Response';
-import {
     type V1AgentPaymentsTenantSettingsGet200Response,
     V1AgentPaymentsTenantSettingsGet200ResponseFromJSON,
     V1AgentPaymentsTenantSettingsGet200ResponseToJSON,
@@ -693,6 +688,11 @@ import {
     V1AuthForgotPasswordPost400ResponseFromJSON,
     V1AuthForgotPasswordPost400ResponseToJSON,
 } from '../models/V1AuthForgotPasswordPost400Response';
+import {
+    type V1MpcPreparationsPost423Response,
+    V1MpcPreparationsPost423ResponseFromJSON,
+    V1MpcPreparationsPost423ResponseToJSON,
+} from '../models/V1MpcPreparationsPost423Response';
 
 export interface V1AgentPaymentsAgentRequestsIdApprovePostRequest {
     /**

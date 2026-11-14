@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from '../runtime';
+import type { V1RampBankPayinOnboardSessionPost201ResponseExcludedInner } from './V1RampBankPayinOnboardSessionPost201ResponseExcludedInner';
+import {
+    V1RampBankPayinOnboardSessionPost201ResponseExcludedInnerFromJSON,
+    V1RampBankPayinOnboardSessionPost201ResponseExcludedInnerFromJSONTyped,
+    V1RampBankPayinOnboardSessionPost201ResponseExcludedInnerToJSON,
+    V1RampBankPayinOnboardSessionPost201ResponseExcludedInnerToJSONTyped,
+} from './V1RampBankPayinOnboardSessionPost201ResponseExcludedInner';
 import type { V1RampBankPayinOnboardSessionPost201ResponseVerification } from './V1RampBankPayinOnboardSessionPost201ResponseVerification';
 import {
     V1RampBankPayinOnboardSessionPost201ResponseVerificationFromJSON,
@@ -59,6 +66,10 @@ export interface V1RampBankPayinOnboardSessionPost201Response {
      * 
      */
     verification: V1RampBankPayinOnboardSessionPost201ResponseVerification;
+    /**
+     * Present only when a currency asked in fiatOptions was left out: the customer's account in that currency is served elsewhere (USD: GET /v1/ramp/bank/customer/accounts) or not available; `nextStep.action` is the button to show.
+     */
+    excluded?: Array<V1RampBankPayinOnboardSessionPost201ResponseExcludedInner>;
 }
 
 
@@ -104,6 +115,7 @@ export function V1RampBankPayinOnboardSessionPost201ResponseFromJSONTyped(json: 
         'outcome': json['outcome'],
         'message': json['message'],
         'verification': V1RampBankPayinOnboardSessionPost201ResponseVerificationFromJSON(json['verification']),
+        'excluded': json['excluded'] == null ? undefined : ((json['excluded'] as Array<any>).map(V1RampBankPayinOnboardSessionPost201ResponseExcludedInnerFromJSON)),
     };
 }
 
@@ -126,6 +138,7 @@ export function V1RampBankPayinOnboardSessionPost201ResponseToJSONTyped(value?: 
         'outcome': value['outcome'],
         'message': value['message'],
         'verification': V1RampBankPayinOnboardSessionPost201ResponseVerificationToJSON(value['verification']),
+        'excluded': value['excluded'] == null ? undefined : ((value['excluded'] as Array<any>).map(V1RampBankPayinOnboardSessionPost201ResponseExcludedInnerToJSON)),
     };
 }
 

@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Not enough on the user's balance for the payout and its fees (`BANK_RAMP_PAYOUT_BALANCE_LOW`), the USD beneficiary is not active (`BANK_RAMP_BENEFICIARY_NOT_ACTIVE`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`
+ * Not enough on the user's balance for the payout and its fees (`BANK_RAMP_PAYOUT_BALANCE_LOW`), payouts are held while the bank ramp's ledger is being reconciled (`BANK_RAMP_PAYOUTS_HELD_RECONCILIATION`: try again later), the USD beneficiary is not active (`BANK_RAMP_BENEFICIARY_NOT_ACTIVE`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`
  * @export
  * @interface V1RampBankCustomerWithdrawalsPost409Response
  */

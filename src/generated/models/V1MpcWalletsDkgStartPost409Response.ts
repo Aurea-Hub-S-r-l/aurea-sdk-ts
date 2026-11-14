@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * The tenant must use the version 2 relay (`{ error }`)
+ * The tenant must use the version 2 relay, or a new wallet's gg18 engine is retired (MPC_GG18_DKG_RETIRED: send scheme cggmp) (`{ error }`); the `preparation` sent cannot be used (MPC_PREPARATION_UNUSABLE with `reason`: consumed, expired, revoked, failed, not_ready, proof, tier, cosigner, v3, mode, scheme, wire): nothing was used up, start again without it
  * @export
  * @interface V1MpcWalletsDkgStartPost409Response
  */

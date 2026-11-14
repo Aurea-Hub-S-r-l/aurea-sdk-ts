@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * The id is not a UUID
+ * The body is not valid (`BANK_RAMP_ACCOUNT_INVALID`) or the details are not (`BANK_RAMP_ONBOARDING_INVALID`), `details.fields` names them
  * @export
- * @interface V1TransactionsAggregatedIdGet400Response
+ * @interface V1RampBankCustomerAccountsInformationPost400Response
  */
-export interface V1TransactionsAggregatedIdGet400Response {
+export interface V1RampBankCustomerAccountsInformationPost400Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1TransactionsAggregatedIdGet400Response {
 }
 
 /**
- * Check if a given object implements the V1TransactionsAggregatedIdGet400Response interface.
+ * Check if a given object implements the V1RampBankCustomerAccountsInformationPost400Response interface.
  */
-export function instanceOfV1TransactionsAggregatedIdGet400Response(value: object): value is V1TransactionsAggregatedIdGet400Response {
+export function instanceOfV1RampBankCustomerAccountsInformationPost400Response(value: object): value is V1RampBankCustomerAccountsInformationPost400Response {
     return true;
 }
 
-export function V1TransactionsAggregatedIdGet400ResponseFromJSON(json: any): V1TransactionsAggregatedIdGet400Response {
-    return V1TransactionsAggregatedIdGet400ResponseFromJSONTyped(json, false);
+export function V1RampBankCustomerAccountsInformationPost400ResponseFromJSON(json: any): V1RampBankCustomerAccountsInformationPost400Response {
+    return V1RampBankCustomerAccountsInformationPost400ResponseFromJSONTyped(json, false);
 }
 
-export function V1TransactionsAggregatedIdGet400ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1TransactionsAggregatedIdGet400Response {
+export function V1RampBankCustomerAccountsInformationPost400ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerAccountsInformationPost400Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1TransactionsAggregatedIdGet400ResponseFromJSONTyped(json: any,
     };
 }
 
-export function V1TransactionsAggregatedIdGet400ResponseToJSON(json: any): V1TransactionsAggregatedIdGet400Response {
-    return V1TransactionsAggregatedIdGet400ResponseToJSONTyped(json, false);
+export function V1RampBankCustomerAccountsInformationPost400ResponseToJSON(json: any): V1RampBankCustomerAccountsInformationPost400Response {
+    return V1RampBankCustomerAccountsInformationPost400ResponseToJSONTyped(json, false);
 }
 
-export function V1TransactionsAggregatedIdGet400ResponseToJSONTyped(value?: V1TransactionsAggregatedIdGet400Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1RampBankCustomerAccountsInformationPost400ResponseToJSONTyped(value?: V1RampBankCustomerAccountsInformationPost400Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

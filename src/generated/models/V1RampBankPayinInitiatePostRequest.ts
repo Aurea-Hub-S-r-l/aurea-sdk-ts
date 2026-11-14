@@ -39,6 +39,10 @@ export interface V1RampBankPayinInitiatePostRequest {
      * 
      */
     destinationAddress?: string;
+    /**
+     * 
+     */
+    bindOnApproval?: boolean;
 }
 
 
@@ -75,6 +79,7 @@ export function V1RampBankPayinInitiatePostRequestFromJSONTyped(json: any, ignor
         'fiatCurrency': json['fiatCurrency'] == null ? undefined : json['fiatCurrency'],
         'isTestnet': json['isTestnet'] == null ? undefined : json['isTestnet'],
         'destinationAddress': json['destinationAddress'] == null ? undefined : json['destinationAddress'],
+        'bindOnApproval': json['bindOnApproval'] == null ? undefined : json['bindOnApproval'],
     };
 }
 
@@ -94,6 +99,7 @@ export function V1RampBankPayinInitiatePostRequestToJSONTyped(value?: V1RampBank
         'fiatCurrency': value['fiatCurrency'],
         'isTestnet': value['isTestnet'],
         'destinationAddress': value['destinationAddress'],
+        'bindOnApproval': value['bindOnApproval'],
     };
 }
 
