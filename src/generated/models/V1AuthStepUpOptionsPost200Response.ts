@@ -50,6 +50,8 @@ export const V1AuthStepUpOptionsPost200ResponseActionEnum = {
     PasskeyRevoke: 'passkey.revoke',
     AgentExecutionApprove: 'agent_execution.approve',
     AgentExecutionReject: 'agent_execution.reject',
+    BankRampPayout: 'bank_ramp.payout',
+    BankRampDestinationChange: 'bank_ramp.destination_change',
 } as const;
 export type V1AuthStepUpOptionsPost200ResponseActionEnum = typeof V1AuthStepUpOptionsPost200ResponseActionEnum[keyof typeof V1AuthStepUpOptionsPost200ResponseActionEnum];
 

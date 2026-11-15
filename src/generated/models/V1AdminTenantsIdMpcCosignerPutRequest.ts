@@ -39,6 +39,10 @@ export interface V1AdminTenantsIdMpcCosignerPutRequest {
      * Generate a new HMAC secret (answered once)
      */
     rotateSecret?: boolean;
+    /**
+     * C3: the co-signer also becomes the C3 party of the tenant's new v3 MPC wallets (a wallet made with it keeps it). Absent or null: the tenant's v2 co-signer only, as before
+     */
+    party?: V1AdminTenantsIdMpcCosignerPutRequestPartyEnum | null;
 }
 
 
@@ -50,6 +54,14 @@ export const V1AdminTenantsIdMpcCosignerPutRequestModeEnum = {
     On: 'on',
 } as const;
 export type V1AdminTenantsIdMpcCosignerPutRequestModeEnum = typeof V1AdminTenantsIdMpcCosignerPutRequestModeEnum[keyof typeof V1AdminTenantsIdMpcCosignerPutRequestModeEnum];
+
+/**
+ * @export
+ */
+export const V1AdminTenantsIdMpcCosignerPutRequestPartyEnum = {
+    C3: 'C3',
+} as const;
+export type V1AdminTenantsIdMpcCosignerPutRequestPartyEnum = typeof V1AdminTenantsIdMpcCosignerPutRequestPartyEnum[keyof typeof V1AdminTenantsIdMpcCosignerPutRequestPartyEnum];
 
 
 /**
@@ -77,6 +89,7 @@ export function V1AdminTenantsIdMpcCosignerPutRequestFromJSONTyped(json: any, ig
         'caPem': json['caPem'] === undefined ? undefined : json['caPem'] === null ? null : json['caPem'],
         'serverCredentialId': json['serverCredentialId'],
         'rotateSecret': json['rotateSecret'] == null ? undefined : json['rotateSecret'],
+        'party': json['party'] === undefined ? undefined : json['party'] === null ? null : json['party'],
     };
 }
 
@@ -96,6 +109,7 @@ export function V1AdminTenantsIdMpcCosignerPutRequestToJSONTyped(value?: V1Admin
         'caPem': value['caPem'],
         'serverCredentialId': value['serverCredentialId'],
         'rotateSecret': value['rotateSecret'],
+        'party': value['party'],
     };
 }
 

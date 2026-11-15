@@ -164,7 +164,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Who works the case (null: nobody); an open case only (409 AML_CASE_DECIDED). On the caller\'s own tenant.
+     * Who works the case (null: nobody); an open case only (409 AML_CASE_DECIDED). On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * Assign an AML case
      */
     async v1AmlCasesCaseIdAssignPostRaw(requestParameters: V1AmlCasesCaseIdAssignPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AmlCasesCaseIdAssignPost200Response>> {
@@ -175,7 +175,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Who works the case (null: nobody); an open case only (409 AML_CASE_DECIDED). On the caller\'s own tenant.
+     * Who works the case (null: nobody); an open case only (409 AML_CASE_DECIDED). On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * Assign an AML case
      */
     async v1AmlCasesCaseIdAssignPost(requestParameters: V1AmlCasesCaseIdAssignPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AmlCasesCaseIdAssignPost200Response> {
@@ -229,7 +229,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * A comment kept with the case (the audit trail records that one was written, never its text). On the caller\'s own tenant.
+     * A comment kept with the case (the audit trail records that one was written, never its text). On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * Comment an AML case
      */
     async v1AmlCasesCaseIdCommentsPostRaw(requestParameters: V1AmlCasesCaseIdCommentsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AmlCasesCaseIdCommentsPost201Response>> {
@@ -240,7 +240,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * A comment kept with the case (the audit trail records that one was written, never its text). On the caller\'s own tenant.
+     * A comment kept with the case (the audit trail records that one was written, never its text). On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * Comment an AML case
      */
     async v1AmlCasesCaseIdCommentsPost(requestParameters: V1AmlCasesCaseIdCommentsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AmlCasesCaseIdCommentsPost201Response> {
@@ -294,7 +294,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Once (409 AML_CASE_DECIDED): release or confirm, with a written reason. Audited, and told to the tenant\'s endpoints that name aml_case.released or aml_case.confirmed. On the caller\'s own tenant.
+     * Once (409 AML_CASE_DECIDED): release or confirm, with a written reason. Audited, and told to the tenant\'s endpoints that name aml_case.released or aml_case.confirmed. On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * Decide an AML case
      */
     async v1AmlCasesCaseIdDecisionPostRaw(requestParameters: V1AmlCasesCaseIdDecisionPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AmlCasesCaseIdAssignPost200Response>> {
@@ -305,7 +305,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * Once (409 AML_CASE_DECIDED): release or confirm, with a written reason. Audited, and told to the tenant\'s endpoints that name aml_case.released or aml_case.confirmed. On the caller\'s own tenant.
+     * Once (409 AML_CASE_DECIDED): release or confirm, with a written reason. Audited, and told to the tenant\'s endpoints that name aml_case.released or aml_case.confirmed. On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * Decide an AML case
      */
     async v1AmlCasesCaseIdDecisionPost(requestParameters: V1AmlCasesCaseIdDecisionPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AmlCasesCaseIdAssignPost200Response> {
@@ -349,7 +349,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * The case, its screening and its comments. On the caller\'s own tenant.
+     * The case, its screening and its comments. On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * Read an AML case
      */
     async v1AmlCasesCaseIdGetRaw(requestParameters: V1AmlCasesCaseIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AmlCasesCaseIdGet200Response>> {
@@ -360,7 +360,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * The case, its screening and its comments. On the caller\'s own tenant.
+     * The case, its screening and its comments. On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * Read an AML case
      */
     async v1AmlCasesCaseIdGet(requestParameters: V1AmlCasesCaseIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AmlCasesCaseIdGet200Response> {
@@ -412,7 +412,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * The cases, newest first. On the caller\'s own tenant.
+     * The cases, newest first. On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * List AML cases
      */
     async v1AmlCasesGetRaw(requestParameters: V1AmlCasesGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AmlCasesGet200Response>> {
@@ -423,7 +423,7 @@ export class AmlCasesApi extends runtime.BaseAPI {
     }
 
     /**
-     * The cases, newest first. On the caller\'s own tenant.
+     * The cases, newest first. On the caller\'s own tenant. A case opened at onboarding (direction onboarding) is read here and decided by Aurea: a write on it answers 403 AML_CASE_AUREA_DECIDES.
      * List AML cases
      */
     async v1AmlCasesGet(requestParameters: V1AmlCasesGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AmlCasesGet200Response> {

@@ -1,6 +1,6 @@
 // Written by scripts/write-services.mjs from src/generated/apis: do not edit.
 import type { Configuration } from "./generated/runtime";
-import { AccountsApi, AddressBookApi, AdminApi, AgentPaymentsApi, AggregatedTransactionsApi, AmlCasesApi, ApprovalsApi, AssetsApi, AuditApi, AuthApi, BankRampAddressesApi, BankRampCurrenciesApi, BankRampCustomersApi, BankRampDeskApi, BankRampLocalApi, BankRampPayinApi, BankRampPayoutApi, CardOnrampApi, CardOnrampCustomersApi, CardProgramApi, CardsApi, DappsApi, EarnApi, FeesApi, GasStationApi, GroupsApi, HealthApi, LendingApi, MpcApi, NotificationsApi, OperationsApi, PoliciesApi, PortfolioApi, QuorumApi, ReportsApi, StructuresApi, SwapApi, SwapRoutesApi, TenantsApi, TokenizedAssetsApi, TokensApi, TransactionsApi, UsersApi, WalletsApi, WebhooksApi } from "./generated/apis";
+import { AccountsApi, AddressBookApi, AdminApi, AgentPaymentsApi, AggregatedTransactionsApi, AmlCasesApi, ApprovalsApi, AssetsApi, AuditApi, AuthApi, BankRampAddressesApi, BankRampCurrenciesApi, BankRampCustomersApi, BankRampDeskApi, BankRampLocalApi, BankRampPayinApi, BankRampPayoutApi, BankRampUsdAccountsApi, CardOnrampApi, CardOnrampCustomersApi, CardProgramApi, CardsApi, DappsApi, EarnApi, FeesApi, GasStationApi, GroupsApi, HealthApi, IdentityApi, LendingApi, MpcApi, NotificationsApi, OperationsApi, PoliciesApi, PortfolioApi, QuorumApi, ReportsApi, StructuresApi, SwapApi, SwapRoutesApi, TenantsApi, TokenizedAssetsApi, TokensApi, TransactionsApi, UsersApi, WalletsApi, WebhooksApi } from "./generated/apis";
 
 /** The generated API classes, one property each, created on first use. */
 export class Services {
@@ -65,6 +65,9 @@ export class Services {
   get bankRampPayout(): BankRampPayoutApi {
     return this.#get(BankRampPayoutApi);
   }
+  get bankRampUsdAccounts(): BankRampUsdAccountsApi {
+    return this.#get(BankRampUsdAccountsApi);
+  }
   get cardOnramp(): CardOnrampApi {
     return this.#get(CardOnrampApi);
   }
@@ -94,6 +97,9 @@ export class Services {
   }
   get health(): HealthApi {
     return this.#get(HealthApi);
+  }
+  get identity(): IdentityApi {
+    return this.#get(IdentityApi);
   }
   get lending(): LendingApi {
     return this.#get(LendingApi);

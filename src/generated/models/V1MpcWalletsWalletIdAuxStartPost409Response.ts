@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * A GG18 wallet has no aux ceremony, or the tenant must use the version 2 relay (`{ error }`)
+ * A GG18 wallet has no aux ceremony, or the tenant must use the version 2 relay, or a v3 wallet's aux is complete — it has signed (`{ error }`); or a recovery aux for a wallet that cannot run one (MPC_AUX_RECOVERY_REFUSED: it signed, no backup, a v3 wallet, relay version 1, the tenant's own co-signer)
  * @export
  * @interface V1MpcWalletsWalletIdAuxStartPost409Response
  */

@@ -14,11 +14,11 @@
 
 import { mapValues } from '../runtime';
 /**
- * The wallet id is not a UUID, or the body is not valid
+ * `BANK_RAMP_ACCOUNT_OPERATION_UNAVAILABLE` or `BANK_RAMP_ONBOARDING_UNAVAILABLE`: not available yet (next step contact_support)
  * @export
- * @interface V1MpcWalletsWalletIdBackupProofStartPost400Response
+ * @interface V1RampBankCustomerAccountsPost503Response
  */
-export interface V1MpcWalletsWalletIdBackupProofStartPost400Response {
+export interface V1RampBankCustomerAccountsPost503Response {
     [key: string]: any | any;
     /**
      * The HTTP status
@@ -39,17 +39,17 @@ export interface V1MpcWalletsWalletIdBackupProofStartPost400Response {
 }
 
 /**
- * Check if a given object implements the V1MpcWalletsWalletIdBackupProofStartPost400Response interface.
+ * Check if a given object implements the V1RampBankCustomerAccountsPost503Response interface.
  */
-export function instanceOfV1MpcWalletsWalletIdBackupProofStartPost400Response(value: object): value is V1MpcWalletsWalletIdBackupProofStartPost400Response {
+export function instanceOfV1RampBankCustomerAccountsPost503Response(value: object): value is V1RampBankCustomerAccountsPost503Response {
     return true;
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseFromJSON(json: any): V1MpcWalletsWalletIdBackupProofStartPost400Response {
-    return V1MpcWalletsWalletIdBackupProofStartPost400ResponseFromJSONTyped(json, false);
+export function V1RampBankCustomerAccountsPost503ResponseFromJSON(json: any): V1RampBankCustomerAccountsPost503Response {
+    return V1RampBankCustomerAccountsPost503ResponseFromJSONTyped(json, false);
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1MpcWalletsWalletIdBackupProofStartPost400Response {
+export function V1RampBankCustomerAccountsPost503ResponseFromJSONTyped(json: any, ignoreDiscriminator: boolean): V1RampBankCustomerAccountsPost503Response {
     if (json == null) {
         return json;
     }
@@ -63,11 +63,11 @@ export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseFromJSONTyped
     };
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseToJSON(json: any): V1MpcWalletsWalletIdBackupProofStartPost400Response {
-    return V1MpcWalletsWalletIdBackupProofStartPost400ResponseToJSONTyped(json, false);
+export function V1RampBankCustomerAccountsPost503ResponseToJSON(json: any): V1RampBankCustomerAccountsPost503Response {
+    return V1RampBankCustomerAccountsPost503ResponseToJSONTyped(json, false);
 }
 
-export function V1MpcWalletsWalletIdBackupProofStartPost400ResponseToJSONTyped(value?: V1MpcWalletsWalletIdBackupProofStartPost400Response | null, ignoreDiscriminator: boolean = false): any {
+export function V1RampBankCustomerAccountsPost503ResponseToJSONTyped(value?: V1RampBankCustomerAccountsPost503Response | null, ignoreDiscriminator: boolean = false): any {
     if (value == null) {
         return value;
     }

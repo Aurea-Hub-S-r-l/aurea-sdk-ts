@@ -157,6 +157,24 @@ per operation with `idempotencyKey()`, store it with the pending operation, and 
 request on every retry: the first answer comes back, never a second operation. `wasReplayed(response)` tells you
 when an answer is the stored one.
 
+## Step-up headers
+
+The bank ramp's money out — `bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost()` and
+`v1RampBankCustomerAccountsWalletTransfersPost()` (`to_wallet`, or with `payout`) — is confirmed with the customer's
+passkey step-up for `bank_ramp.payout` when Aurea asks for it, in the `x-aurea-step-up` header
+([Passkeys & Step-Up](https://docs.aureahub.com/#guide-passkeys)). The header is not a method parameter: pass it in
+the method's last argument, in the function form, so that the headers the SDK already set (`Content-Type`,
+`Idempotency-Key`) are kept. The user's `Authorization` is added after it, as on every call.
+
+```ts
+await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost(
+  { idempotencyKey: key, v1RampBankCustomerAccountsPayoutsPostRequest: { beneficiaryId, amount: '500.00', isTestnet: true } },
+  async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), 'x-aurea-step-up': stepUpToken } }),
+);
+```
+
+A plain object (`{ headers: { 'x-aurea-step-up': stepUpToken } }`) replaces those headers instead: use the function.
+
 ## Retries
 
 The client retries, at most `maxRetries` times (default 2), only where a retry cannot run anything twice:
@@ -201,10 +219,17 @@ The SDK is generated from the production OpenAPI document
 ([https://api.aureahub.com/v1/docs/json](https://api.aureahub.com/v1/docs/json)) for the routes
 docs.aureahub.com documents, with the API's neutral names: the bank ramp's `bankRampStatus`, `bankRampDepositId`…,
 the EUR account's `eurAccountIban`…, the `<field>Neutral` values (`typeNeutral`…), and the routes `/v1/lending/*`
-(`aurea.lending`) and `/v1/cards/*` (`aurea.cards`). The neutral fields are in the answers once neutral codes are on
+(`aurea.lending`) and `/v1/cards/*` (`aurea.cards`). The bank ramp's USD account per customer is one class, `aurea.bankRampUsdAccounts`:
+the account and its opening, profile and terms, beneficiaries, invoices and payouts, custody and wallet transfers. The neutral fields are in the answers once neutral codes are on
 for your tenant ([Errors & Codes › Neutral Codes](https://docs.aureahub.com/#errors)): ask for them when your tenant
 is set up, or write to [help@aureahub.com](mailto:help@aureahub.com). This is a 0.x release: method and type names
 may still change between minor versions.
+
+## Development
+
+Install with `npm install --legacy-peer-deps`: a fresh `npm install` without it stops with npm's internal error
+"Cannot read properties of null (reading 'edgesOut')" (npm 10.9). Then `npm run typecheck`, `npm test`,
+`npm run build` and `npm run check:words`.
 
 ## Support
 

@@ -114,6 +114,7 @@ export const V1RampBankCustomerWithdrawalsGet200ResponseWithdrawalsInnerPurposeE
     OffRamp: 'off_ramp',
     OnRamp: 'on_ramp',
     Treasury: 'treasury',
+    CustomerAccount: 'customer_account',
 } as const;
 export type V1RampBankCustomerWithdrawalsGet200ResponseWithdrawalsInnerPurposeEnum = typeof V1RampBankCustomerWithdrawalsGet200ResponseWithdrawalsInnerPurposeEnum[keyof typeof V1RampBankCustomerWithdrawalsGet200ResponseWithdrawalsInnerPurposeEnum];
 

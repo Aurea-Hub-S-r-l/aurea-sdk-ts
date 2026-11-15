@@ -24,15 +24,15 @@ import {
     V1AuthLoginPost400ResponseToJSON,
 } from '../models/V1AuthLoginPost400Response';
 import {
+    type V1MpcPreparationsIdGet400Response,
+    V1MpcPreparationsIdGet400ResponseFromJSON,
+    V1MpcPreparationsIdGet400ResponseToJSON,
+} from '../models/V1MpcPreparationsIdGet400Response';
+import {
     type V1TransactionsAggregatedIdGet200Response,
     V1TransactionsAggregatedIdGet200ResponseFromJSON,
     V1TransactionsAggregatedIdGet200ResponseToJSON,
 } from '../models/V1TransactionsAggregatedIdGet200Response';
-import {
-    type V1TransactionsAggregatedIdGet400Response,
-    V1TransactionsAggregatedIdGet400ResponseFromJSON,
-    V1TransactionsAggregatedIdGet400ResponseToJSON,
-} from '../models/V1TransactionsAggregatedIdGet400Response';
 import {
     type V1TransactionsAggregatedIdGet404Response,
     V1TransactionsAggregatedIdGet404ResponseFromJSON,

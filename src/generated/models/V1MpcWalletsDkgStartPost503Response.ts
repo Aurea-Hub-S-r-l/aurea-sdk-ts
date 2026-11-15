@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * The cosigner is not ready for the tenant's custody tier
+ * The cosigner is not ready for the tenant's custody tier; or, for a v3 wallet, a cosigner is unavailable (`{ error: party_unavailable, party, next }`, Retry-After)
  * @export
  * @interface V1MpcWalletsDkgStartPost503Response
  */

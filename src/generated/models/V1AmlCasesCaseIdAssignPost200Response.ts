@@ -137,6 +137,7 @@ export type V1AmlCasesCaseIdAssignPost200ResponseStatusEnum = typeof V1AmlCasesC
 export const V1AmlCasesCaseIdAssignPost200ResponseDirectionEnum = {
     Outbound: 'outbound',
     Inbound: 'inbound',
+    Onboarding: 'onboarding',
 } as const;
 export type V1AmlCasesCaseIdAssignPost200ResponseDirectionEnum = typeof V1AmlCasesCaseIdAssignPost200ResponseDirectionEnum[keyof typeof V1AmlCasesCaseIdAssignPost200ResponseDirectionEnum];
 

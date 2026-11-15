@@ -1243,7 +1243,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The caller\'s passkeys, newest first (revoked ones included), and `stepUp`: the step-up mode of the caller\'s tenant (`log`: recorded, `enforce`: required before a policy set is published or rolled back to, and before one\'s passkeys change) and whether passkeys are available on this platform. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The caller\'s passkeys, newest first (revoked ones included), and `stepUp`: the step-up mode of the caller\'s tenant (`log`: recorded, `enforce`: required before a policy set is published or rolled back to, and before one\'s passkeys change) and whether passkeys are available on this platform. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * The caller\'s passkeys
      */
     async v1AuthPasskeysGetRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AuthPasskeysGet200Response>> {
@@ -1254,7 +1254,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The caller\'s passkeys, newest first (revoked ones included), and `stepUp`: the step-up mode of the caller\'s tenant (`log`: recorded, `enforce`: required before a policy set is published or rolled back to, and before one\'s passkeys change) and whether passkeys are available on this platform. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The caller\'s passkeys, newest first (revoked ones included), and `stepUp`: the step-up mode of the caller\'s tenant (`log`: recorded, `enforce`: required before a policy set is published or rolled back to, and before one\'s passkeys change) and whether passkeys are available on this platform. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * The caller\'s passkeys
      */
     async v1AuthPasskeysGet(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AuthPasskeysGet200Response> {
@@ -1301,7 +1301,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * One of the caller\'s passkeys, revoked for good. Refusals: 404 `PASSKEY_NOT_FOUND`; 409 `PASSKEY_REVOKED`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * One of the caller\'s passkeys, revoked for good. Refusals: 404 `PASSKEY_NOT_FOUND`; 409 `PASSKEY_REVOKED`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Revoke a passkey
      */
     async v1AuthPasskeysPasskeyIdRevokePostRaw(requestParameters: V1AuthPasskeysPasskeyIdRevokePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AuthPasskeysPost201Response>> {
@@ -1312,7 +1312,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * One of the caller\'s passkeys, revoked for good. Refusals: 404 `PASSKEY_NOT_FOUND`; 409 `PASSKEY_REVOKED`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * One of the caller\'s passkeys, revoked for good. Refusals: 404 `PASSKEY_NOT_FOUND`; 409 `PASSKEY_REVOKED`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Revoke a passkey
      */
     async v1AuthPasskeysPasskeyIdRevokePost(requestParameters: V1AuthPasskeysPasskeyIdRevokePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AuthPasskeysPost201Response> {
@@ -1358,7 +1358,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The authenticator\'s answer to the registration\'s options (`credential`: the RegistrationResponseJSON — `PublicKeyCredential.toJSON()`), verified against its challenge, the relying party its options named and that relying party\'s origins, with user verification. A credential is registered once; at most ten active passkeys. Refusals: 400 `PASSKEY_CHALLENGE_INVALID`, `PASSKEY_REGISTRATION_INVALID`, `PASSKEY_NAME_INVALID`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`; 409 `PASSKEY_IN_USE`, `PASSKEY_LIMIT`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The authenticator\'s answer to the registration\'s options (`credential`: the RegistrationResponseJSON — `PublicKeyCredential.toJSON()`), verified against its challenge, the relying party its options named and that relying party\'s origins, with user verification. A credential is registered once; at most ten active passkeys. Refusals: 400 `PASSKEY_CHALLENGE_INVALID`, `PASSKEY_REGISTRATION_INVALID`, `PASSKEY_NAME_INVALID`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`; 409 `PASSKEY_IN_USE`, `PASSKEY_LIMIT`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Register a passkey
      */
     async v1AuthPasskeysPostRaw(requestParameters: V1AuthPasskeysPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AuthPasskeysPost201Response>> {
@@ -1369,7 +1369,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The authenticator\'s answer to the registration\'s options (`credential`: the RegistrationResponseJSON — `PublicKeyCredential.toJSON()`), verified against its challenge, the relying party its options named and that relying party\'s origins, with user verification. A credential is registered once; at most ten active passkeys. Refusals: 400 `PASSKEY_CHALLENGE_INVALID`, `PASSKEY_REGISTRATION_INVALID`, `PASSKEY_NAME_INVALID`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`; 409 `PASSKEY_IN_USE`, `PASSKEY_LIMIT`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The authenticator\'s answer to the registration\'s options (`credential`: the RegistrationResponseJSON — `PublicKeyCredential.toJSON()`), verified against its challenge, the relying party its options named and that relying party\'s origins, with user verification. A credential is registered once; at most ten active passkeys. Refusals: 400 `PASSKEY_CHALLENGE_INVALID`, `PASSKEY_REGISTRATION_INVALID`, `PASSKEY_NAME_INVALID`; 403 `STEP_UP_REQUIRED`, `STEP_UP_INVALID`; 409 `PASSKEY_IN_USE`, `PASSKEY_LIMIT`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Register a passkey
      */
     async v1AuthPasskeysPost(requestParameters: V1AuthPasskeysPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AuthPasskeysPost201Response> {
@@ -1408,7 +1408,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The options for `navigator.credentials.create({ publicKey })` (the WebAuthn JSON form: decode `challenge` and `user.id` from base64url), and `ceremonyId`, which the answer names (POST /v1/auth/passkeys). Five minutes, once. Attestation none, user verification required. `stepUpAction` is `passkey.register` when the caller has a passkey already: the new one is then confirmed with one of theirs. `rpId` names the relying party (your tenant\'s passkey address); absent, Aurea\'s own. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The options for `navigator.credentials.create({ publicKey })` (the WebAuthn JSON form: decode `challenge` and `user.id` from base64url), and `ceremonyId`, which the answer names (POST /v1/auth/passkeys). Five minutes, once. Attestation none, user verification required. `stepUpAction` is `passkey.register` when the caller has a passkey already: the new one is then confirmed with one of theirs. `rpId` names the relying party (your tenant\'s passkey address); absent, Aurea\'s own. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Start registering a passkey
      */
     async v1AuthPasskeysRegistrationOptionsPostRaw(requestParameters: V1AuthPasskeysRegistrationOptionsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AuthPasskeysRegistrationOptionsPost200Response>> {
@@ -1419,7 +1419,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The options for `navigator.credentials.create({ publicKey })` (the WebAuthn JSON form: decode `challenge` and `user.id` from base64url), and `ceremonyId`, which the answer names (POST /v1/auth/passkeys). Five minutes, once. Attestation none, user verification required. `stepUpAction` is `passkey.register` when the caller has a passkey already: the new one is then confirmed with one of theirs. `rpId` names the relying party (your tenant\'s passkey address); absent, Aurea\'s own. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The options for `navigator.credentials.create({ publicKey })` (the WebAuthn JSON form: decode `challenge` and `user.id` from base64url), and `ceremonyId`, which the answer names (POST /v1/auth/passkeys). Five minutes, once. Attestation none, user verification required. `stepUpAction` is `passkey.register` when the caller has a passkey already: the new one is then confirmed with one of theirs. `rpId` names the relying party (your tenant\'s passkey address); absent, Aurea\'s own. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Start registering a passkey
      */
     async v1AuthPasskeysRegistrationOptionsPost(requestParameters: V1AuthPasskeysRegistrationOptionsPostOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AuthPasskeysRegistrationOptionsPost200Response> {
@@ -1810,7 +1810,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The options for `navigator.credentials.get({ publicKey })` (decode `challenge` and each `allowCredentials[].id` from base64url) for one action on one target — the challenge commits to it — and `ceremonyId`. Actions: `approval.approve` and `approval.reject` {operationId} (an approver of the caller\'s tenant: the operation\'s newest approval request and its canonical payload for that action), `policy_set.publish` and `policy_set.rollback` {setId} (`tenant.policies.write`; a platform role names {tenantId}), `passkey.register` {} and `passkey.revoke` {passkeyId} (one\'s own), `agent_execution.approve` and `agent_execution.reject` {executionId} (an approver of the tenant\'s agent payments, on one of its agent payments). `rpId` names the relying party (your tenant\'s passkey address); absent, Aurea\'s own — only the caller\'s passkeys of that relying party may answer. Refusals: 400 `STEP_UP_ACTION_INVALID`, `PASSKEY_RP_NOT_ALLOWED`; 403 `STEP_UP_ACTION_FORBIDDEN`; 404 `STEP_UP_TARGET_NOT_FOUND`; 409 `STEP_UP_NO_PASSKEY`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The options for `navigator.credentials.get({ publicKey })` (decode `challenge` and each `allowCredentials[].id` from base64url) for one action on one target — the challenge commits to it — and `ceremonyId`. Actions: `approval.approve` and `approval.reject` {operationId} (an approver of the caller\'s tenant: the operation\'s newest approval request and its canonical payload for that action), `policy_set.publish` and `policy_set.rollback` {setId} (`tenant.policies.write`; a platform role names {tenantId}), `passkey.register` {} and `passkey.revoke` {passkeyId} (one\'s own), `agent_execution.approve` and `agent_execution.reject` {executionId} (an approver of the tenant\'s agent payments, on one of its agent payments). `rpId` names the relying party (your tenant\'s passkey address); absent, Aurea\'s own — only the caller\'s passkeys of that relying party may answer. Refusals: 400 `STEP_UP_ACTION_INVALID`, `PASSKEY_RP_NOT_ALLOWED`; 403 `STEP_UP_ACTION_FORBIDDEN`; 404 `STEP_UP_TARGET_NOT_FOUND`; 409 `STEP_UP_NO_PASSKEY`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Start a step-up for one action
      */
     async v1AuthStepUpOptionsPostRaw(requestParameters: V1AuthStepUpOptionsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AuthStepUpOptionsPost200Response>> {
@@ -1821,7 +1821,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The options for `navigator.credentials.get({ publicKey })` (decode `challenge` and each `allowCredentials[].id` from base64url) for one action on one target — the challenge commits to it — and `ceremonyId`. Actions: `approval.approve` and `approval.reject` {operationId} (an approver of the caller\'s tenant: the operation\'s newest approval request and its canonical payload for that action), `policy_set.publish` and `policy_set.rollback` {setId} (`tenant.policies.write`; a platform role names {tenantId}), `passkey.register` {} and `passkey.revoke` {passkeyId} (one\'s own), `agent_execution.approve` and `agent_execution.reject` {executionId} (an approver of the tenant\'s agent payments, on one of its agent payments). `rpId` names the relying party (your tenant\'s passkey address); absent, Aurea\'s own — only the caller\'s passkeys of that relying party may answer. Refusals: 400 `STEP_UP_ACTION_INVALID`, `PASSKEY_RP_NOT_ALLOWED`; 403 `STEP_UP_ACTION_FORBIDDEN`; 404 `STEP_UP_TARGET_NOT_FOUND`; 409 `STEP_UP_NO_PASSKEY`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The options for `navigator.credentials.get({ publicKey })` (decode `challenge` and each `allowCredentials[].id` from base64url) for one action on one target — the challenge commits to it — and `ceremonyId`. Actions: `approval.approve` and `approval.reject` {operationId} (an approver of the caller\'s tenant: the operation\'s newest approval request and its canonical payload for that action), `policy_set.publish` and `policy_set.rollback` {setId} (`tenant.policies.write`; a platform role names {tenantId}), `passkey.register` {} and `passkey.revoke` {passkeyId} (one\'s own), `agent_execution.approve` and `agent_execution.reject` {executionId} (an approver of the tenant\'s agent payments, on one of its agent payments). `rpId` names the relying party (your tenant\'s passkey address); absent, Aurea\'s own — only the caller\'s passkeys of that relying party may answer. Refusals: 400 `STEP_UP_ACTION_INVALID`, `PASSKEY_RP_NOT_ALLOWED`; 403 `STEP_UP_ACTION_FORBIDDEN`; 404 `STEP_UP_TARGET_NOT_FOUND`; 409 `STEP_UP_NO_PASSKEY`. Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Start a step-up for one action
      */
     async v1AuthStepUpOptionsPost(requestParameters: V1AuthStepUpOptionsPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AuthStepUpOptionsPost200Response> {
@@ -1867,7 +1867,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The assertion that answers the step-up\'s options (`credential`: the AuthenticationResponseJSON), verified with the caller\'s passkey it names — one of the relying party its options named — (user verification, its counter, its signature over the challenge). Answers `stepUpToken`: two minutes, used once, by the caller, for that action on that target only — send it with the action (`stepUpToken`). Refusal: 403 `STEP_UP_INVALID` (unknown, used or expired options, another passkey, a signature that does not verify). Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The assertion that answers the step-up\'s options (`credential`: the AuthenticationResponseJSON), verified with the caller\'s passkey it names — one of the relying party its options named — (user verification, its counter, its signature over the challenge). Answers `stepUpToken`: two minutes, used once, by the caller, for that action on that target only — send it with the action (`stepUpToken`). Refusal: 403 `STEP_UP_INVALID` (unknown, used or expired options, another passkey, a signature that does not verify). Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Confirm a step-up with a passkey
      */
     async v1AuthStepUpPostRaw(requestParameters: V1AuthStepUpPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AuthStepUpPost200Response>> {
@@ -1878,7 +1878,7 @@ export class AuthApi extends runtime.BaseAPI {
     }
 
     /**
-     * The assertion that answers the step-up\'s options (`credential`: the AuthenticationResponseJSON), verified with the caller\'s passkey it names — one of the relying party its options named — (user verification, its counter, its signature over the challenge). Answers `stepUpToken`: two minutes, used once, by the caller, for that action on that target only — send it with the action (`stepUpToken`). Refusal: 403 `STEP_UP_INVALID` (unknown, used or expired options, another passkey, a signature that does not verify). Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
+     * The assertion that answers the step-up\'s options (`credential`: the AuthenticationResponseJSON), verified with the caller\'s passkey it names — one of the relying party its options named — (user verification, its counter, its signature over the challenge). Answers `stepUpToken`: two minutes, used once, by the caller, for that action on that target only — send it with the action (`stepUpToken`). Refusal: 403 `STEP_UP_INVALID` (unknown, used or expired options, another passkey, a signature that does not verify). Every role but the End User (403 `PASSKEY_NOT_AVAILABLE`), and the End User too once the platform allows it (not by default); 503 `PASSKEYS_NOT_CONFIGURED` when the platform has no relying party.
      * Confirm a step-up with a passkey
      */
     async v1AuthStepUpPost(requestParameters: V1AuthStepUpPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AuthStepUpPost200Response> {

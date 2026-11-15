@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * Not waiting to be confirmed, the quote expired, or not enough on the balance (`BANK_RAMP_ORDER_NOT_PREPARED`, `BANK_RAMP_QUOTE_EXPIRED`, `BANK_RAMP_ORDER_BALANCE_LOW`), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`
+ * Not waiting to be confirmed, the quote expired, or not enough on the balance (`BANK_RAMP_ORDER_NOT_PREPARED`, `BANK_RAMP_QUOTE_EXPIRED`, `BANK_RAMP_ORDER_BALANCE_LOW`), a to-bank order held while the bank ramp's ledger is being reconciled (`BANK_RAMP_PAYOUTS_HELD_RECONCILIATION`: try again later), or `IDEMPOTENCY_KEY_REUSED` (the key came with another body), `IDEMPOTENCY_IN_PROGRESS`
  * @export
  * @interface V1RampBankCustomerDeskOrdersIdConfirmPost409Response
  */

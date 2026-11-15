@@ -13,6 +13,14 @@
  */
 
 import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
+import type { V1RampBankCustomerVerificationGet200ResponseAccount } from './V1RampBankCustomerVerificationGet200ResponseAccount';
+import {
+    V1RampBankCustomerVerificationGet200ResponseAccountFromJSON,
+    V1RampBankCustomerVerificationGet200ResponseAccountFromJSONTyped,
+    V1RampBankCustomerVerificationGet200ResponseAccountToJSON,
+    V1RampBankCustomerVerificationGet200ResponseAccountToJSONTyped,
+} from './V1RampBankCustomerVerificationGet200ResponseAccount';
+
 /**
  * 
  * @export
@@ -47,6 +55,10 @@ export interface V1RampBankCustomerVerificationGet200Response {
      * 
      */
     updatedAt: Date | null;
+    /**
+     * 
+     */
+    account?: V1RampBankCustomerVerificationGet200ResponseAccount;
 }
 
 
@@ -125,6 +137,7 @@ export function V1RampBankCustomerVerificationGet200ResponseFromJSONTyped(json: 
         'required': json['required'],
         'verifiedAt': (json['verifiedAt'] == null ? null : parseDateTime(json['verifiedAt'])),
         'updatedAt': (json['updatedAt'] == null ? null : parseDateTime(json['updatedAt'])),
+        'account': json['account'] == null ? undefined : V1RampBankCustomerVerificationGet200ResponseAccountFromJSON(json['account']),
     };
 }
 
@@ -146,6 +159,7 @@ export function V1RampBankCustomerVerificationGet200ResponseToJSONTyped(value?: 
         'required': value['required'],
         'verifiedAt': value['verifiedAt'] == null ? value['verifiedAt'] : serializeDateTime(value['verifiedAt']),
         'updatedAt': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),
+        'account': V1RampBankCustomerVerificationGet200ResponseAccountToJSON(value['account']),
     };
 }
 

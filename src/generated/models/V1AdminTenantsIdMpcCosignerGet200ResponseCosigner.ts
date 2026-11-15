@@ -55,6 +55,10 @@ export interface V1AdminTenantsIdMpcCosignerGet200ResponseCosigner {
      * 
      */
     updatedAt: Date;
+    /**
+     * C3: the co-signer is also the C3 party of the tenant's v3 MPC wallets (weighted 4-of-7). Absent: it co-signs the tenant's v2 wallets only
+     */
+    party?: V1AdminTenantsIdMpcCosignerGet200ResponseCosignerPartyEnum;
 }
 
 
@@ -66,6 +70,14 @@ export const V1AdminTenantsIdMpcCosignerGet200ResponseCosignerModeEnum = {
     On: 'on',
 } as const;
 export type V1AdminTenantsIdMpcCosignerGet200ResponseCosignerModeEnum = typeof V1AdminTenantsIdMpcCosignerGet200ResponseCosignerModeEnum[keyof typeof V1AdminTenantsIdMpcCosignerGet200ResponseCosignerModeEnum];
+
+/**
+ * @export
+ */
+export const V1AdminTenantsIdMpcCosignerGet200ResponseCosignerPartyEnum = {
+    C3: 'C3',
+} as const;
+export type V1AdminTenantsIdMpcCosignerGet200ResponseCosignerPartyEnum = typeof V1AdminTenantsIdMpcCosignerGet200ResponseCosignerPartyEnum[keyof typeof V1AdminTenantsIdMpcCosignerGet200ResponseCosignerPartyEnum];
 
 
 /**
@@ -103,6 +115,7 @@ export function V1AdminTenantsIdMpcCosignerGet200ResponseCosignerFromJSONTyped(j
         'version': json['version'],
         'createdAt': (json['createdAt'] == null ? json['createdAt'] : parseDateTime(json['createdAt'])),
         'updatedAt': (json['updatedAt'] == null ? json['updatedAt'] : parseDateTime(json['updatedAt'])),
+        'party': json['party'] == null ? undefined : json['party'],
     };
 }
 
@@ -126,6 +139,7 @@ export function V1AdminTenantsIdMpcCosignerGet200ResponseCosignerToJSONTyped(val
         'version': value['version'],
         'createdAt': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
         'updatedAt': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),
+        'party': value['party'],
     };
 }
 

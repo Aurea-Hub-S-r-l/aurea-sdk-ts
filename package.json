@@ -1,16 +1,16 @@
 {
   "name": "@aureahub/sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "TypeScript SDK for the Aurea API: typed calls for every documented route, request signing, idempotency keys, typed errors and pagination.",
   "license": "MIT",
   "author": "Aurea",
   "homepage": "https://docs.aureahub.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pocketz00/aurea-sdk-ts.git"
+    "url": "git+https://github.com/Aurea-Hub-S-r-l/aurea-sdk-ts.git"
   },
   "bugs": {
-    "url": "https://github.com/Pocketz00/aurea-sdk-ts/issues",
+    "url": "https://github.com/Aurea-Hub-S-r-l/aurea-sdk-ts/issues",
     "email": "help@aureahub.com"
   },
   "keywords": ["aurea", "aureahub", "api", "sdk", "wallets", "payments", "typescript"],

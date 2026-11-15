@@ -13,6 +13,13 @@
  */
 
 import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
+import type { V1TransactionsPost201ResponsePermitIntent } from './V1TransactionsPost201ResponsePermitIntent';
+import {
+    V1TransactionsPost201ResponsePermitIntentFromJSON,
+    V1TransactionsPost201ResponsePermitIntentFromJSONTyped,
+    V1TransactionsPost201ResponsePermitIntentToJSON,
+    V1TransactionsPost201ResponsePermitIntentToJSONTyped,
+} from './V1TransactionsPost201ResponsePermitIntent';
 import type { V1TransactionsGet200ResponseDataInnerToken } from './V1TransactionsGet200ResponseDataInnerToken';
 import {
     V1TransactionsGet200ResponseDataInnerTokenFromJSON,
@@ -27,6 +34,13 @@ import {
     V1TransactionsGet200ResponseDataInnerFeeToJSON,
     V1TransactionsGet200ResponseDataInnerFeeToJSONTyped,
 } from './V1TransactionsGet200ResponseDataInnerFee';
+import type { V1TransactionsPost201ResponseGaslessContract } from './V1TransactionsPost201ResponseGaslessContract';
+import {
+    V1TransactionsPost201ResponseGaslessContractFromJSON,
+    V1TransactionsPost201ResponseGaslessContractFromJSONTyped,
+    V1TransactionsPost201ResponseGaslessContractToJSON,
+    V1TransactionsPost201ResponseGaslessContractToJSONTyped,
+} from './V1TransactionsPost201ResponseGaslessContract';
 import type { V1TransactionsPost201ResponseTravelRule } from './V1TransactionsPost201ResponseTravelRule';
 import {
     V1TransactionsPost201ResponseTravelRuleFromJSON,
@@ -156,6 +170,26 @@ export interface V1TransactionsPost201Response {
     /**
      * 
      */
+    gaslessContract?: V1TransactionsPost201ResponseGaslessContract | null;
+    /**
+     * 
+     */
+    deadline?: number | null;
+    /**
+     * 
+     */
+    permitIntent?: V1TransactionsPost201ResponsePermitIntent | null;
+    /**
+     * 
+     */
+    authorizationIntent?: V1TransactionsPost201ResponsePermitIntent | null;
+    /**
+     * 
+     */
+    authorizationHashToSign?: string | null;
+    /**
+     * 
+     */
     travelRule?: V1TransactionsPost201ResponseTravelRule;
 }
 
@@ -204,6 +238,11 @@ export function V1TransactionsPost201ResponseFromJSONTyped(json: any, ignoreDisc
         'maxPriorityFeePerGas': json['maxPriorityFeePerGas'] === undefined ? undefined : json['maxPriorityFeePerGas'] === null ? null : json['maxPriorityFeePerGas'],
         'chainId': json['chainId'] === undefined ? undefined : json['chainId'] === null ? null : json['chainId'],
         'expiresAt': json['expiresAt'] === undefined ? undefined : json['expiresAt'] === null ? null : json['expiresAt'],
+        'gaslessContract': json['gaslessContract'] === undefined ? undefined : json['gaslessContract'] === null ? null : V1TransactionsPost201ResponseGaslessContractFromJSON(json['gaslessContract']),
+        'deadline': json['deadline'] === undefined ? undefined : json['deadline'] === null ? null : json['deadline'],
+        'permitIntent': json['permitIntent'] === undefined ? undefined : json['permitIntent'] === null ? null : V1TransactionsPost201ResponsePermitIntentFromJSON(json['permitIntent']),
+        'authorizationIntent': json['authorizationIntent'] === undefined ? undefined : json['authorizationIntent'] === null ? null : V1TransactionsPost201ResponsePermitIntentFromJSON(json['authorizationIntent']),
+        'authorizationHashToSign': json['authorizationHashToSign'] === undefined ? undefined : json['authorizationHashToSign'] === null ? null : json['authorizationHashToSign'],
         'travelRule': json['travelRule'] == null ? undefined : V1TransactionsPost201ResponseTravelRuleFromJSON(json['travelRule']),
     };
 }
@@ -247,6 +286,11 @@ export function V1TransactionsPost201ResponseToJSONTyped(value?: V1TransactionsP
         'maxPriorityFeePerGas': value['maxPriorityFeePerGas'],
         'chainId': value['chainId'],
         'expiresAt': value['expiresAt'],
+        'gaslessContract': V1TransactionsPost201ResponseGaslessContractToJSON(value['gaslessContract']),
+        'deadline': value['deadline'],
+        'permitIntent': V1TransactionsPost201ResponsePermitIntentToJSON(value['permitIntent']),
+        'authorizationIntent': V1TransactionsPost201ResponsePermitIntentToJSON(value['authorizationIntent']),
+        'authorizationHashToSign': value['authorizationHashToSign'],
         'travelRule': V1TransactionsPost201ResponseTravelRuleToJSON(value['travelRule']),
     };
 }

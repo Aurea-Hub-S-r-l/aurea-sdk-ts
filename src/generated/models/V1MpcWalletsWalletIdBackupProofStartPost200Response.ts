@@ -25,13 +25,21 @@ export interface V1MpcWalletsWalletIdBackupProofStartPost200Response {
      */
     challengeId?: string | null;
     /**
-     * The relay session: bkp- followed by a UUID
+     * The relay session: bkp- followed by a UUID (a v3 wallet's: v3bkp-)
      */
     sessionId?: string;
     /**
-     * Always BACKUP and AUREA
+     * BACKUP and AUREA; for a v3 wallet BACKUP_A, BACKUP_B and the two cosigners that sign with them
      */
-    committee?: Array<V1MpcWalletsWalletIdBackupProofStartPost200ResponseCommitteeEnum>;
+    committee?: Array<string | null>;
+    /**
+     * A v3 wallet's proof only: 1
+     */
+    committeeAttempt?: string;
+    /**
+     * A v3 wallet's proof only: the committee's keygen indices, ascending
+     */
+    signers?: Array<number | null>;
     /**
      * The exact text proven: its purpose, the wallet, its address and curve, the tenant, the user, a challenge, when it was issued and when it expires
      */
@@ -45,17 +53,6 @@ export interface V1MpcWalletsWalletIdBackupProofStartPost200Response {
      */
     expiresAt?: Date;
 }
-
-
-/**
- * @export
- */
-export const V1MpcWalletsWalletIdBackupProofStartPost200ResponseCommitteeEnum = {
-    Backup: 'BACKUP',
-    Aurea: 'AUREA',
-} as const;
-export type V1MpcWalletsWalletIdBackupProofStartPost200ResponseCommitteeEnum = typeof V1MpcWalletsWalletIdBackupProofStartPost200ResponseCommitteeEnum[keyof typeof V1MpcWalletsWalletIdBackupProofStartPost200ResponseCommitteeEnum];
-
 
 /**
  * Check if a given object implements the V1MpcWalletsWalletIdBackupProofStartPost200Response interface.
@@ -78,6 +75,8 @@ export function V1MpcWalletsWalletIdBackupProofStartPost200ResponseFromJSONTyped
         'challengeId': json['challengeId'] === undefined ? undefined : json['challengeId'] === null ? null : json['challengeId'],
         'sessionId': json['sessionId'] == null ? undefined : json['sessionId'],
         'committee': json['committee'] == null ? undefined : json['committee'],
+        'committeeAttempt': json['committeeAttempt'] == null ? undefined : json['committeeAttempt'],
+        'signers': json['signers'] == null ? undefined : json['signers'],
         'message': json['message'] == null ? undefined : json['message'],
         'digest': json['digest'] == null ? undefined : json['digest'],
         'expiresAt': json['expiresAt'] == null ? undefined : (parseDateTime(json['expiresAt'])),
@@ -99,6 +98,8 @@ export function V1MpcWalletsWalletIdBackupProofStartPost200ResponseToJSONTyped(v
         'challengeId': value['challengeId'],
         'sessionId': value['sessionId'],
         'committee': value['committee'],
+        'committeeAttempt': value['committeeAttempt'],
+        'signers': value['signers'],
         'message': value['message'],
         'digest': value['digest'],
         'expiresAt': value['expiresAt'] == null ? value['expiresAt'] : serializeDateTime(value['expiresAt']),

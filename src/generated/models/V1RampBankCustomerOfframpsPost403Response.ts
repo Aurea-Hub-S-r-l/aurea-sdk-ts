@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), or the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`)
+ * No tenant (`TENANT_REQUIRED`), the user is not verified (`BANK_RAMP_KYC_REQUIRED`), the function or the integration mode is off for the tenant here (`BANK_RAMP_FUNCTION_OFF`, `BANK_RAMP_MODE_OFF`), or a passkey step-up is required and missing or not valid (`STEP_UP_REQUIRED`, `STEP_UP_INVALID`: when Aurea requires it, the request carries the user's step-up token for `bank_ramp.payout` in the `x-aurea-step-up` header)
  * @export
  * @interface V1RampBankCustomerOfframpsPost403Response
  */

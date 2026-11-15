@@ -51,6 +51,10 @@ export interface V1TenantAvailableFeaturesGet200ResponseModules {
      * 
      */
     remittance: boolean;
+    /**
+     * 
+     */
+    identityVerification?: boolean;
 }
 
 /**
@@ -86,6 +90,7 @@ export function V1TenantAvailableFeaturesGet200ResponseModulesFromJSONTyped(json
         'swapDapps': json['swap_dapps'],
         'aiAgents': json['ai_agents'],
         'remittance': json['remittance'],
+        'identityVerification': json['identity_verification'] == null ? undefined : json['identity_verification'],
     };
 }
 
@@ -108,6 +113,7 @@ export function V1TenantAvailableFeaturesGet200ResponseModulesToJSONTyped(value?
         'swap_dapps': value['swapDapps'],
         'ai_agents': value['aiAgents'],
         'remittance': value['remittance'],
+        'identity_verification': value['identityVerification'],
     };
 }
 

@@ -120,6 +120,10 @@ export interface V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInner 
     /**
      * 
      */
+    accountStatus?: V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerAccountStatusEnum;
+    /**
+     * 
+     */
     lastRefreshedAt?: string | null;
     /**
      * 
@@ -130,6 +134,19 @@ export interface V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInner 
      */
     createdAt: string | null;
 }
+
+
+/**
+ * @export
+ */
+export const V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerAccountStatusEnum = {
+    Active: 'Active',
+    PendingClosure: 'PendingClosure',
+    Closed: 'Closed',
+    Missing: 'Missing',
+} as const;
+export type V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerAccountStatusEnum = typeof V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerAccountStatusEnum[keyof typeof V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerAccountStatusEnum];
+
 
 /**
  * Check if a given object implements the V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInner interface.
@@ -179,6 +196,7 @@ export function V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerFr
         'status': json['status'],
         'destinationRevoked': json['destinationRevoked'],
         'isExpired': json['isExpired'],
+        'accountStatus': json['accountStatus'] == null ? undefined : json['accountStatus'],
         'lastRefreshedAt': json['lastRefreshedAt'] === undefined ? undefined : json['lastRefreshedAt'] === null ? null : json['lastRefreshedAt'],
         'expiresAt': json['expiresAt'] === undefined ? undefined : json['expiresAt'] === null ? null : json['expiresAt'],
         'createdAt': json['createdAt'],
@@ -215,6 +233,7 @@ export function V1RampBankPayinPaymentMethodsGet200ResponsePaymentMethodsInnerTo
         'status': value['status'],
         'destinationRevoked': value['destinationRevoked'],
         'isExpired': value['isExpired'],
+        'accountStatus': value['accountStatus'],
         'lastRefreshedAt': value['lastRefreshedAt'],
         'expiresAt': value['expiresAt'],
         'createdAt': value['createdAt'],

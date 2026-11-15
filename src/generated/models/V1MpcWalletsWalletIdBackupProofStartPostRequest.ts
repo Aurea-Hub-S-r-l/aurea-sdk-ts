@@ -23,6 +23,14 @@ export interface V1MpcWalletsWalletIdBackupProofStartPostRequest {
      * The relay version wanted (as at sign/start): 2 for any tenant, 1 only where the tenant may still use it
      */
     wireVersion?: V1MpcWalletsWalletIdBackupProofStartPostRequestWireVersionEnum;
+    /**
+     * Where the backup proof's approval is on: the `prepared` token of POST …/backup-proof/prepare, a string. The proof then signs that message, and the cosigner's grant carries the backup proof intent and `approval`. Send it with `approval`, both or neither.
+     */
+    prepared?: any | null;
+    /**
+     * With `prepared`: the wallet approval key's approval of the prepared digest, an object — `{"alg":"webauthn-es256","credentialId","authenticatorData","clientDataJSON","signature"}` (base64url) or `{"alg":"p256-raw","signature"}` — over challenge = SHA-256("aurea-mpc-approval/v1" 0x00 ‖ lp16(walletId) ‖ digest), exactly as at sign/start. The Hub forwards it; the cosigner verifies it.
+     */
+    approval?: any | null;
 }
 
 
@@ -54,6 +62,8 @@ export function V1MpcWalletsWalletIdBackupProofStartPostRequestFromJSONTyped(jso
     return {
         
         'wireVersion': json['wireVersion'] == null ? undefined : json['wireVersion'],
+        'prepared': json['prepared'] === undefined ? undefined : json['prepared'] === null ? null : json['prepared'],
+        'approval': json['approval'] === undefined ? undefined : json['approval'] === null ? null : json['approval'],
     };
 }
 
@@ -69,6 +79,8 @@ export function V1MpcWalletsWalletIdBackupProofStartPostRequestToJSONTyped(value
     return {
         
         'wireVersion': value['wireVersion'],
+        'prepared': value['prepared'],
+        'approval': value['approval'],
     };
 }
 
