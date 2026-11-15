@@ -46,4 +46,4 @@ export * from "./generated/apis/index";
 export * from "./generated/models/index";
 export { Configuration, BASE_PATH, RequiredError } from "./generated/runtime";
 export type { ConfigurationParameters, Middleware, InitOverrideFunction, ApiResponse } from "./generated/runtime";
-export const VERSION = "0.1.0";
+export const VERSION = "0.2.0";

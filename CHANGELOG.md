@@ -1,6 +1,9 @@
 # Changelog
 
-## Unreleased — USD accounts (not released: published only once the API serves them in production)
+## 0.2.0 — 15 November 2026 — USD accounts
+
+- Generated from the production OpenAPI document of 15 November 2026 (sha256 `a11cd2ef…050af`), the day the API
+  serves the USD account routes (turned on per tenant, on request).
 
 - `aurea.bankRampUsdAccounts`, one class for the customer's USD account (28 routes): `GET /v1/ramp/bank/customer/accounts`
   (the rail that serves the customer's USD, the account's status, capabilities, requirements, next step, USD bank
