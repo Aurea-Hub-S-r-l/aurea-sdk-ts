@@ -91,4 +91,16 @@ describe("USD accounts", () => {
     await user.bankRampUsdAccounts.v1RampBankCustomerTermsGet({ isTestnet: true });
     expect(seen).toEqual(["/v1/ramp/bank/customer/terms"]);
   });
+  it("sends the step-up header next to the bearer and the key (README › Step-up headers)", async () => {
+    const { seen, fetch } = recorder();
+    const user = new Aurea({ accessToken: "EXAMPLE", fetch });
+    await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost(
+      { idempotencyKey: "EXAMPLE-key-2", v1RampBankCustomerAccountsPayoutsPostRequest: { beneficiaryId: "5e0b7a12-8c3d-4f6e-9a1b-2c4d6e8f0a13", amount: "500.00", isTestnet: true } },
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), "x-aurea-step-up": "EXAMPLE-step-up" } }),
+    );
+    expect(seen[0].headers.get("x-aurea-step-up")).toBe("EXAMPLE-step-up");
+    expect(seen[0].headers.get("authorization")).toBe("Bearer EXAMPLE");
+    expect(seen[0].headers.get("idempotency-key")).toBe("EXAMPLE-key-2");
+    expect(seen[0].headers.get("content-type")).toBe("application/json");
+  });
 });

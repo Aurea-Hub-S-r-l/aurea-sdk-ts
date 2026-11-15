@@ -157,6 +157,24 @@ per operation with `idempotencyKey()`, store it with the pending operation, and 
 request on every retry: the first answer comes back, never a second operation. `wasReplayed(response)` tells you
 when an answer is the stored one.
 
+## Step-up headers
+
+The bank ramp's money out — `bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost()` and
+`v1RampBankCustomerAccountsWalletTransfersPost()` (`to_wallet`, or with `payout`) — is confirmed with the customer's
+passkey step-up for `bank_ramp.payout` when Aurea asks for it, in the `x-aurea-step-up` header
+([Passkeys & Step-Up](https://docs.aureahub.com/#guide-passkeys)). The header is not a method parameter: pass it in
+the method's last argument, in the function form, so that the headers the SDK already set (`Content-Type`,
+`Idempotency-Key`) are kept. The user's `Authorization` is added after it, as on every call.
+
+```ts
+await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost(
+  { idempotencyKey: key, v1RampBankCustomerAccountsPayoutsPostRequest: { beneficiaryId, amount: '500.00', isTestnet: true } },
+  async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), 'x-aurea-step-up': stepUpToken } }),
+);
+```
+
+A plain object (`{ headers: { 'x-aurea-step-up': stepUpToken } }`) replaces those headers instead: use the function.
+
 ## Retries
 
 The client retries, at most `maxRetries` times (default 2), only where a retry cannot run anything twice:
@@ -206,6 +224,12 @@ the account and its opening, profile and terms, beneficiaries, invoices and payo
 for your tenant ([Errors & Codes › Neutral Codes](https://docs.aureahub.com/#errors)): ask for them when your tenant
 is set up, or write to [help@aureahub.com](mailto:help@aureahub.com). This is a 0.x release: method and type names
 may still change between minor versions.
+
+## Development
+
+Install with `npm install --legacy-peer-deps`: a fresh `npm install` without it stops with npm's internal error
+"Cannot read properties of null (reading 'edgesOut')" (npm 10.9). Then `npm run typecheck`, `npm test`,
+`npm run build` and `npm run check:words`.
 
 ## Support
 

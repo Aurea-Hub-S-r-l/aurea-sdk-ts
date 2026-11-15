@@ -7,10 +7,10 @@
   "homepage": "https://docs.aureahub.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Pocketz00/aurea-sdk-ts.git"
+    "url": "git+https://github.com/Aurea-Hub-S-r-l/aurea-sdk-ts.git"
   },
   "bugs": {
-    "url": "https://github.com/Pocketz00/aurea-sdk-ts/issues",
+    "url": "https://github.com/Aurea-Hub-S-r-l/aurea-sdk-ts/issues",
     "email": "help@aureahub.com"
   },
   "keywords": ["aurea", "aureahub", "api", "sdk", "wallets", "payments", "typescript"],
