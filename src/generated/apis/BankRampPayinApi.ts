@@ -139,6 +139,10 @@ export interface V1RampBankPayinInitiatePostOperationRequest {
      */
     idempotencyKey?: string;
     /**
+     * Optional until Aurea requires a passkey step-up for money out, and then only when the request moves an existing virtual account to another address (another address for a currency the user already has an account in): the user's step-up token for `bank_ramp.destination_change`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing: 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`.
+     */
+    xAureaStepUp?: string | null;
+    /**
      * 
      */
     v1RampBankPayinInitiatePostRequest?: V1RampBankPayinInitiatePostRequest;
@@ -266,7 +270,7 @@ export class BankRampPayinApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve the fiat deposits of the authenticated user\'s profile in one of the bank ramp\'s environments (sandbox with `isTestnet=true`, production when `isTestnet` is false or omitted), with optional filtering. Deposits are known from the bank ramp\'s FiatDeposit webhooks; each carries the bank ramp\'s own status, the review sub-status, the request for information and the refunds the bank ramp reports.
+     * Retrieve the fiat deposits of the authenticated user\'s profile in one of the bank ramp\'s environments (sandbox with `isTestnet=true`, production when `isTestnet` is false or omitted), with optional filtering. Deposits are known from the bank ramp\'s deposit notifications; each carries the bank ramp\'s own status, the review sub-status, the request for information and the refunds the bank ramp reports.
      * Get customer deposits
      */
     async v1RampBankPayinDepositsGetRaw(requestParameters: V1RampBankPayinDepositsGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1RampBankPayinDepositsGet200Response>> {
@@ -277,7 +281,7 @@ export class BankRampPayinApi extends runtime.BaseAPI {
     }
 
     /**
-     * Retrieve the fiat deposits of the authenticated user\'s profile in one of the bank ramp\'s environments (sandbox with `isTestnet=true`, production when `isTestnet` is false or omitted), with optional filtering. Deposits are known from the bank ramp\'s FiatDeposit webhooks; each carries the bank ramp\'s own status, the review sub-status, the request for information and the refunds the bank ramp reports.
+     * Retrieve the fiat deposits of the authenticated user\'s profile in one of the bank ramp\'s environments (sandbox with `isTestnet=true`, production when `isTestnet` is false or omitted), with optional filtering. Deposits are known from the bank ramp\'s deposit notifications; each carries the bank ramp\'s own status, the review sub-status, the request for information and the refunds the bank ramp reports.
      * Get customer deposits
      */
     async v1RampBankPayinDepositsGet(requestParameters: V1RampBankPayinDepositsGetRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankPayinDepositsGet200Response> {
@@ -297,6 +301,10 @@ export class BankRampPayinApi extends runtime.BaseAPI {
 
         if (requestParameters['idempotencyKey'] != null) {
             headerParameters['idempotency-key'] = String(requestParameters['idempotencyKey']);
+        }
+
+        if (requestParameters['xAureaStepUp'] != null) {
+            headerParameters['x-aurea-step-up'] = String(requestParameters['xAureaStepUp']);
         }
 
         if (this.configuration && this.configuration.accessToken) {

@@ -453,6 +453,10 @@ export interface V1RampBankCustomerOfframpsPostOperationRequest {
      * 
      */
     v1RampBankCustomerOfframpsPostRequest: V1RampBankCustomerOfframpsPostRequest;
+    /**
+     * Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing: 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`.
+     */
+    xAureaStepUp?: string;
 }
 
 export interface V1RampBankCustomerVerificationGetRequest {
@@ -500,6 +504,10 @@ export interface V1RampBankCustomerWithdrawalsPostOperationRequest {
      * 
      */
     v1RampBankCustomerWithdrawalsPostRequest: V1RampBankCustomerWithdrawalsPostRequest;
+    /**
+     * Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing: 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`.
+     */
+    xAureaStepUp?: string;
 }
 
 /**
@@ -1176,6 +1184,10 @@ export class BankRampLocalApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (requestParameters['xAureaStepUp'] != null) {
+            headerParameters['x-aurea-step-up'] = String(requestParameters['xAureaStepUp']);
+        }
+
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
             const tokenString = await token("bearerAuth", []);
@@ -1458,6 +1470,10 @@ export class BankRampLocalApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['xAureaStepUp'] != null) {
+            headerParameters['x-aurea-step-up'] = String(requestParameters['xAureaStepUp']);
+        }
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;

@@ -28,11 +28,11 @@ import {
  */
 export interface V1AdminTenantsIdWebhookAttemptsGet200ResponseAttemptsInner {
     /**
-     * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     id?: string | null;
     /**
-     * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     deliveryId?: string | null;
     /**

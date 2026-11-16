@@ -49,7 +49,7 @@ import {
  */
 export interface V1RampBankPayinTransactionsGet200ResponseTransactionsInner {
     /**
-     * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     id: string | null;
     /**
@@ -109,7 +109,7 @@ export interface V1RampBankPayinTransactionsGet200ResponseTransactionsInner {
      */
     createdAt: string | null;
     /**
-     * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     depositId: string | null;
     /**
@@ -137,11 +137,11 @@ export interface V1RampBankPayinTransactionsGet200ResponseTransactionsInner {
      */
     refunds: Array<V1RampBankPayinDepositsGet200ResponseDepositsInnerRefundsInner>;
     /**
-     * Orchestration.RuleID: the rule the bank ramp executed.
+     * The id of the rule the bank ramp executed.
      */
     ruleId: string | null;
     /**
-     * Orchestration.RuleExecutionID: the same on every transaction of one flow, such as the conversion and the on-chain delivery of one deposit.
+     * The id of the rule's execution: the same on every transaction of one flow, such as the conversion and the on-chain delivery of one deposit.
      */
     ruleExecutionId: string | null;
     /**
@@ -161,15 +161,15 @@ export interface V1RampBankPayinTransactionsGet200ResponseTransactionsInner {
      */
     networkFee: string | null;
     /**
-     * FiatPayment.FeeAmount in fiatCurrency, exact decimal text.
+     * The bank ramp's fee on the bank transfer, in fiatCurrency, exact decimal text.
      */
     fiatFeeAmount: string | null;
     /**
-     * FiatPayment.Rate, exact decimal text: for a purchase, cryptoAmount = (fiatAmount - fiatFeeAmount) / fiatRate.
+     * The exchange rate the bank ramp applied, exact decimal text: for a purchase, cryptoAmount = (fiatAmount - fiatFeeAmount) / fiatRate.
      */
     fiatRate: string | null;
     /**
-     * FiatPayment.PaymentSystemID: the transfer's id in the payment system (IMAD for Fedwire, UETR for SWIFT, trace number for ACH).
+     * The transfer's id in the payment system (IMAD for Fedwire, UETR for SWIFT, trace number for ACH).
      */
     paymentSystemId: string | null;
     /**

@@ -29,7 +29,7 @@ import {
 export interface V1AgentPaymentsCommerceCheckoutPost201Response {
     [key: string]: any | any;
     /**
-     * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     checkoutId?: string | null;
     /**
@@ -49,7 +49,7 @@ export interface V1AgentPaymentsCommerceCheckoutPost201Response {
      */
     items?: Array<V1AgentPaymentsCommerceCheckoutPost201ResponseItemsInner>;
     /**
-     * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     agentId?: string | null;
 }

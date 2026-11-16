@@ -46,7 +46,7 @@ export interface V1RampBankPayoutChannelsSearchPost200ResponseChannelsInnerSaved
      */
     paymentMethodId: string;
     /**
-     * The bank ramp's PaymentMethodType, e.g. BankSepa; given on a channel.
+     * The bank ramp's payment method type, e.g. BankSepa; given on a channel.
      */
     paymentMethodType: string | null;
     /**

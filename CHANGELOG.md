@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.2.1 — unreleased
+
+Prepared from the API's master document with aurea_api !722 (not production yet): regenerate from the production
+document once it serves !722, before publishing.
+
+### Added
+- `xAureaStepUp`, the passkey step-up token, as an optional parameter of the methods whose route requires it when
+  Aurea asks for a step-up: the USD account's payouts and wallet transfers, the local rails' off-ramps and
+  withdrawals, the desk order's confirmation, the bank ramp payouts (`bank_ramp.payout`) and the pay-in's
+  destination change (`bank_ramp.destination_change`). Nothing breaks: the header set by hand still works.
+
+### Changed
+- Doc comments: the bank ramp's own field names replaced by what the value is.
+
 ## 0.2.0 — 15 November 2026 — USD accounts
 
 Generated from the production OpenAPI document of 15 November 2026 (sha256 `a11cd2ef…050af`), the day the API serves
