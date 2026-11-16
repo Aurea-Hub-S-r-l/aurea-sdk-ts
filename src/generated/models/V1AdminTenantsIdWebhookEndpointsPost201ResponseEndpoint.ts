@@ -168,6 +168,8 @@ export const V1AdminTenantsIdWebhookEndpointsPost201ResponseEndpointEventTypesEn
     RecoverySafeQueued: 'recovery.safe_queued',
     RecoverySafeExecuted: 'recovery.safe_executed',
     RecoverySafeCancelled: 'recovery.safe_cancelled',
+    MpcConfirmationRequired: 'mpc.confirmation.required',
+    MpcConfirmationConfirmed: 'mpc.confirmation.confirmed',
     IdentityVerificationUpdated: 'identity.verification.updated',
     IdentityHandoffUpdated: 'identity.handoff.updated',
 } as const;

@@ -61459,6 +61459,8 @@
                 "recovery.safe_queued",
                 "recovery.safe_executed",
                 "recovery.safe_cancelled",
+                "mpc.confirmation.required",
+                "mpc.confirmation.confirmed",
                 "identity.verification.updated",
                 "identity.handoff.updated"
                ]
@@ -61593,6 +61595,8 @@
                "recovery.safe_queued",
                "recovery.safe_executed",
                "recovery.safe_cancelled",
+               "mpc.confirmation.required",
+               "mpc.confirmation.confirmed",
                "identity.verification.updated",
                "identity.handoff.updated"
               ]
@@ -61749,7 +61753,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 91,
+          "maxItems": 93,
           "items": {
            "type": "string",
            "enum": [
@@ -61842,6 +61846,8 @@
             "recovery.safe_queued",
             "recovery.safe_executed",
             "recovery.safe_cancelled",
+            "mpc.confirmation.required",
+            "mpc.confirmation.confirmed",
             "identity.verification.updated",
             "identity.handoff.updated"
            ]
@@ -62013,6 +62019,8 @@
                "recovery.safe_queued",
                "recovery.safe_executed",
                "recovery.safe_cancelled",
+               "mpc.confirmation.required",
+               "mpc.confirmation.confirmed",
                "identity.verification.updated",
                "identity.handoff.updated"
               ]
@@ -62231,7 +62239,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 91,
+          "maxItems": 93,
           "items": {
            "type": "string",
            "enum": [
@@ -62324,6 +62332,8 @@
             "recovery.safe_queued",
             "recovery.safe_executed",
             "recovery.safe_cancelled",
+            "mpc.confirmation.required",
+            "mpc.confirmation.confirmed",
             "identity.verification.updated",
             "identity.handoff.updated"
            ]
@@ -62504,6 +62514,8 @@
                "recovery.safe_queued",
                "recovery.safe_executed",
                "recovery.safe_cancelled",
+               "mpc.confirmation.required",
+               "mpc.confirmation.confirmed",
                "identity.verification.updated",
                "identity.handoff.updated"
               ]
@@ -62991,6 +63003,8 @@
                "recovery.safe_queued",
                "recovery.safe_executed",
                "recovery.safe_cancelled",
+               "mpc.confirmation.required",
+               "mpc.confirmation.confirmed",
                "identity.verification.updated",
                "identity.handoff.updated"
               ]

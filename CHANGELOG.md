@@ -19,6 +19,8 @@ approval step) — not production's own document yet: regenerate from it once it
   (From the API's master, not !722; hence 0.3.0.)
 
 ### Changed
+- The webhook endpoints' event types (admin routes) add `mpc.confirmation.required` and `mpc.confirmation.confirmed`
+  (from the API's master).
 - The USD account routes' Idempotency-Key is documented as the API checks it (1–255 letters, digits, `-` or `_`).
 - Doc comments: the bank ramp's own field names replaced by what the value is; the profile, lists and terms refusals
   name their `details.nextStep`.

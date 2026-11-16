@@ -135,6 +135,8 @@ export const V1AdminTenantsIdWebhookEndpointsEndpointIdPatchRequestEventTypesEnu
     RecoverySafeQueued: 'recovery.safe_queued',
     RecoverySafeExecuted: 'recovery.safe_executed',
     RecoverySafeCancelled: 'recovery.safe_cancelled',
+    MpcConfirmationRequired: 'mpc.confirmation.required',
+    MpcConfirmationConfirmed: 'mpc.confirmation.confirmed',
     IdentityVerificationUpdated: 'identity.verification.updated',
     IdentityHandoffUpdated: 'identity.handoff.updated',
 } as const;
