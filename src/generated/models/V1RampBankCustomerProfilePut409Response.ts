@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`)
+ * The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`, `nextStep` `contact_support`)
  * @export
  * @interface V1RampBankCustomerProfilePut409Response
  */

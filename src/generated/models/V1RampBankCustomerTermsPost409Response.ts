@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`)
+ * No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`, `nextStep` `complete_profile`, or `open_new_link` when newer terms replaced them), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`, `nextStep` `none`)
  * @export
  * @interface V1RampBankCustomerTermsPost409Response
  */

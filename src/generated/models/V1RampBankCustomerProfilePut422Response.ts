@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`)
+ * An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`)
  * @export
  * @interface V1RampBankCustomerProfilePut422Response
  */

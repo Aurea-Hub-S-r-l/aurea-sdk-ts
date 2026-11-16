@@ -56206,12 +56206,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -56234,12 +56234,12 @@
       }
      },
      "503": {
-      "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)",
+      "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)",
+         "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -56417,12 +56417,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57479,12 +57479,12 @@
       }
      },
      "400": {
-      "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`)",
+      "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`)",
+         "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57507,12 +57507,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57563,12 +57563,12 @@
       }
      },
      "409": {
-      "description": "The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`)",
+      "description": "The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`)",
+         "description": "The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57591,12 +57591,12 @@
       }
      },
      "422": {
-      "description": "An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`)",
+      "description": "An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`)",
+         "description": "An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57619,12 +57619,12 @@
       }
      },
      "503": {
-      "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)",
+      "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)",
+         "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57770,12 +57770,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57932,12 +57932,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57960,12 +57960,12 @@
       }
      },
      "409": {
-      "description": "No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`)",
+      "description": "No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`, `nextStep` `complete_profile`, or `open_new_link` when newer terms replaced them), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`, `nextStep` `none`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`)",
+         "description": "No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`, `nextStep` `complete_profile`, or `open_new_link` when newer terms replaced them), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`, `nextStep` `none`)",
          "properties": {
           "statusCode": {
            "type": "integer",
