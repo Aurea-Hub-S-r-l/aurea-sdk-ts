@@ -195,6 +195,10 @@ describe("retries — only where the docs allow them", () => {
     // Without a token, or on a route that checks it inside the key's call, the usual retries.
     const e = fakeFetch([fail(503, {}), ok({})]);
     expect((await transport(e.fn)(url, { method: "POST", body: "{}", headers: { "Idempotency-Key": "k-4" } })).status).toBe(200);
+    // Behind a proxy's path prefix, or with a trailing slash: still never resent.
+    const g = fakeFetch([fail(503, {}), ok({})]);
+    expect((await transport(g.fn)("https://proxy.example.com/aurea/v1/ramp/bank/payout/payouts/", init)).status).toBe(503);
+    expect(g.calls).toHaveLength(1);
     const f = fakeFetch([fail(503, {}), ok({})]);
     expect((await transport(f.fn)("https://api.aureahub.com/v1/ramp/bank/customer/accounts/payouts", init)).status).toBe(200);
   });

@@ -36,7 +36,12 @@ const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 const RETRY_STATUSES = new Set([502, 503, 504]);
 const STEP_UP_HEADER = "x-aurea-step-up";
 /** The routes that check `x-aurea-step-up` before the Idempotency-Key: a retry needs a new token. */
-const STEP_UP_BEFORE_KEY = new Set(["POST /v1/ramp/bank/payout/payouts"]);
+const STEP_UP_BEFORE_KEY: Array<[method: string, pathEnd: string]> = [["POST", "/v1/ramp/bank/payout/payouts"]];
+/** Matched on the path's end, without trailing slashes: a baseUrl with a path prefix (a proxy) still matches. */
+function spendsTokenBeforeKey(method: string, path: string): boolean {
+  const bare = path.split("?")[0]!.replace(/\/+$/, "");
+  return STEP_UP_BEFORE_KEY.some(([m, end]) => m === method && bare.endsWith(end));
+}
 
 function headersToRecord(headers: HeadersInit | undefined): Record<string, string> {
   const out: Record<string, string> = {};
@@ -96,7 +101,7 @@ export function createTransport(options: TransportOptions): FetchLike {
     const signed = !alreadySigned && (isSignedRoute(method, path) || "x-tenant-api-key" in baseHeaders);
     const hasKey = "idempotency-key" in baseHeaders;
     // The token is spent on the first attempt: never resend it (only a 429, answered before the route runs).
-    const tokenSpent = STEP_UP_HEADER in baseHeaders && STEP_UP_BEFORE_KEY.has(`${method} ${path.split("?")[0]}`);
+    const tokenSpent = STEP_UP_HEADER in baseHeaders && spendsTokenBeforeKey(method, path);
     const resendable = (SAFE_METHODS.has(method) || hasKey) && !tokenSpent;
     const body = init.body;
 
