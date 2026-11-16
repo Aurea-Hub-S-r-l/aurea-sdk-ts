@@ -17,9 +17,14 @@ Generated from the production OpenAPI document of 16 November 2026 (sha256 `14ef
   TypeScript caller passing `null` there no longer compiles: leave the key out instead. Nothing changes at run time.
 
 ### Changed
-- The webhook endpoints' event types (admin routes) add `mpc.confirmation.required`, `mpc.confirmation.confirmed`
-  and `ramp.accounts.updated` (a customer's account opening changed: its state, its accounts' states, the next step
-  asked or an account update offered).
+- The event types of the webhook endpoints and of the environments' webhooks (admin routes) add
+  `mpc.confirmation.required`, `mpc.confirmation.confirmed` and `ramp.accounts.updated` (a customer's account opening
+  changed: its state, its accounts' states, the next step asked or an account update offered). New values in answer
+  enums: handle a value you do not know (a `switch` with an exhaustive `never` check no longer compiles).
+- The client no longer retries `bankRampPayout.v1RampBankPayoutPayoutsPost()` when it carries a step-up token (except
+  after a `429`): the API spends the token before the Idempotency-Key, so a retry was refused 403 `STEP_UP_INVALID`
+  even when the first request ran. After no answer it throws `AureaConnectionError`: ask a new step-up and send it
+  again with the same Idempotency-Key (README › Step-up headers).
 - The USD account routes' Idempotency-Key is documented as the API checks it (1–255 letters, digits, `-` or `_`).
 - Doc comments: the bank ramp's own field names replaced by what the value is; the profile, lists and terms refusals
   name their `details.nextStep`.
