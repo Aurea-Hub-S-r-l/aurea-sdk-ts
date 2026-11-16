@@ -85,6 +85,7 @@ export const V1AdminTenantsIdWebhooksEnvironmentPut200ResponseWebhookEventTypesE
     RampCollectionReversed: 'ramp.collection.reversed',
     RampAccountUpdated: 'ramp.account.updated',
     RampWalletTransferUpdated: 'ramp.wallet_transfer.updated',
+    RampAccountsUpdated: 'ramp.accounts.updated',
 } as const;
 export type V1AdminTenantsIdWebhooksEnvironmentPut200ResponseWebhookEventTypesEnum = typeof V1AdminTenantsIdWebhooksEnvironmentPut200ResponseWebhookEventTypesEnum[keyof typeof V1AdminTenantsIdWebhooksEnvironmentPut200ResponseWebhookEventTypesEnum];
 

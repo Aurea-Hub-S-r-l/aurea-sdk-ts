@@ -1,9 +1,8 @@
 # Changelog
 
-## 0.3.0 — unreleased
+## 0.3.0 — 16 November 2026 — step-up headers
 
-Prepared from the API's master document with aurea_api !722, written with production's address-book setting (no
-approval step) — not production's own document yet: regenerate from it once it serves !722, before publishing.
+Generated from the production OpenAPI document of 16 November 2026 (sha256 `14ef3bd6…ce3c5`). 577 routes (as 0.2.0).
 
 ### Added
 - `xAureaStepUp`, the passkey step-up token, as an optional parameter of the methods whose route requires it when
@@ -16,14 +15,16 @@ approval step) — not production's own document yet: regenerate from it once it
 ### Breaking changes (from 0.2.0)
 - `bankRampUsdAccounts.v1RampBankCustomerBeneficiariesPost()`: `idempotencyKey` is `string` (was `string | null`). A
   TypeScript caller passing `null` there no longer compiles: leave the key out instead. Nothing changes at run time.
-  (From the API's master, not !722; hence 0.3.0.)
 
 ### Changed
-- The webhook endpoints' event types (admin routes) add `mpc.confirmation.required` and `mpc.confirmation.confirmed`
-  (from the API's master).
+- The webhook endpoints' event types (admin routes) add `mpc.confirmation.required`, `mpc.confirmation.confirmed`
+  and `ramp.accounts.updated` (a customer's account opening changed: its state, its accounts' states, the next step
+  asked or an account update offered).
 - The USD account routes' Idempotency-Key is documented as the API checks it (1–255 letters, digits, `-` or `_`).
 - Doc comments: the bank ramp's own field names replaced by what the value is; the profile, lists and terms refusals
   name their `details.nextStep`.
+- No new error class: the API's new codes (the Remittance codes such as `REMITTANCE_USE_USD_ACCOUNT`) are not answered
+  by the routes this SDK calls; any code still reads as a string through `AureaError.code`.
 
 ## 0.2.0 — 15 November 2026 — USD accounts
 

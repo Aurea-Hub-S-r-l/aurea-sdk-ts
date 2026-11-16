@@ -60164,7 +60164,8 @@
                 "ramp.desk_order.updated",
                 "ramp.collection.reversed",
                 "ramp.account.updated",
-                "ramp.wallet_transfer.updated"
+                "ramp.wallet_transfer.updated",
+                "ramp.accounts.updated"
                ]
               },
               "description": "The types it receives; empty receives the ramp.* and earn.* types"
@@ -60213,7 +60214,8 @@
              "ramp.desk_order.updated",
              "ramp.collection.reversed",
              "ramp.account.updated",
-             "ramp.wallet_transfer.updated"
+             "ramp.wallet_transfer.updated",
+             "ramp.accounts.updated"
             ]
            }
           }
@@ -60350,7 +60352,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 14,
+          "maxItems": 15,
           "items": {
            "type": "string"
           }
@@ -60441,7 +60443,8 @@
                "ramp.desk_order.updated",
                "ramp.collection.reversed",
                "ramp.account.updated",
-               "ramp.wallet_transfer.updated"
+               "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated"
               ]
              },
              "description": "The types it receives; empty receives the ramp.* and earn.* types"
@@ -60518,7 +60521,8 @@
                "ramp.desk_order.updated",
                "ramp.collection.reversed",
                "ramp.account.updated",
-               "ramp.wallet_transfer.updated"
+               "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated"
               ]
              },
              "description": "The types it receives; empty receives the ramp.* and earn.* types"
@@ -60928,7 +60932,8 @@
                "ramp.desk_order.updated",
                "ramp.collection.reversed",
                "ramp.account.updated",
-               "ramp.wallet_transfer.updated"
+               "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated"
               ]
              },
              "description": "The types it receives; empty receives the ramp.* and earn.* types"
@@ -61435,6 +61440,7 @@
                 "ramp.collection.reversed",
                 "ramp.account.updated",
                 "ramp.wallet_transfer.updated",
+                "ramp.accounts.updated",
                 "fiat.profile.updated",
                 "fiat.bank_account.updated",
                 "fiat.virtual_account.updated",
@@ -61571,6 +61577,7 @@
                "ramp.collection.reversed",
                "ramp.account.updated",
                "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated",
                "fiat.profile.updated",
                "fiat.bank_account.updated",
                "fiat.virtual_account.updated",
@@ -61753,7 +61760,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 93,
+          "maxItems": 94,
           "items": {
            "type": "string",
            "enum": [
@@ -61822,6 +61829,7 @@
             "ramp.collection.reversed",
             "ramp.account.updated",
             "ramp.wallet_transfer.updated",
+            "ramp.accounts.updated",
             "fiat.profile.updated",
             "fiat.bank_account.updated",
             "fiat.virtual_account.updated",
@@ -61995,6 +62003,7 @@
                "ramp.collection.reversed",
                "ramp.account.updated",
                "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated",
                "fiat.profile.updated",
                "fiat.bank_account.updated",
                "fiat.virtual_account.updated",
@@ -62239,7 +62248,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 93,
+          "maxItems": 94,
           "items": {
            "type": "string",
            "enum": [
@@ -62308,6 +62317,7 @@
             "ramp.collection.reversed",
             "ramp.account.updated",
             "ramp.wallet_transfer.updated",
+            "ramp.accounts.updated",
             "fiat.profile.updated",
             "fiat.bank_account.updated",
             "fiat.virtual_account.updated",
@@ -62490,6 +62500,7 @@
                "ramp.collection.reversed",
                "ramp.account.updated",
                "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated",
                "fiat.profile.updated",
                "fiat.bank_account.updated",
                "fiat.virtual_account.updated",
@@ -62979,6 +62990,7 @@
                "ramp.collection.reversed",
                "ramp.account.updated",
                "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated",
                "fiat.profile.updated",
                "fiat.bank_account.updated",
                "fiat.virtual_account.updated",
