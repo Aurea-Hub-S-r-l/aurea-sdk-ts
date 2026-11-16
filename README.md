@@ -174,7 +174,13 @@ await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost({
 });
 ```
 
-The 0.2.0 way — the header in the method's last argument, in the function form — still works.
+The 0.2.0 way — the header in the method's last argument, in the function form — still works; given both, the
+function form's value is sent.
+
+A token is used once. Every one of these routes checks it inside the Idempotency-Key's call, so a retry of an answered
+request is replayed without one — except `bankRampPayout.v1RampBankPayoutPayoutsPost()`, which checks it before the
+key: there a retry (also the client's own automatic one, after no answer or a 502–504) needs a **new** token, or it is
+refused with 403 `STEP_UP_INVALID`. Ask a new step-up before retrying that call, or set `maxRetries: 0` for it.
 
 ## Retries
 

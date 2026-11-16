@@ -28,7 +28,7 @@ import {
  */
 export interface V1TransactionsIdTravelRuleGet200Response {
     /**
-     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     transactionId: string | null;
     /**

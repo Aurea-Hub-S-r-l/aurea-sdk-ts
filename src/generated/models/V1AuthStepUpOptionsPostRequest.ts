@@ -24,23 +24,23 @@ export interface V1AuthStepUpOptionsPostRequest {
      */
     action: V1AuthStepUpOptionsPostRequestActionEnum;
     /**
-     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     operationId?: string | null;
     /**
-     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     setId?: string | null;
     /**
-     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     tenantId?: string | null;
     /**
-     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     passkeyId?: string | null;
     /**
-     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     executionId?: string | null;
     /**

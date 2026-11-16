@@ -2,17 +2,24 @@
 
 ## 0.2.1 — unreleased
 
-Prepared from the API's master document with aurea_api !722 (not production yet): regenerate from the production
-document once it serves !722, before publishing.
+Prepared from the API's master document with aurea_api !722, written with production's address-book setting (no
+approval step) — not production's own document yet: regenerate from it once it serves !722, before publishing.
 
 ### Added
 - `xAureaStepUp`, the passkey step-up token, as an optional parameter of the methods whose route requires it when
   Aurea asks for a step-up: the USD account's payouts and wallet transfers, the local rails' off-ramps and
   withdrawals, the desk order's confirmation, the bank ramp payouts (`bank_ramp.payout`) and the pay-in's
-  destination change (`bank_ramp.destination_change`). Nothing breaks: the header set by hand still works.
+  destination change (`bank_ramp.destination_change`). The header set by hand (0.2.0's function form) still works.
+  `bankRampPayout.v1RampBankPayoutPayoutsPost()` checks the token before the Idempotency-Key: a retry needs a new one
+  (README › Step-up headers).
 
 ### Changed
-- Doc comments: the bank ramp's own field names replaced by what the value is.
+- `bankRampUsdAccounts.v1RampBankCustomerBeneficiariesPost()`: `idempotencyKey` is `string` (was `string | null`), and
+  the USD account routes' Idempotency-Key is documented as the API checks it (1–255 letters, digits, `-` or `_`). A
+  TypeScript caller passing `null` there no longer compiles: leave the key out instead. (From the API's master, not
+  !722.)
+- Doc comments: the bank ramp's own field names replaced by what the value is; the profile, lists and terms refusals
+  name their `details.nextStep`.
 
 ## 0.2.0 — 15 November 2026 — USD accounts
 

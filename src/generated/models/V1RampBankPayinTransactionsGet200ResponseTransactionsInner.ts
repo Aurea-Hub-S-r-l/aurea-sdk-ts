@@ -49,7 +49,7 @@ import {
  */
 export interface V1RampBankPayinTransactionsGet200ResponseTransactionsInner {
     /**
-     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     id: string | null;
     /**
@@ -109,7 +109,7 @@ export interface V1RampBankPayinTransactionsGet200ResponseTransactionsInner {
      */
     createdAt: string | null;
     /**
-     * Aurea's id of the deposit that paid for it: the bank ramp's deposit id the transaction names or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     depositId: string | null;
     /**
