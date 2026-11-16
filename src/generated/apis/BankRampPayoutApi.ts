@@ -160,7 +160,7 @@ export interface V1RampBankPayoutPayoutsPostOperationRequest {
      */
     idempotencyKey?: string | null;
     /**
-     * Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. Checked before the Idempotency-Key: a retry of an answered request needs a new token, the one sent first is used.
+     * Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. Checked before the Idempotency-Key: a retry of an answered request needs a new token, the one sent first is already used.
      */
     xAureaStepUp?: string | null;
 }
