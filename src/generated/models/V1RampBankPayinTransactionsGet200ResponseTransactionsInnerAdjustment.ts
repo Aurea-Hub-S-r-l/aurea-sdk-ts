@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * The transaction this one adjusts (the bank ramp's AdjustmentFor); null when it adjusts none.
+ * The transaction this one adjusts, as the bank ramp names it; null when it adjusts none.
  * @export
  * @interface V1RampBankPayinTransactionsGet200ResponseTransactionsInnerAdjustment
  */

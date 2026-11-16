@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)
+ * No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)
  * @export
  * @interface V1RampBankCustomerProfileListsGet403Response
  */

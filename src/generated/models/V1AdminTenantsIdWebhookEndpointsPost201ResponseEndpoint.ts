@@ -144,6 +144,7 @@ export const V1AdminTenantsIdWebhookEndpointsPost201ResponseEndpointEventTypesEn
     RampCollectionReversed: 'ramp.collection.reversed',
     RampAccountUpdated: 'ramp.account.updated',
     RampWalletTransferUpdated: 'ramp.wallet_transfer.updated',
+    RampAccountsUpdated: 'ramp.accounts.updated',
     FiatProfileUpdated: 'fiat.profile.updated',
     FiatBankAccountUpdated: 'fiat.bank_account.updated',
     FiatVirtualAccountUpdated: 'fiat.virtual_account.updated',
@@ -168,6 +169,8 @@ export const V1AdminTenantsIdWebhookEndpointsPost201ResponseEndpointEventTypesEn
     RecoverySafeQueued: 'recovery.safe_queued',
     RecoverySafeExecuted: 'recovery.safe_executed',
     RecoverySafeCancelled: 'recovery.safe_cancelled',
+    MpcConfirmationRequired: 'mpc.confirmation.required',
+    MpcConfirmationConfirmed: 'mpc.confirmation.confirmed',
     IdentityVerificationUpdated: 'identity.verification.updated',
     IdentityHandoffUpdated: 'identity.handoff.updated',
 } as const;

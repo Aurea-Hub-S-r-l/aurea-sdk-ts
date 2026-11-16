@@ -20,7 +20,7 @@ import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime }
  */
 export interface V1AdminTenantsIdWebhookEndpointsGet200ResponseEndpointsInner {
     /**
-     * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     id?: string | null;
     /**
@@ -144,6 +144,7 @@ export const V1AdminTenantsIdWebhookEndpointsGet200ResponseEndpointsInnerEventTy
     RampCollectionReversed: 'ramp.collection.reversed',
     RampAccountUpdated: 'ramp.account.updated',
     RampWalletTransferUpdated: 'ramp.wallet_transfer.updated',
+    RampAccountsUpdated: 'ramp.accounts.updated',
     FiatProfileUpdated: 'fiat.profile.updated',
     FiatBankAccountUpdated: 'fiat.bank_account.updated',
     FiatVirtualAccountUpdated: 'fiat.virtual_account.updated',
@@ -168,6 +169,8 @@ export const V1AdminTenantsIdWebhookEndpointsGet200ResponseEndpointsInnerEventTy
     RecoverySafeQueued: 'recovery.safe_queued',
     RecoverySafeExecuted: 'recovery.safe_executed',
     RecoverySafeCancelled: 'recovery.safe_cancelled',
+    MpcConfirmationRequired: 'mpc.confirmation.required',
+    MpcConfirmationConfirmed: 'mpc.confirmation.confirmed',
     IdentityVerificationUpdated: 'identity.verification.updated',
     IdentityHandoffUpdated: 'identity.handoff.updated',
 } as const;

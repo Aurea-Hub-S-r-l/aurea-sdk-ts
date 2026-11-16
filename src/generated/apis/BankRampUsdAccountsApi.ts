@@ -419,9 +419,13 @@ export interface V1RampBankCustomerAccountsPayoutsPostOperationRequest {
      */
     v1RampBankCustomerAccountsPayoutsPostRequest: V1RampBankCustomerAccountsPayoutsPostRequest;
     /**
-     * Optional, 1 to 255 printable characters: the same key with the same body answers the first answer again (header idempotency-replayed: true).
+     * Optional, 1 to 255 letters, digits, `-` or `_` (anything else answers 400 `IDEMPOTENCY_KEY_INVALID`): the same key with the same body answers the first answer again (header idempotency-replayed: true).
      */
     idempotencyKey?: string;
+    /**
+     * Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. A replay of an answered Idempotency-Key needs none.
+     */
+    xAureaStepUp?: string;
 }
 
 export interface V1RampBankCustomerAccountsPayoutsQuotePostOperationRequest {
@@ -495,6 +499,10 @@ export interface V1RampBankCustomerAccountsWalletTransfersPostRequest {
      * 
      */
     idempotencyKey?: string;
+    /**
+     * Optional until Aurea requires a passkey step-up for money out, and then only for money leaving the account: `to_wallet`, or with `payout`: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. A replay of an answered Idempotency-Key needs none.
+     */
+    xAureaStepUp?: string | null;
 }
 
 export interface V1RampBankCustomerAccountsWalletTransfersQuotePostOperationRequest {
@@ -528,9 +536,9 @@ export interface V1RampBankCustomerBeneficiariesPostOperationRequest {
      */
     v1RampBankCustomerBeneficiariesPostRequest: V1RampBankCustomerBeneficiariesPostRequest;
     /**
-     * Optional, 1 to 255 printable characters: the same key with the same body answers the first answer again (header idempotency-replayed: true).
+     * Optional, 1 to 255 letters, digits, `-` or `_` (anything else answers 400 `IDEMPOTENCY_KEY_INVALID`): the same key with the same body answers the first answer again (header idempotency-replayed: true).
      */
-    idempotencyKey?: string | null;
+    idempotencyKey?: string;
 }
 
 export interface V1RampBankCustomerProfileGetRequest {
@@ -1157,6 +1165,10 @@ export class BankRampUsdAccountsApi extends runtime.BaseAPI {
             headerParameters['idempotency-key'] = String(requestParameters['idempotencyKey']);
         }
 
+        if (requestParameters['xAureaStepUp'] != null) {
+            headerParameters['x-aurea-step-up'] = String(requestParameters['xAureaStepUp']);
+        }
+
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
             const tokenString = await token("bearerAuth", []);
@@ -1564,6 +1576,10 @@ export class BankRampUsdAccountsApi extends runtime.BaseAPI {
 
         if (requestParameters['idempotencyKey'] != null) {
             headerParameters['idempotency-key'] = String(requestParameters['idempotencyKey']);
+        }
+
+        if (requestParameters['xAureaStepUp'] != null) {
+            headerParameters['x-aurea-step-up'] = String(requestParameters['xAureaStepUp']);
         }
 
         if (this.configuration && this.configuration.accessToken) {

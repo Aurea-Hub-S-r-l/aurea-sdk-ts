@@ -159,21 +159,43 @@ when an answer is the stored one.
 
 ## Step-up headers
 
-The bank ramp's money out — `bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost()` and
-`v1RampBankCustomerAccountsWalletTransfersPost()` (`to_wallet`, or with `payout`) — is confirmed with the customer's
-passkey step-up for `bank_ramp.payout` when Aurea asks for it, in the `x-aurea-step-up` header
-([Passkeys & Step-Up](https://docs.aureahub.com/#guide-passkeys)). The header is not a method parameter: pass it in
-the method's last argument, in the function form, so that the headers the SDK already set (`Content-Type`,
-`Idempotency-Key`) are kept. The user's `Authorization` is added after it, as on every call.
+The bank ramp's money out is confirmed with the customer's passkey step-up when Aurea asks for it, in the
+`x-aurea-step-up` header ([Passkeys & Step-Up](https://docs.aureahub.com/#guide-passkeys)): `bank_ramp.payout` for
+`bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost()`, `v1RampBankCustomerAccountsWalletTransfersPost()`
+(`to_wallet`, or with `payout`), the local rails' off-ramps and withdrawals, a desk order confirmed with a beneficiary
+and the bank ramp payouts; `bank_ramp.destination_change` for a pay-in that moves an existing virtual account to
+another address. Each of these methods takes it as the optional `xAureaStepUp` parameter:
 
 ```ts
-await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost(
-  { idempotencyKey: key, v1RampBankCustomerAccountsPayoutsPostRequest: { beneficiaryId, amount: '500.00', isTestnet: true } },
-  async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), 'x-aurea-step-up': stepUpToken } }),
+await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost({
+  idempotencyKey: key,
+  xAureaStepUp: stepUpToken,
+  v1RampBankCustomerAccountsPayoutsPostRequest: { beneficiaryId, amount: '500.00', isTestnet: true },
+});
+```
+
+The local rails' off-ramps and withdrawals (`bankRampLocal.v1RampBankCustomerOfframpsPost()`,
+`v1RampBankCustomerWithdrawalsPost()`) and the desk order's confirmation
+(`bankRampDesk.v1RampBankCustomerDeskOrdersIdConfirmPost()`) have no `idempotencyKey` parameter: send their key with
+`withIdempotencyKey(key)` in the method's last argument, which keeps `xAureaStepUp`:
+
+```ts
+await user.bankRampLocal.v1RampBankCustomerWithdrawalsPost(
+  { xAureaStepUp: stepUpToken, v1RampBankCustomerWithdrawalsPostRequest: withdrawal },
+  withIdempotencyKey(key),
 );
 ```
 
-A plain object (`{ headers: { 'x-aurea-step-up': stepUpToken } }`) replaces those headers instead: use the function.
+The 0.2.0 way — the header in the method's last argument, in the function form — still works; given both, the
+function form's value is sent. A plain object there (`{ headers: { … } }`) replaces every header the SDK set,
+`x-aurea-step-up` and `Idempotency-Key` included: always use the function form.
+
+A token is used once. Every one of these routes checks it inside the Idempotency-Key's call, so a retry of an answered
+request is replayed without one — except `bankRampPayout.v1RampBankPayoutPayoutsPost()`, which checks it before the
+key: there a retry needs a **new** token, or it is refused with 403 `STEP_UP_INVALID`. So the client does not retry
+that call when it carries a token (except after a `429`, answered before the route runs): after no answer it throws
+`AureaConnectionError`, after a 502–504 the typed error. Ask the user for a new step-up and send it again with the new
+token and the **same** Idempotency-Key: if the first request ran, its answer comes back.
 
 ## Retries
 

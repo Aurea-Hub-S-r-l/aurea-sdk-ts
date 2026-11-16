@@ -20,7 +20,7 @@ import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime }
  */
 export interface V1AdminTenantsIdWebhooksGet200ResponseWebhooksInner {
     /**
-     * Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
+     * Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none.
      */
     id?: string | null;
     /**
@@ -85,6 +85,7 @@ export const V1AdminTenantsIdWebhooksGet200ResponseWebhooksInnerEventTypesEnum =
     RampCollectionReversed: 'ramp.collection.reversed',
     RampAccountUpdated: 'ramp.account.updated',
     RampWalletTransferUpdated: 'ramp.wallet_transfer.updated',
+    RampAccountsUpdated: 'ramp.accounts.updated',
 } as const;
 export type V1AdminTenantsIdWebhooksGet200ResponseWebhooksInnerEventTypesEnum = typeof V1AdminTenantsIdWebhooksGet200ResponseWebhooksInnerEventTypesEnum[keyof typeof V1AdminTenantsIdWebhooksGet200ResponseWebhooksInnerEventTypesEnum];
 

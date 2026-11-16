@@ -27237,6 +27237,15 @@
       "name": "idempotency-key",
       "required": false,
       "description": "Optional. Up to 255 letters, digits, - or _. Sending the same key again with the same request answers with the first answer instead of creating a second one, and the response carries idempotency-replayed: true. The same key with a different request, or while the first call is still running, answers 409 with details.code IDEMPOTENCY_KEY_REUSED or IDEMPOTENCY_IN_PROGRESS; a key that is not one answers 400 IDEMPOTENCY_KEY_INVALID. A request without the header behaves as it always has."
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-aurea-step-up",
+      "required": false,
+      "description": "Optional until Aurea requires a passkey step-up for a change of where a virtual account delivers, and then only when the request moves an existing virtual account to another address (another address for a currency the user already has an account in): the user's step-up token for `bank_ramp.destination_change`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. A replay of an answered Idempotency-Key needs none."
      }
     ],
     "security": [
@@ -27269,7 +27278,7 @@
             "null",
             "string"
            ],
-           "description": "The bank ramp's VirtualAccountID. null when the bank ramp did not send one in its documented form, or for a payment method stored before Aurea kept it."
+           "description": "The bank ramp's id of the virtual account. null when the bank ramp did not send one in its documented form, or for a payment method stored before Aurea kept it."
           },
           "accountHolderName": {
            "type": "string"
@@ -27799,7 +27808,7 @@
                "null",
                "string"
               ],
-              "description": "The bank ramp's VirtualAccountID. null when the bank ramp did not send one in its documented form, or for a payment method stored before Aurea kept it."
+              "description": "The bank ramp's id of the virtual account. null when the bank ramp did not send one in its documented form, or for a payment method stored before Aurea kept it."
              },
              "reference": {
               "type": [
@@ -28024,7 +28033,7 @@
     "tags": [
      "bank-ramp-payin"
     ],
-    "description": "Retrieve the fiat deposits of the authenticated user's profile in one of the bank ramp's environments (sandbox with `isTestnet=true`, production when `isTestnet` is false or omitted), with optional filtering. Deposits are known from the bank ramp's FiatDeposit webhooks; each carries the bank ramp's own status, the review sub-status, the request for information and the refunds the bank ramp reports.",
+    "description": "Retrieve the fiat deposits of the authenticated user's profile in one of the bank ramp's environments (sandbox with `isTestnet=true`, production when `isTestnet` is false or omitted), with optional filtering. Deposits are known from the bank ramp's deposit notifications; each carries the bank ramp's own status, the review sub-status, the request for information and the refunds the bank ramp reports.",
     "parameters": [
      {
       "schema": {
@@ -28440,7 +28449,7 @@
                 "type": "null"
                }
               ],
-              "description": "Aurea's id of the deposit that paid for it: the one the bank ramp names in FiatPayment.FiatDepositID or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none."
+              "description": "Aurea's id of the deposit that paid for it: the deposit the transaction names by the bank ramp's deposit id or, for an on-ramp's on-chain delivery, which names none, the deposit of another transaction of the same rule execution. null when Aurea has none."
              },
              "bankRampDepositId": {
               "type": [
@@ -28576,14 +28585,14 @@
                "null",
                "string"
               ],
-              "description": "Orchestration.RuleID: the rule the bank ramp executed."
+              "description": "The id of the rule the bank ramp executed."
              },
              "ruleExecutionId": {
               "type": [
                "null",
                "string"
               ],
-              "description": "Orchestration.RuleExecutionID: the same on every transaction of one flow, such as the conversion and the on-chain delivery of one deposit."
+              "description": "The id of the rule's execution: the same on every transaction of one flow, such as the conversion and the on-chain delivery of one deposit."
              },
              "reversesTransactionId": {
               "type": [
@@ -28630,7 +28639,7 @@
                 "type": "null"
                }
               ],
-              "description": "The transaction this one adjusts (the bank ramp's AdjustmentFor); null when it adjusts none."
+              "description": "The transaction this one adjusts, as the bank ramp names it; null when it adjusts none."
              },
              "breakdown": {
               "type": "array",
@@ -28688,21 +28697,21 @@
                "null",
                "string"
               ],
-              "description": "FiatPayment.FeeAmount in fiatCurrency, exact decimal text."
+              "description": "The bank ramp's fee on the bank transfer, in fiatCurrency, exact decimal text."
              },
              "fiatRate": {
               "type": [
                "null",
                "string"
               ],
-              "description": "FiatPayment.Rate, exact decimal text: for a purchase, cryptoAmount = (fiatAmount - fiatFeeAmount) / fiatRate."
+              "description": "The exchange rate the bank ramp applied, exact decimal text: for a purchase, cryptoAmount = (fiatAmount - fiatFeeAmount) / fiatRate."
              },
              "paymentSystemId": {
               "type": [
                "null",
                "string"
               ],
-              "description": "FiatPayment.PaymentSystemID: the transfer's id in the payment system (IMAD for Fedwire, UETR for SWIFT, trace number for ACH)."
+              "description": "The transfer's id in the payment system (IMAD for Fedwire, UETR for SWIFT, trace number for ACH)."
              },
              "updatedAt": {
               "type": "string"
@@ -29956,7 +29965,7 @@
                   "null",
                   "string"
                  ],
-                 "description": "The bank ramp's PaymentMethodType, e.g. BankSepa; given on a channel."
+                 "description": "The bank ramp's payment method type, e.g. BankSepa; given on a channel."
                 },
                 "country": {
                  "type": [
@@ -30722,7 +30731,7 @@
                "null",
                "string"
               ],
-              "description": "The bank ramp's PaymentMethodType, e.g. BankSepa; given on a channel."
+              "description": "The bank ramp's payment method type, e.g. BankSepa; given on a channel."
              },
              "country": {
               "type": [
@@ -32579,6 +32588,15 @@
       "name": "idempotency-key",
       "required": false,
       "description": "Optional. Up to 255 letters, digits, - or _. The same key with the same request answers the first payout again, with idempotency-replayed: true, and the bank ramp is not asked twice. The same key with a different request, or while the first is still running, answers 409 `IDEMPOTENCY_KEY_REUSED` or `IDEMPOTENCY_IN_PROGRESS`; a key that is not one, 400 `IDEMPOTENCY_KEY_INVALID`. Every check above is made before a key is replayed."
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-aurea-step-up",
+      "required": false,
+      "description": "Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. Checked before the Idempotency-Key: a retry of an answered request needs a new token, the one sent first is already used."
      }
     ],
     "security": [
@@ -45033,6 +45051,17 @@
      },
      "required": true
     },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-aurea-step-up",
+      "required": false,
+      "description": "Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. A replay of an answered Idempotency-Key needs none."
+     }
+    ],
     "security": [
      {
       "bearerAuth": []
@@ -46771,6 +46800,17 @@
      },
      "required": true
     },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-aurea-step-up",
+      "required": false,
+      "description": "Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. A replay of an answered Idempotency-Key needs none."
+     }
+    ],
     "security": [
      {
       "bearerAuth": []
@@ -48316,6 +48356,15 @@
       "in": "path",
       "name": "id",
       "required": true
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-aurea-step-up",
+      "required": false,
+      "description": "Optional until Aurea requires a passkey step-up for money out, and then only when the confirmation names a `beneficiary`: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. A replay of an answered Idempotency-Key needs none."
      }
     ],
     "security": [
@@ -53242,12 +53291,15 @@
     "parameters": [
      {
       "schema": {
-       "type": "string"
+       "type": "string",
+       "minLength": 1,
+       "maxLength": 255,
+       "pattern": "^[A-Za-z0-9_-]{1,255}$"
       },
       "in": "header",
       "name": "idempotency-key",
       "required": false,
-      "description": "Optional, 1 to 255 printable characters: the same key with the same body answers the first answer again (header idempotency-replayed: true)."
+      "description": "Optional, 1 to 255 letters, digits, `-` or `_` (anything else answers 400 `IDEMPOTENCY_KEY_INVALID`): the same key with the same body answers the first answer again (header idempotency-replayed: true)."
      }
     ],
     "security": [
@@ -54112,12 +54164,24 @@
     "parameters": [
      {
       "schema": {
-       "type": "string"
+       "type": "string",
+       "minLength": 1,
+       "maxLength": 255,
+       "pattern": "^[A-Za-z0-9_-]{1,255}$"
       },
       "in": "header",
       "name": "idempotency-key",
       "required": false,
-      "description": "Optional, 1 to 255 printable characters: the same key with the same body answers the first answer again (header idempotency-replayed: true)."
+      "description": "Optional, 1 to 255 letters, digits, `-` or `_` (anything else answers 400 `IDEMPOTENCY_KEY_INVALID`): the same key with the same body answers the first answer again (header idempotency-replayed: true)."
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-aurea-step-up",
+      "required": false,
+      "description": "Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. A replay of an answered Idempotency-Key needs none."
      }
     ],
     "security": [
@@ -56142,12 +56206,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -56170,12 +56234,12 @@
       }
      },
      "503": {
-      "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)",
+      "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)",
+         "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -56353,12 +56417,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57415,12 +57479,12 @@
       }
      },
      "400": {
-      "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`)",
+      "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`)",
+         "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57443,12 +57507,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57499,12 +57563,12 @@
       }
      },
      "409": {
-      "description": "The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`)",
+      "description": "The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`)",
+         "description": "The profile was handed over and can no longer change (`BANK_RAMP_PROFILE_LOCKED`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57527,12 +57591,12 @@
       }
      },
      "422": {
-      "description": "An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`)",
+      "description": "An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`)",
+         "description": "An industry the bank ramp does not serve (`BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57555,12 +57619,12 @@
       }
      },
      "503": {
-      "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)",
+      "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)",
+         "description": "The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57706,12 +57770,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57868,12 +57932,12 @@
       }
      },
      "403": {
-      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+      "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`)",
+         "description": "No tenant (`TENANT_REQUIRED`), or USD accounts are not switched on for the tenant (`BANK_RAMP_PROFILE_OFF`, `nextStep` `contact_support`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -57896,12 +57960,12 @@
       }
      },
      "409": {
-      "description": "No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`)",
+      "description": "No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`, `nextStep` `complete_profile`, or `open_new_link` when newer terms replaced them), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`, `nextStep` `none`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`)",
+         "description": "No terms wait for the customer (`BANK_RAMP_TERMS_NOT_OFFERED`, `nextStep` `complete_profile`, or `open_new_link` when newer terms replaced them), or they were accepted with another value (`BANK_RAMP_TERMS_ALREADY_ACCEPTED`, `nextStep` `none`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -58299,6 +58363,15 @@
       "in": "header",
       "name": "idempotency-key",
       "required": false
+     },
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "x-aurea-step-up",
+      "required": false,
+      "description": "Optional until Aurea requires a passkey step-up for money out, and then only for money leaving the account: `to_wallet`, or with `payout`: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. A replay of an answered Idempotency-Key needs none."
      }
     ],
     "security": [
@@ -60091,7 +60164,8 @@
                 "ramp.desk_order.updated",
                 "ramp.collection.reversed",
                 "ramp.account.updated",
-                "ramp.wallet_transfer.updated"
+                "ramp.wallet_transfer.updated",
+                "ramp.accounts.updated"
                ]
               },
               "description": "The types it receives; empty receives the ramp.* and earn.* types"
@@ -60140,7 +60214,8 @@
              "ramp.desk_order.updated",
              "ramp.collection.reversed",
              "ramp.account.updated",
-             "ramp.wallet_transfer.updated"
+             "ramp.wallet_transfer.updated",
+             "ramp.accounts.updated"
             ]
            }
           }
@@ -60277,7 +60352,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 14,
+          "maxItems": 15,
           "items": {
            "type": "string"
           }
@@ -60368,7 +60443,8 @@
                "ramp.desk_order.updated",
                "ramp.collection.reversed",
                "ramp.account.updated",
-               "ramp.wallet_transfer.updated"
+               "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated"
               ]
              },
              "description": "The types it receives; empty receives the ramp.* and earn.* types"
@@ -60445,7 +60521,8 @@
                "ramp.desk_order.updated",
                "ramp.collection.reversed",
                "ramp.account.updated",
-               "ramp.wallet_transfer.updated"
+               "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated"
               ]
              },
              "description": "The types it receives; empty receives the ramp.* and earn.* types"
@@ -60855,7 +60932,8 @@
                "ramp.desk_order.updated",
                "ramp.collection.reversed",
                "ramp.account.updated",
-               "ramp.wallet_transfer.updated"
+               "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated"
               ]
              },
              "description": "The types it receives; empty receives the ramp.* and earn.* types"
@@ -61362,6 +61440,7 @@
                 "ramp.collection.reversed",
                 "ramp.account.updated",
                 "ramp.wallet_transfer.updated",
+                "ramp.accounts.updated",
                 "fiat.profile.updated",
                 "fiat.bank_account.updated",
                 "fiat.virtual_account.updated",
@@ -61386,6 +61465,8 @@
                 "recovery.safe_queued",
                 "recovery.safe_executed",
                 "recovery.safe_cancelled",
+                "mpc.confirmation.required",
+                "mpc.confirmation.confirmed",
                 "identity.verification.updated",
                 "identity.handoff.updated"
                ]
@@ -61496,6 +61577,7 @@
                "ramp.collection.reversed",
                "ramp.account.updated",
                "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated",
                "fiat.profile.updated",
                "fiat.bank_account.updated",
                "fiat.virtual_account.updated",
@@ -61520,6 +61602,8 @@
                "recovery.safe_queued",
                "recovery.safe_executed",
                "recovery.safe_cancelled",
+               "mpc.confirmation.required",
+               "mpc.confirmation.confirmed",
                "identity.verification.updated",
                "identity.handoff.updated"
               ]
@@ -61676,7 +61760,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 91,
+          "maxItems": 94,
           "items": {
            "type": "string",
            "enum": [
@@ -61745,6 +61829,7 @@
             "ramp.collection.reversed",
             "ramp.account.updated",
             "ramp.wallet_transfer.updated",
+            "ramp.accounts.updated",
             "fiat.profile.updated",
             "fiat.bank_account.updated",
             "fiat.virtual_account.updated",
@@ -61769,6 +61854,8 @@
             "recovery.safe_queued",
             "recovery.safe_executed",
             "recovery.safe_cancelled",
+            "mpc.confirmation.required",
+            "mpc.confirmation.confirmed",
             "identity.verification.updated",
             "identity.handoff.updated"
            ]
@@ -61916,6 +62003,7 @@
                "ramp.collection.reversed",
                "ramp.account.updated",
                "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated",
                "fiat.profile.updated",
                "fiat.bank_account.updated",
                "fiat.virtual_account.updated",
@@ -61940,6 +62028,8 @@
                "recovery.safe_queued",
                "recovery.safe_executed",
                "recovery.safe_cancelled",
+               "mpc.confirmation.required",
+               "mpc.confirmation.confirmed",
                "identity.verification.updated",
                "identity.handoff.updated"
               ]
@@ -62158,7 +62248,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 91,
+          "maxItems": 94,
           "items": {
            "type": "string",
            "enum": [
@@ -62227,6 +62317,7 @@
             "ramp.collection.reversed",
             "ramp.account.updated",
             "ramp.wallet_transfer.updated",
+            "ramp.accounts.updated",
             "fiat.profile.updated",
             "fiat.bank_account.updated",
             "fiat.virtual_account.updated",
@@ -62251,6 +62342,8 @@
             "recovery.safe_queued",
             "recovery.safe_executed",
             "recovery.safe_cancelled",
+            "mpc.confirmation.required",
+            "mpc.confirmation.confirmed",
             "identity.verification.updated",
             "identity.handoff.updated"
            ]
@@ -62407,6 +62500,7 @@
                "ramp.collection.reversed",
                "ramp.account.updated",
                "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated",
                "fiat.profile.updated",
                "fiat.bank_account.updated",
                "fiat.virtual_account.updated",
@@ -62431,6 +62525,8 @@
                "recovery.safe_queued",
                "recovery.safe_executed",
                "recovery.safe_cancelled",
+               "mpc.confirmation.required",
+               "mpc.confirmation.confirmed",
                "identity.verification.updated",
                "identity.handoff.updated"
               ]
@@ -62894,6 +62990,7 @@
                "ramp.collection.reversed",
                "ramp.account.updated",
                "ramp.wallet_transfer.updated",
+               "ramp.accounts.updated",
                "fiat.profile.updated",
                "fiat.bank_account.updated",
                "fiat.virtual_account.updated",
@@ -62918,6 +63015,8 @@
                "recovery.safe_queued",
                "recovery.safe_executed",
                "recovery.safe_cancelled",
+               "mpc.confirmation.required",
+               "mpc.confirmation.confirmed",
                "identity.verification.updated",
                "identity.handoff.updated"
               ]

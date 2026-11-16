@@ -8,6 +8,8 @@
  *   Idempotency-Key (a retry with the same key and request cannot run twice). A POST without a key is never resent:
  *   check whether it went through first (docs › Idempotency › Retrying Safely).
  * - Never: 409 IDEMPOTENCY_OUTCOME_UNKNOWN, 423, any other 4xx, 500.
+ * - A request whose passkey step-up token the API spends before the Idempotency-Key (STEP_UP_BEFORE_KEY): only 429.
+ *   Any other retry would resend a used token and be refused 403 STEP_UP_INVALID even when the first request ran.
  */
 import { AureaConfigurationError, AureaConnectionError, parseRetryAfter } from "./errors";
 import { isSignedRoute, pathWithQuery, signRequest } from "./signing";
@@ -32,6 +34,14 @@ export interface TransportOptions {
 
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 const RETRY_STATUSES = new Set([502, 503, 504]);
+const STEP_UP_HEADER = "x-aurea-step-up";
+/** The routes that check `x-aurea-step-up` before the Idempotency-Key: a retry needs a new token. */
+const STEP_UP_BEFORE_KEY: Array<[method: string, pathEnd: string]> = [["POST", "/v1/ramp/bank/payout/payouts"]];
+/** Matched on the path's end, without trailing slashes: a baseUrl with a path prefix (a proxy) still matches. */
+function spendsTokenBeforeKey(method: string, path: string): boolean {
+  const bare = path.split("?")[0]!.replace(/\/+$/, "");
+  return STEP_UP_BEFORE_KEY.some(([m, end]) => m === method && bare.endsWith(end));
+}
 
 function headersToRecord(headers: HeadersInit | undefined): Record<string, string> {
   const out: Record<string, string> = {};
@@ -90,6 +100,9 @@ export function createTransport(options: TransportOptions): FetchLike {
     const alreadySigned = "x-signature" in baseHeaders;
     const signed = !alreadySigned && (isSignedRoute(method, path) || "x-tenant-api-key" in baseHeaders);
     const hasKey = "idempotency-key" in baseHeaders;
+    // The token is spent on the first attempt: never resend it (only a 429, answered before the route runs).
+    const tokenSpent = STEP_UP_HEADER in baseHeaders && spendsTokenBeforeKey(method, path);
+    const resendable = (SAFE_METHODS.has(method) || hasKey) && !tokenSpent;
     const body = init.body;
 
     if (signed) {
@@ -125,16 +138,18 @@ export function createTransport(options: TransportOptions): FetchLike {
         response = await doFetch(input, { ...init, method, headers, signal: anySignal([init.signal, timeout]) });
       } catch (error) {
         if (init.signal?.aborted) throw error;
-        if (canRetry && (SAFE_METHODS.has(method) || hasKey)) {
+        if (canRetry && resendable) {
           await sleep(backoffMs(attempt, signed));
           continue;
         }
         const timedOut = timeout?.aborted === true;
         throw new AureaConnectionError(
           `${method} ${path.split("?")[0]} got no answer (${timedOut ? `no answer within ${timeoutMs} ms` : (error as Error)?.message ?? "network error"}). ` +
-            (SAFE_METHODS.has(method) || hasKey
-              ? "Try again later."
-              : "Whether it ran is not known: check before sending it again, or send an Idempotency-Key with it."),
+            (tokenSpent
+              ? "Whether it ran is not known, and its step-up token is used: ask the user for a new step-up and send it again with the new token and the same Idempotency-Key (if it ran, the first answer comes back)."
+              : SAFE_METHODS.has(method) || hasKey
+                ? "Try again later."
+                : "Whether it ran is not known: check before sending it again, or send an Idempotency-Key with it."),
           { cause: error, method, path },
         );
       }
@@ -144,9 +159,9 @@ export function createTransport(options: TransportOptions): FetchLike {
       if (response.status === 429) {
         const after = parseRetryAfter(response.headers.get("retry-after"));
         delay = after === null ? backoffMs(attempt, signed) : Math.max(after * 1000, signed ? 1000 : 0);
-      } else if (response.status === 409 && hasKey && (await idempotencyInProgress(response))) {
+      } else if (response.status === 409 && hasKey && !tokenSpent && (await idempotencyInProgress(response))) {
         delay = backoffMs(attempt, signed);
-      } else if (RETRY_STATUSES.has(response.status) && (SAFE_METHODS.has(method) || hasKey)) {
+      } else if (RETRY_STATUSES.has(response.status) && resendable) {
         const after = parseRetryAfter(response.headers.get("retry-after"));
         delay = after === null ? backoffMs(attempt, signed) : Math.max(after * 1000, signed ? 1000 : 0);
       }

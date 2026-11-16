@@ -159,6 +159,10 @@ export interface V1RampBankPayoutPayoutsPostOperationRequest {
      * Optional. Up to 255 letters, digits, - or _. The same key with the same request answers the first payout again, with idempotency-replayed: true, and the bank ramp is not asked twice. The same key with a different request, or while the first is still running, answers 409 `IDEMPOTENCY_KEY_REUSED` or `IDEMPOTENCY_IN_PROGRESS`; a key that is not one, 400 `IDEMPOTENCY_KEY_INVALID`. Every check above is made before a key is replayed.
      */
     idempotencyKey?: string | null;
+    /**
+     * Optional until Aurea requires a passkey step-up for money out: the user's step-up token for `bank_ramp.payout`, asked with POST /v1/auth/step-up/options and answered by POST /v1/auth/step-up (two minutes, used once). Required and missing (or longer than 200 characters): 403 `STEP_UP_REQUIRED`; not a token for this user and action, or already used: 403 `STEP_UP_INVALID`. Checked before the Idempotency-Key: a retry of an answered request needs a new token, the one sent first is already used.
+     */
+    xAureaStepUp?: string | null;
 }
 
 export interface V1RampBankPayoutQuotesPostOperationRequest {
@@ -551,6 +555,10 @@ export class BankRampPayoutApi extends runtime.BaseAPI {
 
         if (requestParameters['idempotencyKey'] != null) {
             headerParameters['idempotency-key'] = String(requestParameters['idempotencyKey']);
+        }
+
+        if (requestParameters['xAureaStepUp'] != null) {
+            headerParameters['x-aurea-step-up'] = String(requestParameters['xAureaStepUp']);
         }
 
         if (this.configuration && this.configuration.accessToken) {

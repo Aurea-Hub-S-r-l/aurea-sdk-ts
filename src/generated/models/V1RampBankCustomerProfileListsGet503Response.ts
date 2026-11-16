@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`)
+ * The lists are not available yet (`BANK_RAMP_LISTS_UNAVAILABLE`, `nextStep` `retry_later`)
  * @export
  * @interface V1RampBankCustomerProfileListsGet503Response
  */

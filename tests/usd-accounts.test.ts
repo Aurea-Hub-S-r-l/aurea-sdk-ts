@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { Aurea, V1RampBankCustomerAccountsGet200ResponseFromJSON } from "../src/index";
+import { Aurea, V1RampBankCustomerAccountsGet200ResponseFromJSON, VERSION, withIdempotencyKey } from "../src/index";
+import { readFileSync } from "node:fs";
 
 /** The bank ramp's USD account per customer (docs › Bank Ramp: USD Account per Customer). */
 describe("USD accounts", () => {
@@ -102,5 +103,47 @@ describe("USD accounts", () => {
     expect(seen[0].headers.get("authorization")).toBe("Bearer EXAMPLE");
     expect(seen[0].headers.get("idempotency-key")).toBe("EXAMPLE-key-2");
     expect(seen[0].headers.get("content-type")).toBe("application/json");
+  });
+  it("sends xAureaStepUp as the step-up header, beside the bearer and the key (0.3.0)", async () => {
+    const { seen, fetch } = recorder();
+    const user = new Aurea({ accessToken: "EXAMPLE", fetch });
+    await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost({
+      idempotencyKey: "EXAMPLE-key-3",
+      xAureaStepUp: "EXAMPLE-step-up-param",
+      v1RampBankCustomerAccountsPayoutsPostRequest: { beneficiaryId: "5e0b7a12-8c3d-4f6e-9a1b-2c4d6e8f0a13", amount: "500.00", isTestnet: true },
+    });
+    expect(seen[0].headers.get("x-aurea-step-up")).toBe("EXAMPLE-step-up-param");
+    expect(seen[0].headers.get("authorization")).toBe("Bearer EXAMPLE");
+    expect(seen[0].headers.get("idempotency-key")).toBe("EXAMPLE-key-3");
+  });
+  it("without xAureaStepUp sends no step-up header; with both, the function form's value is sent", async () => {
+    const { seen, fetch } = recorder();
+    const user = new Aurea({ accessToken: "EXAMPLE", fetch });
+    const request = { beneficiaryId: "5e0b7a12-8c3d-4f6e-9a1b-2c4d6e8f0a13", amount: "500.00", isTestnet: true };
+    await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost({ idempotencyKey: "EXAMPLE-key-4", v1RampBankCustomerAccountsPayoutsPostRequest: request });
+    expect(seen[0].headers.has("x-aurea-step-up")).toBe(false);
+    await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost(
+      { idempotencyKey: "EXAMPLE-key-5", xAureaStepUp: "EXAMPLE-param", v1RampBankCustomerAccountsPayoutsPostRequest: request },
+      async ({ init }) => ({ headers: { ...(init.headers as Record<string, string>), "x-aurea-step-up": "EXAMPLE-function" } }),
+    );
+    expect(seen[1].headers.get("x-aurea-step-up")).toBe("EXAMPLE-function");
+  });
+  it("a route without an idempotencyKey parameter: withIdempotencyKey() keeps xAureaStepUp (README › Step-up headers)", async () => {
+    const { seen, fetch } = recorder();
+    const user = new Aurea({ accessToken: "EXAMPLE", fetch });
+    await user.bankRampLocal.v1RampBankCustomerWithdrawalsPost(
+      {
+        xAureaStepUp: "EXAMPLE-step-up-local",
+        v1RampBankCustomerWithdrawalsPostRequest: { asset: "KES", amount: "1000", destination: { type: "mobile_money" }, isTestnet: true },
+      },
+      withIdempotencyKey("EXAMPLE-key-6"),
+    );
+    expect(seen[0]).toMatchObject({ method: "POST", path: "/v1/ramp/bank/customer/withdrawals" });
+    expect(seen[0].headers.get("x-aurea-step-up")).toBe("EXAMPLE-step-up-local");
+    expect(seen[0].headers.get("idempotency-key")).toBe("EXAMPLE-key-6");
+    expect(seen[0].headers.get("authorization")).toBe("Bearer EXAMPLE");
+  });
+  it("VERSION is the package's version", () => {
+    expect(VERSION).toBe(JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")).version);
   });
 });

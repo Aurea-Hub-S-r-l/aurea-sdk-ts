@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.3.0 — 16 November 2026 — step-up headers
+
+Generated from the production OpenAPI document of 16 November 2026 (sha256 `14ef3bd6…ce3c5`). 577 routes (as 0.2.0).
+
+### Added
+- `xAureaStepUp`, the passkey step-up token, as an optional parameter of the methods whose route requires it when
+  Aurea asks for a step-up: the USD account's payouts and wallet transfers, the local rails' off-ramps and
+  withdrawals, the desk order's confirmation, the bank ramp payouts (`bank_ramp.payout`) and the pay-in's
+  destination change (`bank_ramp.destination_change`). The header set by hand (0.2.0's function form) still works.
+  `bankRampPayout.v1RampBankPayoutPayoutsPost()` checks the token before the Idempotency-Key: a retry needs a new one
+  (README › Step-up headers).
+
+### Breaking changes (from 0.2.0)
+- `bankRampUsdAccounts.v1RampBankCustomerBeneficiariesPost()`: `idempotencyKey` is `string` (was `string | null`). A
+  TypeScript caller passing `null` there no longer compiles: leave the key out instead. Nothing changes at run time.
+
+### Changed
+- The event types of the webhook endpoints and of the environments' webhooks (admin routes) add
+  `mpc.confirmation.required`, `mpc.confirmation.confirmed` and `ramp.accounts.updated` (a customer's account opening
+  changed: its state, its accounts' states, the next step asked or an account update offered). New values in answer
+  enums: handle a value you do not know (a `switch` with an exhaustive `never` check no longer compiles).
+- The client no longer retries `bankRampPayout.v1RampBankPayoutPayoutsPost()` when it carries a step-up token (except
+  after a `429`): the API spends the token before the Idempotency-Key, so a retry was refused 403 `STEP_UP_INVALID`
+  even when the first request ran. After no answer it throws `AureaConnectionError`: ask a new step-up and send it
+  again with the same Idempotency-Key (README › Step-up headers).
+- The USD account routes' Idempotency-Key is documented as the API checks it (1–255 letters, digits, `-` or `_`).
+- Doc comments: the bank ramp's own field names replaced by what the value is; the profile, lists and terms refusals
+  name their `details.nextStep`.
+- No new error class: the API's new codes (the Remittance codes such as `REMITTANCE_USE_USD_ACCOUNT`) are not answered
+  by the routes this SDK calls; any code still reads as a string through `AureaError.code`.
+
 ## 0.2.0 — 15 November 2026 — USD accounts
 
 Generated from the production OpenAPI document of 15 November 2026 (sha256 `a11cd2ef…050af`), the day the API serves

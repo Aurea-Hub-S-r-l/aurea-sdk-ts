@@ -170,6 +170,39 @@ describe("retries — only where the docs allow them", () => {
     expect(calls.every((c) => c.headers["idempotency-key"] === "k-1")).toBe(true);
   });
 
+  it("never resends a step-up token the rule payout spends before its key (only 429)", async () => {
+    const url = "https://api.aureahub.com/v1/ramp/bank/payout/payouts";
+    const init = { method: "POST", body: "{}", headers: { "Idempotency-Key": "k-3", "x-aurea-step-up": "EXAMPLE_token" } };
+    const a = fakeFetch([fail(503, {}), ok({})]);
+    expect((await transport(a.fn)(url, init)).status).toBe(503);
+    expect(a.calls).toHaveLength(1);
+
+    const b = fakeFetch([new TypeError("fetch failed"), ok({})]);
+    const err = await transport(b.fn)(url, init).catch((e) => e);
+    expect(err).toBeInstanceOf(AureaConnectionError);
+    expect(err.message).toMatch(/new step-up/);
+    expect(err.message).toMatch(/same Idempotency-Key/);
+    expect(b.calls).toHaveLength(1);
+
+    const c = fakeFetch([fail(409, { details: { code: "IDEMPOTENCY_IN_PROGRESS" } }), ok({})]);
+    expect((await transport(c.fn)(url, init)).status).toBe(409);
+    expect(c.calls).toHaveLength(1);
+
+    const d = fakeFetch([fail(429, {}, { "retry-after": "1" }), ok({})]);
+    expect((await transport(d.fn)(url, init)).status).toBe(200);
+    expect(d.calls).toHaveLength(2);
+
+    // Without a token, or on a route that checks it inside the key's call, the usual retries.
+    const e = fakeFetch([fail(503, {}), ok({})]);
+    expect((await transport(e.fn)(url, { method: "POST", body: "{}", headers: { "Idempotency-Key": "k-4" } })).status).toBe(200);
+    // Behind a proxy's path prefix, or with a trailing slash: still never resent.
+    const g = fakeFetch([fail(503, {}), ok({})]);
+    expect((await transport(g.fn)("https://proxy.example.com/aurea/v1/ramp/bank/payout/payouts/", init)).status).toBe(503);
+    expect(g.calls).toHaveLength(1);
+    const f = fakeFetch([fail(503, {}), ok({})]);
+    expect((await transport(f.fn)("https://api.aureahub.com/v1/ramp/bank/customer/accounts/payouts", init)).status).toBe(200);
+  });
+
   it("retries a GET after 502/504", async () => {
     const { fn, calls } = fakeFetch([fail(502, {}), fail(504, {}), ok({})]);
     expect((await transport(fn)("https://api.aureahub.com/v1/wallets/")).status).toBe(200);
