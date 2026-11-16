@@ -103,7 +103,7 @@ describe("USD accounts", () => {
     expect(seen[0].headers.get("idempotency-key")).toBe("EXAMPLE-key-2");
     expect(seen[0].headers.get("content-type")).toBe("application/json");
   });
-  it("sends xAureaStepUp as the step-up header, beside the bearer and the key (0.2.1)", async () => {
+  it("sends xAureaStepUp as the step-up header, beside the bearer and the key (0.3.0)", async () => {
     const { seen, fetch } = recorder();
     const user = new Aurea({ accessToken: "EXAMPLE", fetch });
     await user.bankRampUsdAccounts.v1RampBankCustomerAccountsPayoutsPost({

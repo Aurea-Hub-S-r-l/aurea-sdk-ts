@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.2.1 — unreleased
+## 0.3.0 — unreleased
 
 Prepared from the API's master document with aurea_api !722, written with production's address-book setting (no
 approval step) — not production's own document yet: regenerate from it once it serves !722, before publishing.
@@ -13,11 +13,13 @@ approval step) — not production's own document yet: regenerate from it once it
   `bankRampPayout.v1RampBankPayoutPayoutsPost()` checks the token before the Idempotency-Key: a retry needs a new one
   (README › Step-up headers).
 
+### Breaking changes (from 0.2.0)
+- `bankRampUsdAccounts.v1RampBankCustomerBeneficiariesPost()`: `idempotencyKey` is `string` (was `string | null`). A
+  TypeScript caller passing `null` there no longer compiles: leave the key out instead. Nothing changes at run time.
+  (From the API's master, not !722; hence 0.3.0.)
+
 ### Changed
-- `bankRampUsdAccounts.v1RampBankCustomerBeneficiariesPost()`: `idempotencyKey` is `string` (was `string | null`), and
-  the USD account routes' Idempotency-Key is documented as the API checks it (1–255 letters, digits, `-` or `_`). A
-  TypeScript caller passing `null` there no longer compiles: leave the key out instead. (From the API's master, not
-  !722.)
+- The USD account routes' Idempotency-Key is documented as the API checks it (1–255 letters, digits, `-` or `_`).
 - Doc comments: the bank ramp's own field names replaced by what the value is; the profile, lists and terms refusals
   name their `details.nextStep`.
 
