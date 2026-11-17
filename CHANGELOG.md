@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.3.1 — 17 November 2026 — returned payouts
+
+Generated from the production OpenAPI document of 17 November 2026 (sha256 `5cf111b1…4f86`). 577 routes (as 0.3.0).
+
+### Changed
+- The event types of the webhook endpoints (admin routes: `webhooks.v1AdminTenantsIdWebhookEndpoints*`) add
+  `remittance.payout.returned`: a Remittance payout that had completed was returned by the bank and its money came back
+  to the customer's account. Its body is the other `remittance.payout.*` events' body with `status` `returned` and
+  `failureReason` `ACCOUNT_PAYOUT_RETURNED`; `returned` is final; `finishedAt` is then the time of the return. New value
+  in the event-type enums (requests and answers): handle a value you do not know (a `switch` with an exhaustive `never`
+  check no longer compiles).
+- The Remittance payout's `status` (now also `returned`) is not a type of this SDK: the event bodies are published in
+  the OpenAPI document as `WebhookEvent.remittance.payout.<type>.v1`, and no route the SDK calls answers them. Read
+  `status` as a string and ignore a value you do not know.
+- Nothing else changes: same routes, same methods, same errors.
+
 ## 0.3.0 — 16 November 2026 — step-up headers
 
 Generated from the production OpenAPI document of 16 November 2026 (sha256 `14ef3bd6…ce3c5`). 577 routes (as 0.2.0).
