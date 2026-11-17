@@ -55970,6 +55970,16 @@
      },
      "required": true
     },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "idempotency-key",
+      "required": false
+     }
+    ],
     "security": [
      {
       "bearerAuth": []
@@ -104037,6 +104047,7 @@
         "address_book.settings.change",
         "address_book.settings.approve",
         "address_book.enforcement.lower",
+        "mpc_confirmation.email_code.allow_for_tenant",
         "swap_routes.enforcement.lower",
         "gas_station.funding_wallet.create",
         "gas_station.funding_wallet.create_own",

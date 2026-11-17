@@ -82,6 +82,7 @@ Opening a customer's bank ramp account (USD, and EUR where your tenant offers it
 ```ts
 const opening = await user.bankRampAccountOpenings.v1RampBankCustomerAccountOpeningsPost({
   v1RampBankCustomerAccountOpeningsPostRequest: { customerKind: 'business', isTestnet: true },
+  idempotencyKey: idempotencyKey(), // optional: a repeat with the same key answers the first opening
 });
 // Show opening.nextStep as a button; follow the state with the ramp.accounts.updated event.
 ```

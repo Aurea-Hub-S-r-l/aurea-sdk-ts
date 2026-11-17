@@ -182,6 +182,10 @@ export interface V1RampBankCustomerAccountOpeningsPostOperationRequest {
      * 
      */
     v1RampBankCustomerAccountOpeningsPostRequest: V1RampBankCustomerAccountOpeningsPostRequest;
+    /**
+     * 
+     */
+    idempotencyKey?: string | null;
 }
 
 /**
@@ -603,6 +607,10 @@ export class BankRampAccountOpeningsApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['idempotencyKey'] != null) {
+            headerParameters['idempotency-key'] = String(requestParameters['idempotencyKey']);
+        }
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
