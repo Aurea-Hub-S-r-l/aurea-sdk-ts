@@ -43,7 +43,11 @@ export class AureaApiError extends AureaError {
   readonly body?: unknown;
   /** X-Request-ID: quote it when you write to help@aureahub.com. */
   readonly requestId: string | null;
-  /** On 429 (and some 503): seconds to wait, from `retry-after`. */
+  /**
+   * Seconds to wait before sending the same request again: the `retry-after` header (429, some 503, and 409
+   * `ACCOUNT_OPENING_BUSY`), else the answer's `details.retryAfterSeconds` — the same value in the body, for a
+   * browser that cannot read the header. Null when the answer gives neither.
+   */
   readonly retryAfterSeconds: number | null;
   readonly method?: string;
   readonly path?: string;
@@ -155,6 +159,13 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
+/** `details.retryAfterSeconds` when it is a number of seconds (0 or more), else null. */
+function detailsRetryAfter(details: unknown): number | null {
+  if (!isRecord(details)) return null;
+  const seconds = details.retryAfterSeconds;
+  return typeof seconds === "number" && Number.isFinite(seconds) && seconds >= 0 ? seconds : null;
+}
+
 /** The stable code of an error body: `details.code ?? code`, else null. */
 export function errorCode(body: unknown): string | null {
   if (!isRecord(body)) return null;
@@ -186,7 +197,7 @@ export function createApiError(
     details: record.details,
     body,
     requestId: headers.get("x-request-id"),
-    retryAfterSeconds: parseRetryAfter(headers.get("retry-after")),
+    retryAfterSeconds: parseRetryAfter(headers.get("retry-after")) ?? detailsRetryAfter(record.details),
     method: request.method,
     path: request.path,
     headers,

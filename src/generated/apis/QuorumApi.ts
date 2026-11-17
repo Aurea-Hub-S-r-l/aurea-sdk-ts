@@ -509,6 +509,7 @@ export const V1QuorumRequestsGetActionEnum = {
     AddressBookSettingsChange: 'address_book.settings.change',
     AddressBookSettingsApprove: 'address_book.settings.approve',
     AddressBookEnforcementLower: 'address_book.enforcement.lower',
+    MpcConfirmationEmailCodeAllowForTenant: 'mpc_confirmation.email_code.allow_for_tenant',
     SwapRoutesEnforcementLower: 'swap_routes.enforcement.lower',
     GasStationFundingWalletCreate: 'gas_station.funding_wallet.create',
     GasStationFundingWalletCreateOwn: 'gas_station.funding_wallet.create_own',

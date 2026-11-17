@@ -14,6 +14,11 @@
 
 import * as runtime from '../runtime';
 import {
+    type V1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequest,
+    V1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequestFromJSON,
+    V1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequestToJSON,
+} from '../models/V1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequest';
+import {
     type V1RampBankCustomerAccountsCollectionsGet200Response,
     V1RampBankCustomerAccountsCollectionsGet200ResponseFromJSON,
     V1RampBankCustomerAccountsCollectionsGet200ResponseToJSON,
@@ -183,11 +188,6 @@ import {
     V1RampBankCustomerAccountsWalletTransfersGet200ResponseFromJSON,
     V1RampBankCustomerAccountsWalletTransfersGet200ResponseToJSON,
 } from '../models/V1RampBankCustomerAccountsWalletTransfersGet200Response';
-import {
-    type V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest,
-    V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequestFromJSON,
-    V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequestToJSON,
-} from '../models/V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest';
 import {
     type V1RampBankCustomerAccountsWalletTransfersIdSentPostRequest,
     V1RampBankCustomerAccountsWalletTransfersIdSentPostRequestFromJSON,
@@ -457,7 +457,7 @@ export interface V1RampBankCustomerAccountsWalletTransfersGetRequest {
     offset?: number;
 }
 
-export interface V1RampBankCustomerAccountsWalletTransfersIdCancelPostOperationRequest {
+export interface V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest {
     /**
      * 
      */
@@ -465,7 +465,7 @@ export interface V1RampBankCustomerAccountsWalletTransfersIdCancelPostOperationR
     /**
      * 
      */
-    v1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest?: V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest;
+    v1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequest?: V1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequest;
 }
 
 export interface V1RampBankCustomerAccountsWalletTransfersIdGetRequest {
@@ -1378,7 +1378,7 @@ export class BankRampUsdAccountsApi extends runtime.BaseAPI {
     /**
      * Creates request options for v1RampBankCustomerAccountsWalletTransfersIdCancelPost without sending the request
      */
-    async v1RampBankCustomerAccountsWalletTransfersIdCancelPostRequestOpts(requestParameters: V1RampBankCustomerAccountsWalletTransfersIdCancelPostOperationRequest): Promise<runtime.RequestOpts> {
+    async v1RampBankCustomerAccountsWalletTransfersIdCancelPostRequestOpts(requestParameters: V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest): Promise<runtime.RequestOpts> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -1409,7 +1409,7 @@ export class BankRampUsdAccountsApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequestToJSON(requestParameters['v1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest']),
+            body: V1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequestToJSON(requestParameters['v1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequest']),
         };
     }
 
@@ -1417,7 +1417,7 @@ export class BankRampUsdAccountsApi extends runtime.BaseAPI {
      * A transfer still waiting is cancelled (its amount is free again). Never cancel one the wallet has sent. While custody is not switched on for the deployment the route answers 404.
      * Cancel a wallet transfer that never left the wallet
      */
-    async v1RampBankCustomerAccountsWalletTransfersIdCancelPostRaw(requestParameters: V1RampBankCustomerAccountsWalletTransfersIdCancelPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1RampBankCustomerAccountsWalletTransfersPost200Response>> {
+    async v1RampBankCustomerAccountsWalletTransfersIdCancelPostRaw(requestParameters: V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1RampBankCustomerAccountsWalletTransfersPost200Response>> {
         const requestOptions = await this.v1RampBankCustomerAccountsWalletTransfersIdCancelPostRequestOpts(requestParameters);
         const response = await this.request(requestOptions, initOverrides);
 
@@ -1428,7 +1428,7 @@ export class BankRampUsdAccountsApi extends runtime.BaseAPI {
      * A transfer still waiting is cancelled (its amount is free again). Never cancel one the wallet has sent. While custody is not switched on for the deployment the route answers 404.
      * Cancel a wallet transfer that never left the wallet
      */
-    async v1RampBankCustomerAccountsWalletTransfersIdCancelPost(requestParameters: V1RampBankCustomerAccountsWalletTransfersIdCancelPostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankCustomerAccountsWalletTransfersPost200Response> {
+    async v1RampBankCustomerAccountsWalletTransfersIdCancelPost(requestParameters: V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankCustomerAccountsWalletTransfersPost200Response> {
         const response = await this.v1RampBankCustomerAccountsWalletTransfersIdCancelPostRaw(requestParameters, initOverrides);
         return await response.value();
     }
