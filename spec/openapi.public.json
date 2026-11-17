@@ -55927,6 +55927,2957 @@
     }
    }
   },
+  "/v1/ramp/bank/customer/account-openings": {
+   "post": {
+    "summary": "Open (or read) the customer's account opening",
+    "tags": [
+     "bank-ramp-account-openings"
+    ],
+    "description": "The signed-in user's account opening: created on the first call (201), the same one afterwards (200). `customerKind` is fixed once given (409 ACCOUNT_OPENING_KIND_LOCKED). `currencies` USD+EUR asks for EUR beside USD: it answers the questionnaire's currency question while nobody started to verify the USD opening; once its verification has started (or where the question is not asked) it opens a second opening for EUR alone (state unavailable with contact_support where EUR is not offered). Optional Idempotency-Key. Answers 404 while account openings are not switched on for the tenant's environment.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "required": [
+         "customerKind"
+        ],
+        "additionalProperties": false,
+        "properties": {
+         "isTestnet": {
+          "type": "boolean",
+          "default": false
+         },
+         "customerKind": {
+          "type": "string",
+          "enum": [
+           "individual",
+           "business"
+          ],
+          "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+         },
+         "currencies": {
+          "type": "string",
+          "enum": [
+           "USD",
+           "USD+EUR"
+          ],
+          "default": "USD"
+         }
+        }
+       }
+      }
+     },
+     "required": true
+    },
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "openingId",
+          "environment",
+          "customerKind",
+          "state",
+          "reason",
+          "accounts",
+          "questionnaire",
+          "nextStep",
+          "upgrade",
+          "notices",
+          "outsideRouting",
+          "updatedAt"
+         ],
+         "properties": {
+          "openingId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "environment": {
+           "type": "string",
+           "enum": [
+            "production",
+            "sandbox"
+           ]
+          },
+          "customerKind": {
+           "type": "string",
+           "enum": [
+            "individual",
+            "business"
+           ],
+           "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "to_complete",
+            "verifying",
+            "partner_review",
+            "active",
+            "unavailable",
+            "waitlist"
+           ]
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "enum": [
+            "industry_requirements",
+            "not_yet_available",
+            "region_unavailable",
+            "region_waitlist",
+            "declined",
+            "under_review",
+            "outside_routing",
+            "upgrade_available",
+            "upgrade_required",
+            "update_not_needed",
+            "account_closing",
+            "account_closed",
+            null
+           ]
+          },
+          "accounts": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "currency",
+             "state",
+             "role"
+            ],
+            "properties": {
+             "currency": {
+              "type": "string",
+              "enum": [
+               "USD",
+               "EUR"
+              ]
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "to_complete",
+               "verifying",
+               "partner_review",
+               "active",
+               "unavailable",
+               "waitlist"
+              ]
+             },
+             "role": {
+              "type": "string",
+              "enum": [
+               "current",
+               "replacement"
+              ]
+             }
+            }
+           }
+          },
+          "questionnaire": {
+           "type": "object",
+           "required": [
+            "required",
+            "pending",
+            "locked",
+            "catalogueVersion"
+           ],
+           "properties": {
+            "required": {
+             "type": "boolean"
+            },
+            "pending": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "locked": {
+             "type": "boolean"
+            },
+            "catalogueVersion": {
+             "type": "string"
+            }
+           }
+          },
+          "nextStep": {
+           "type": "object",
+           "required": [
+            "action"
+           ],
+           "properties": {
+            "action": {
+             "type": "string",
+             "enum": [
+              "answer_questions",
+              "choose_preference",
+              "start_verification",
+              "continue_verification",
+              "complete_profile",
+              "accept_terms",
+              "provide_information",
+              "upload_document",
+              "wait_for_review",
+              "update_account",
+              "contact_support",
+              "none"
+             ]
+            },
+            "questions": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "url": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The hosted page to open (only in the answer of POST …/next-step; never in an event). It can expire: call POST …/next-step again for a fresh one."
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "supportEmail": {
+             "type": "string",
+             "enum": [
+              "help@aureahub.com"
+             ]
+            }
+           },
+           "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
+          },
+          "upgrade": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "mode"
+           ],
+           "properties": {
+            "mode": {
+             "type": "string",
+             "enum": [
+              "invite",
+              "mandatory"
+             ]
+            }
+           }
+          },
+          "notices": {
+           "type": "array",
+           "items": {
+            "type": "string",
+            "enum": [
+             "eur_unavailable",
+             "countries_unserved"
+            ]
+           }
+          },
+          "outsideRouting": {
+           "type": "boolean",
+           "description": "The account was opened through a per-provider route: shown read-only, never moved or verified again (only an account update can bring it here)."
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          }
+         }
+        }
+       }
+      }
+     },
+     "201": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "openingId",
+          "environment",
+          "customerKind",
+          "state",
+          "reason",
+          "accounts",
+          "questionnaire",
+          "nextStep",
+          "upgrade",
+          "notices",
+          "outsideRouting",
+          "updatedAt"
+         ],
+         "properties": {
+          "openingId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "environment": {
+           "type": "string",
+           "enum": [
+            "production",
+            "sandbox"
+           ]
+          },
+          "customerKind": {
+           "type": "string",
+           "enum": [
+            "individual",
+            "business"
+           ],
+           "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "to_complete",
+            "verifying",
+            "partner_review",
+            "active",
+            "unavailable",
+            "waitlist"
+           ]
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "enum": [
+            "industry_requirements",
+            "not_yet_available",
+            "region_unavailable",
+            "region_waitlist",
+            "declined",
+            "under_review",
+            "outside_routing",
+            "upgrade_available",
+            "upgrade_required",
+            "update_not_needed",
+            "account_closing",
+            "account_closed",
+            null
+           ]
+          },
+          "accounts": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "currency",
+             "state",
+             "role"
+            ],
+            "properties": {
+             "currency": {
+              "type": "string",
+              "enum": [
+               "USD",
+               "EUR"
+              ]
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "to_complete",
+               "verifying",
+               "partner_review",
+               "active",
+               "unavailable",
+               "waitlist"
+              ]
+             },
+             "role": {
+              "type": "string",
+              "enum": [
+               "current",
+               "replacement"
+              ]
+             }
+            }
+           }
+          },
+          "questionnaire": {
+           "type": "object",
+           "required": [
+            "required",
+            "pending",
+            "locked",
+            "catalogueVersion"
+           ],
+           "properties": {
+            "required": {
+             "type": "boolean"
+            },
+            "pending": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "locked": {
+             "type": "boolean"
+            },
+            "catalogueVersion": {
+             "type": "string"
+            }
+           }
+          },
+          "nextStep": {
+           "type": "object",
+           "required": [
+            "action"
+           ],
+           "properties": {
+            "action": {
+             "type": "string",
+             "enum": [
+              "answer_questions",
+              "choose_preference",
+              "start_verification",
+              "continue_verification",
+              "complete_profile",
+              "accept_terms",
+              "provide_information",
+              "upload_document",
+              "wait_for_review",
+              "update_account",
+              "contact_support",
+              "none"
+             ]
+            },
+            "questions": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "url": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The hosted page to open (only in the answer of POST …/next-step; never in an event). It can expire: call POST …/next-step again for a fresh one."
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "supportEmail": {
+             "type": "string",
+             "enum": [
+              "help@aureahub.com"
+             ]
+            }
+           },
+           "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
+          },
+          "upgrade": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "mode"
+           ],
+           "properties": {
+            "mode": {
+             "type": "string",
+             "enum": [
+              "invite",
+              "mandatory"
+             ]
+            }
+           }
+          },
+          "notices": {
+           "type": "array",
+           "items": {
+            "type": "string",
+            "enum": [
+             "eur_unavailable",
+             "countries_unserved"
+            ]
+           }
+          },
+          "outsideRouting": {
+           "type": "boolean",
+           "description": "The account was opened through a per-provider route: shown read-only, never moved or verified again (only an account update can bring it here)."
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "ACCOUNT_OPENING_INVALID, IDEMPOTENCY_KEY_INVALID",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_INVALID, IDEMPOTENCY_KEY_INVALID",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "Not switched on",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "Not switched on",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "ACCOUNT_OPENING_KIND_LOCKED, IDEMPOTENCY_KEY_REUSED, IDEMPOTENCY_IN_PROGRESS",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_KIND_LOCKED, IDEMPOTENCY_KEY_REUSED, IDEMPOTENCY_IN_PROGRESS",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   },
+   "get": {
+    "summary": "The customer's account openings",
+    "tags": [
+     "bank-ramp-account-openings"
+    ],
+    "description": "The current opening, an EUR-only opening beside it, and an update's replacement while one is in progress. Answers 404 while account openings are not switched on for the tenant's environment.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "boolean",
+       "default": false
+      },
+      "in": "query",
+      "name": "isTestnet",
+      "required": false,
+      "description": "The bank ramp's environment: true for sandbox, false or omitted for production."
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "openings"
+         ],
+         "properties": {
+          "openings": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "openingId",
+             "environment",
+             "customerKind",
+             "state",
+             "reason",
+             "accounts",
+             "questionnaire",
+             "nextStep",
+             "upgrade",
+             "notices",
+             "outsideRouting",
+             "updatedAt"
+            ],
+            "properties": {
+             "openingId": {
+              "type": "string",
+              "format": "uuid"
+             },
+             "environment": {
+              "type": "string",
+              "enum": [
+               "production",
+               "sandbox"
+              ]
+             },
+             "customerKind": {
+              "type": "string",
+              "enum": [
+               "individual",
+               "business"
+              ],
+              "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "to_complete",
+               "verifying",
+               "partner_review",
+               "active",
+               "unavailable",
+               "waitlist"
+              ]
+             },
+             "reason": {
+              "type": [
+               "string",
+               "null"
+              ],
+              "enum": [
+               "industry_requirements",
+               "not_yet_available",
+               "region_unavailable",
+               "region_waitlist",
+               "declined",
+               "under_review",
+               "outside_routing",
+               "upgrade_available",
+               "upgrade_required",
+               "update_not_needed",
+               "account_closing",
+               "account_closed",
+               null
+              ]
+             },
+             "accounts": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "required": [
+                "currency",
+                "state",
+                "role"
+               ],
+               "properties": {
+                "currency": {
+                 "type": "string",
+                 "enum": [
+                  "USD",
+                  "EUR"
+                 ]
+                },
+                "state": {
+                 "type": "string",
+                 "enum": [
+                  "to_complete",
+                  "verifying",
+                  "partner_review",
+                  "active",
+                  "unavailable",
+                  "waitlist"
+                 ]
+                },
+                "role": {
+                 "type": "string",
+                 "enum": [
+                  "current",
+                  "replacement"
+                 ]
+                }
+               }
+              }
+             },
+             "questionnaire": {
+              "type": "object",
+              "required": [
+               "required",
+               "pending",
+               "locked",
+               "catalogueVersion"
+              ],
+              "properties": {
+               "required": {
+                "type": "boolean"
+               },
+               "pending": {
+                "type": "array",
+                "items": {
+                 "type": "string",
+                 "enum": [
+                  "country",
+                  "industry",
+                  "gambling_licence",
+                  "nonprofit_registered",
+                  "currencies",
+                  "payout_countries",
+                  "preference"
+                 ]
+                }
+               },
+               "locked": {
+                "type": "boolean"
+               },
+               "catalogueVersion": {
+                "type": "string"
+               }
+              }
+             },
+             "nextStep": {
+              "type": "object",
+              "required": [
+               "action"
+              ],
+              "properties": {
+               "action": {
+                "type": "string",
+                "enum": [
+                 "answer_questions",
+                 "choose_preference",
+                 "start_verification",
+                 "continue_verification",
+                 "complete_profile",
+                 "accept_terms",
+                 "provide_information",
+                 "upload_document",
+                 "wait_for_review",
+                 "update_account",
+                 "contact_support",
+                 "none"
+                ]
+               },
+               "questions": {
+                "type": "array",
+                "items": {
+                 "type": "string",
+                 "enum": [
+                  "country",
+                  "industry",
+                  "gambling_licence",
+                  "nonprofit_registered",
+                  "currencies",
+                  "payout_countries",
+                  "preference"
+                 ]
+                }
+               },
+               "url": {
+                "type": [
+                 "string",
+                 "null"
+                ],
+                "description": "The hosted page to open (only in the answer of POST …/next-step; never in an event). It can expire: call POST …/next-step again for a fresh one."
+               },
+               "expiresAt": {
+                "type": [
+                 "string",
+                 "null"
+                ],
+                "format": "date-time"
+               },
+               "supportEmail": {
+                "type": "string",
+                "enum": [
+                 "help@aureahub.com"
+                ]
+               }
+              },
+              "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
+             },
+             "upgrade": {
+              "type": [
+               "object",
+               "null"
+              ],
+              "required": [
+               "mode"
+              ],
+              "properties": {
+               "mode": {
+                "type": "string",
+                "enum": [
+                 "invite",
+                 "mandatory"
+                ]
+               }
+              }
+             },
+             "notices": {
+              "type": "array",
+              "items": {
+               "type": "string",
+               "enum": [
+                "eur_unavailable",
+                "countries_unserved"
+               ]
+              }
+             },
+             "outsideRouting": {
+              "type": "boolean",
+              "description": "The account was opened through a per-provider route: shown read-only, never moved or verified again (only an account update can bring it here)."
+             },
+             "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/ramp/bank/customer/account-openings/industries": {
+   "get": {
+    "summary": "The questionnaire's industries",
+    "tags": [
+     "bank-ramp-account-openings"
+    ],
+    "description": "The options of the industry question (\"None of these\" first), filtered by `q`. Answers 404 while account openings are not switched on for the tenant's environment.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "boolean",
+       "default": false
+      },
+      "in": "query",
+      "name": "isTestnet",
+      "required": false,
+      "description": "The bank ramp's environment: true for sandbox, false or omitted for production."
+     },
+     {
+      "schema": {
+       "type": "string",
+       "maxLength": 100
+      },
+      "in": "query",
+      "name": "q",
+      "required": false
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "catalogueVersion",
+          "options"
+         ],
+         "properties": {
+          "catalogueVersion": {
+           "type": "string"
+          },
+          "options": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "id",
+             "label"
+            ],
+            "properties": {
+             "id": {
+              "type": "string"
+             },
+             "label": {
+              "type": "string"
+             },
+             "followUp": {
+              "type": [
+               "string",
+               "null"
+              ]
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/ramp/bank/customer/account-openings/{openingId}": {
+   "get": {
+    "summary": "One account opening",
+    "tags": [
+     "bank-ramp-account-openings"
+    ],
+    "description": "The opening by id. Answers 404 while account openings are not switched on for the tenant's environment.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "boolean",
+       "default": false
+      },
+      "in": "query",
+      "name": "isTestnet",
+      "required": false,
+      "description": "The bank ramp's environment: true for sandbox, false or omitted for production."
+     },
+     {
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "in": "path",
+      "name": "openingId",
+      "required": true
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "openingId",
+          "environment",
+          "customerKind",
+          "state",
+          "reason",
+          "accounts",
+          "questionnaire",
+          "nextStep",
+          "upgrade",
+          "notices",
+          "outsideRouting",
+          "updatedAt"
+         ],
+         "properties": {
+          "openingId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "environment": {
+           "type": "string",
+           "enum": [
+            "production",
+            "sandbox"
+           ]
+          },
+          "customerKind": {
+           "type": "string",
+           "enum": [
+            "individual",
+            "business"
+           ],
+           "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "to_complete",
+            "verifying",
+            "partner_review",
+            "active",
+            "unavailable",
+            "waitlist"
+           ]
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "enum": [
+            "industry_requirements",
+            "not_yet_available",
+            "region_unavailable",
+            "region_waitlist",
+            "declined",
+            "under_review",
+            "outside_routing",
+            "upgrade_available",
+            "upgrade_required",
+            "update_not_needed",
+            "account_closing",
+            "account_closed",
+            null
+           ]
+          },
+          "accounts": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "currency",
+             "state",
+             "role"
+            ],
+            "properties": {
+             "currency": {
+              "type": "string",
+              "enum": [
+               "USD",
+               "EUR"
+              ]
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "to_complete",
+               "verifying",
+               "partner_review",
+               "active",
+               "unavailable",
+               "waitlist"
+              ]
+             },
+             "role": {
+              "type": "string",
+              "enum": [
+               "current",
+               "replacement"
+              ]
+             }
+            }
+           }
+          },
+          "questionnaire": {
+           "type": "object",
+           "required": [
+            "required",
+            "pending",
+            "locked",
+            "catalogueVersion"
+           ],
+           "properties": {
+            "required": {
+             "type": "boolean"
+            },
+            "pending": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "locked": {
+             "type": "boolean"
+            },
+            "catalogueVersion": {
+             "type": "string"
+            }
+           }
+          },
+          "nextStep": {
+           "type": "object",
+           "required": [
+            "action"
+           ],
+           "properties": {
+            "action": {
+             "type": "string",
+             "enum": [
+              "answer_questions",
+              "choose_preference",
+              "start_verification",
+              "continue_verification",
+              "complete_profile",
+              "accept_terms",
+              "provide_information",
+              "upload_document",
+              "wait_for_review",
+              "update_account",
+              "contact_support",
+              "none"
+             ]
+            },
+            "questions": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "url": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The hosted page to open (only in the answer of POST …/next-step; never in an event). It can expire: call POST …/next-step again for a fresh one."
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "supportEmail": {
+             "type": "string",
+             "enum": [
+              "help@aureahub.com"
+             ]
+            }
+           },
+           "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
+          },
+          "upgrade": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "mode"
+           ],
+           "properties": {
+            "mode": {
+             "type": "string",
+             "enum": [
+              "invite",
+              "mandatory"
+             ]
+            }
+           }
+          },
+          "notices": {
+           "type": "array",
+           "items": {
+            "type": "string",
+            "enum": [
+             "eur_unavailable",
+             "countries_unserved"
+            ]
+           }
+          },
+          "outsideRouting": {
+           "type": "boolean",
+           "description": "The account was opened through a per-provider route: shown read-only, never moved or verified again (only an account update can bring it here)."
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "ACCOUNT_OPENING_INVALID",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_INVALID",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "ACCOUNT_OPENING_NOT_FOUND",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_NOT_FOUND",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/ramp/bank/customer/account-openings/{openingId}/questionnaire": {
+   "get": {
+    "summary": "The opening's questions",
+    "tags": [
+     "bank-ramp-account-openings"
+    ],
+    "description": "Every question that applies to the customer now, answered or not, with its options (the industry's: id, label and follow-up only). Answers 404 while account openings are not switched on for the tenant's environment.",
+    "parameters": [
+     {
+      "schema": {
+       "type": "boolean",
+       "default": false
+      },
+      "in": "query",
+      "name": "isTestnet",
+      "required": false,
+      "description": "The bank ramp's environment: true for sandbox, false or omitted for production."
+     },
+     {
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "in": "path",
+      "name": "openingId",
+      "required": true
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "catalogueVersion",
+          "questions"
+         ],
+         "properties": {
+          "catalogueVersion": {
+           "type": "string"
+          },
+          "questions": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "id",
+             "required",
+             "answered",
+             "value"
+            ],
+            "properties": {
+             "id": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             },
+             "required": {
+              "type": "boolean"
+             },
+             "answered": {
+              "type": "boolean"
+             },
+             "value": {},
+             "options": {
+              "type": "array",
+              "items": {
+               "type": "object",
+               "required": [
+                "id",
+                "label"
+               ],
+               "properties": {
+                "id": {
+                 "type": "string"
+                },
+                "label": {
+                 "type": "string"
+                },
+                "followUp": {
+                 "type": [
+                  "string",
+                  "null"
+                 ]
+                }
+               }
+              }
+             }
+            }
+           }
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "ACCOUNT_OPENING_INVALID",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_INVALID",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "ACCOUNT_OPENING_NOT_FOUND",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_NOT_FOUND",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   },
+   "put": {
+    "summary": "Answer the opening's questions",
+    "tags": [
+     "bank-ramp-account-openings"
+    ],
+    "description": "Partial answers; the opening is decided again and returned. 409 ACCOUNT_OPENING_ANSWERS_LOCKED once a verification started, 409 ACCOUNT_OPENING_QUESTION_NOT_ASKED for a question that does not apply, 400 ACCOUNT_OPENING_INVALID (field names only), 409 ACCOUNT_OPENING_BUSY while another request changes the opening — nothing was written; send it again after `Retry-After` (also `details.retryAfterSeconds`): while the opening's verification step is being started, the seconds until that step ends at the latest (at most 60; it often ends sooner), else 1. Answers 404 while account openings are not switched on for the tenant's environment.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "isTestnet": {
+          "type": "boolean",
+          "default": false
+         },
+         "country": {
+          "type": [
+           "string",
+           "null"
+          ],
+          "pattern": "^[A-Za-z]{2}$"
+         },
+         "incorporationCountry": {
+          "type": [
+           "string",
+           "null"
+          ],
+          "pattern": "^[A-Za-z]{2}$"
+         },
+         "industry": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "gamblingLicence": {
+          "type": [
+           "boolean",
+           "null"
+          ]
+         },
+         "nonprofitRegistered": {
+          "type": [
+           "boolean",
+           "null"
+          ]
+         },
+         "currencies": {
+          "type": [
+           "string",
+           "null"
+          ],
+          "enum": [
+           "USD",
+           "USD+EUR",
+           null
+          ]
+         },
+         "payoutCountries": {
+          "type": [
+           "array",
+           "null"
+          ],
+          "items": {
+           "type": "string",
+           "pattern": "^[A-Za-z]{2}$"
+          },
+          "maxItems": 250
+         },
+         "preference": {
+          "type": [
+           "string",
+           "null"
+          ],
+          "enum": [
+           "eur",
+           "countries",
+           null
+          ]
+         }
+        }
+       }
+      }
+     }
+    },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "in": "path",
+      "name": "openingId",
+      "required": true
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "openingId",
+          "environment",
+          "customerKind",
+          "state",
+          "reason",
+          "accounts",
+          "questionnaire",
+          "nextStep",
+          "upgrade",
+          "notices",
+          "outsideRouting",
+          "updatedAt"
+         ],
+         "properties": {
+          "openingId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "environment": {
+           "type": "string",
+           "enum": [
+            "production",
+            "sandbox"
+           ]
+          },
+          "customerKind": {
+           "type": "string",
+           "enum": [
+            "individual",
+            "business"
+           ],
+           "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "to_complete",
+            "verifying",
+            "partner_review",
+            "active",
+            "unavailable",
+            "waitlist"
+           ]
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "enum": [
+            "industry_requirements",
+            "not_yet_available",
+            "region_unavailable",
+            "region_waitlist",
+            "declined",
+            "under_review",
+            "outside_routing",
+            "upgrade_available",
+            "upgrade_required",
+            "update_not_needed",
+            "account_closing",
+            "account_closed",
+            null
+           ]
+          },
+          "accounts": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "currency",
+             "state",
+             "role"
+            ],
+            "properties": {
+             "currency": {
+              "type": "string",
+              "enum": [
+               "USD",
+               "EUR"
+              ]
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "to_complete",
+               "verifying",
+               "partner_review",
+               "active",
+               "unavailable",
+               "waitlist"
+              ]
+             },
+             "role": {
+              "type": "string",
+              "enum": [
+               "current",
+               "replacement"
+              ]
+             }
+            }
+           }
+          },
+          "questionnaire": {
+           "type": "object",
+           "required": [
+            "required",
+            "pending",
+            "locked",
+            "catalogueVersion"
+           ],
+           "properties": {
+            "required": {
+             "type": "boolean"
+            },
+            "pending": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "locked": {
+             "type": "boolean"
+            },
+            "catalogueVersion": {
+             "type": "string"
+            }
+           }
+          },
+          "nextStep": {
+           "type": "object",
+           "required": [
+            "action"
+           ],
+           "properties": {
+            "action": {
+             "type": "string",
+             "enum": [
+              "answer_questions",
+              "choose_preference",
+              "start_verification",
+              "continue_verification",
+              "complete_profile",
+              "accept_terms",
+              "provide_information",
+              "upload_document",
+              "wait_for_review",
+              "update_account",
+              "contact_support",
+              "none"
+             ]
+            },
+            "questions": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "url": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The hosted page to open (only in the answer of POST …/next-step; never in an event). It can expire: call POST …/next-step again for a fresh one."
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "supportEmail": {
+             "type": "string",
+             "enum": [
+              "help@aureahub.com"
+             ]
+            }
+           },
+           "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
+          },
+          "upgrade": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "mode"
+           ],
+           "properties": {
+            "mode": {
+             "type": "string",
+             "enum": [
+              "invite",
+              "mandatory"
+             ]
+            }
+           }
+          },
+          "notices": {
+           "type": "array",
+           "items": {
+            "type": "string",
+            "enum": [
+             "eur_unavailable",
+             "countries_unserved"
+            ]
+           }
+          },
+          "outsideRouting": {
+           "type": "boolean",
+           "description": "The account was opened through a per-provider route: shown read-only, never moved or verified again (only an account update can bring it here)."
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "ACCOUNT_OPENING_INVALID",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_INVALID",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "ACCOUNT_OPENING_NOT_FOUND",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_NOT_FOUND",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "ACCOUNT_OPENING_ANSWERS_LOCKED, ACCOUNT_OPENING_QUESTION_NOT_ASKED, ACCOUNT_OPENING_BUSY (Retry-After)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_ANSWERS_LOCKED, ACCOUNT_OPENING_QUESTION_NOT_ASKED, ACCOUNT_OPENING_BUSY (Retry-After)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/ramp/bank/customer/account-openings/{openingId}/next-step": {
+   "post": {
+    "summary": "Start or continue the opening's verification",
+    "tags": [
+     "bank-ramp-account-openings"
+    ],
+    "description": "Starts the verification of the first account that needs one (or gives a fresh link for one in progress) and answers the opening with `nextStep.url`. `returnUrl` (https) is where the hosted page sends the customer back. 409 ACCOUNT_OPENING_NEXT_STEP_UNAVAILABLE when the step has nothing to start (details.nextStep), 409 ACCOUNT_OPENING_UNAVAILABLE (contact support), 409 ACCOUNT_OPENING_BUSY when another request changed the opening meanwhile (nothing was written; send it again after `Retry-After`, also `details.retryAfterSeconds`: while another request is starting the step, the seconds until it ends at the latest, at most 60, else 1), 503 ACCOUNT_OPENING_TRY_LATER when the step cannot be taken right now. Answers 404 while account openings are not switched on for the tenant's environment.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "isTestnet": {
+          "type": "boolean",
+          "default": false
+         },
+         "returnUrl": {
+          "type": "string",
+          "format": "uri",
+          "maxLength": 1000
+         },
+         "locale": {
+          "type": "string",
+          "enum": [
+           "en",
+           "es",
+           "fr",
+           "de",
+           "it",
+           "pt"
+          ]
+         }
+        }
+       }
+      }
+     }
+    },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "in": "path",
+      "name": "openingId",
+      "required": true
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "openingId",
+          "environment",
+          "customerKind",
+          "state",
+          "reason",
+          "accounts",
+          "questionnaire",
+          "nextStep",
+          "upgrade",
+          "notices",
+          "outsideRouting",
+          "updatedAt"
+         ],
+         "properties": {
+          "openingId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "environment": {
+           "type": "string",
+           "enum": [
+            "production",
+            "sandbox"
+           ]
+          },
+          "customerKind": {
+           "type": "string",
+           "enum": [
+            "individual",
+            "business"
+           ],
+           "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "to_complete",
+            "verifying",
+            "partner_review",
+            "active",
+            "unavailable",
+            "waitlist"
+           ]
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "enum": [
+            "industry_requirements",
+            "not_yet_available",
+            "region_unavailable",
+            "region_waitlist",
+            "declined",
+            "under_review",
+            "outside_routing",
+            "upgrade_available",
+            "upgrade_required",
+            "update_not_needed",
+            "account_closing",
+            "account_closed",
+            null
+           ]
+          },
+          "accounts": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "currency",
+             "state",
+             "role"
+            ],
+            "properties": {
+             "currency": {
+              "type": "string",
+              "enum": [
+               "USD",
+               "EUR"
+              ]
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "to_complete",
+               "verifying",
+               "partner_review",
+               "active",
+               "unavailable",
+               "waitlist"
+              ]
+             },
+             "role": {
+              "type": "string",
+              "enum": [
+               "current",
+               "replacement"
+              ]
+             }
+            }
+           }
+          },
+          "questionnaire": {
+           "type": "object",
+           "required": [
+            "required",
+            "pending",
+            "locked",
+            "catalogueVersion"
+           ],
+           "properties": {
+            "required": {
+             "type": "boolean"
+            },
+            "pending": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "locked": {
+             "type": "boolean"
+            },
+            "catalogueVersion": {
+             "type": "string"
+            }
+           }
+          },
+          "nextStep": {
+           "type": "object",
+           "required": [
+            "action"
+           ],
+           "properties": {
+            "action": {
+             "type": "string",
+             "enum": [
+              "answer_questions",
+              "choose_preference",
+              "start_verification",
+              "continue_verification",
+              "complete_profile",
+              "accept_terms",
+              "provide_information",
+              "upload_document",
+              "wait_for_review",
+              "update_account",
+              "contact_support",
+              "none"
+             ]
+            },
+            "questions": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "url": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The hosted page to open (only in the answer of POST …/next-step; never in an event). It can expire: call POST …/next-step again for a fresh one."
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "supportEmail": {
+             "type": "string",
+             "enum": [
+              "help@aureahub.com"
+             ]
+            }
+           },
+           "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
+          },
+          "upgrade": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "mode"
+           ],
+           "properties": {
+            "mode": {
+             "type": "string",
+             "enum": [
+              "invite",
+              "mandatory"
+             ]
+            }
+           }
+          },
+          "notices": {
+           "type": "array",
+           "items": {
+            "type": "string",
+            "enum": [
+             "eur_unavailable",
+             "countries_unserved"
+            ]
+           }
+          },
+          "outsideRouting": {
+           "type": "boolean",
+           "description": "The account was opened through a per-provider route: shown read-only, never moved or verified again (only an account update can bring it here)."
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          }
+         }
+        }
+       }
+      }
+     },
+     "400": {
+      "description": "ACCOUNT_OPENING_INVALID, RETURN_URL_NOT_HTTPS, RETURN_URL_NOT_ALLOWED",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_INVALID, RETURN_URL_NOT_HTTPS, RETURN_URL_NOT_ALLOWED",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "ACCOUNT_OPENING_NOT_FOUND",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_NOT_FOUND",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "ACCOUNT_OPENING_NEXT_STEP_UNAVAILABLE, ACCOUNT_OPENING_UNAVAILABLE, ACCOUNT_OPENING_BUSY (Retry-After), ACCOUNT_OPENING_KIND_LOCKED",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_NEXT_STEP_UNAVAILABLE, ACCOUNT_OPENING_UNAVAILABLE, ACCOUNT_OPENING_BUSY (Retry-After), ACCOUNT_OPENING_KIND_LOCKED",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "503": {
+      "description": "ACCOUNT_OPENING_TRY_LATER (Retry-After): the step could not be taken right now, nothing changed",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_TRY_LATER (Retry-After): the step could not be taken right now, nothing changed",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/v1/ramp/bank/customer/account-openings/{openingId}/upgrade": {
+   "post": {
+    "summary": "Start the account update offered",
+    "tags": [
+     "bank-ramp-account-openings"
+    ],
+    "description": "Starts the update an account update campaign offers: a replacement opening (role replacement) to complete; the current account keeps working until the new one is active. 409 ACCOUNT_OPENING_UPGRADE_NOT_OFFERED. 409 ACCOUNT_OPENING_BUSY while the opening's verification step is being started (nothing was written; send it again after `Retry-After`, at most 60 seconds). Answers 404 while account openings are not switched on for the tenant's environment.",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "isTestnet": {
+          "type": "boolean",
+          "default": false
+         }
+        }
+       }
+      }
+     }
+    },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string",
+       "format": "uuid"
+      },
+      "in": "path",
+      "name": "openingId",
+      "required": true
+     }
+    ],
+    "security": [
+     {
+      "bearerAuth": []
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "openingId",
+          "environment",
+          "customerKind",
+          "state",
+          "reason",
+          "accounts",
+          "questionnaire",
+          "nextStep",
+          "upgrade",
+          "notices",
+          "outsideRouting",
+          "updatedAt"
+         ],
+         "properties": {
+          "openingId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "environment": {
+           "type": "string",
+           "enum": [
+            "production",
+            "sandbox"
+           ]
+          },
+          "customerKind": {
+           "type": "string",
+           "enum": [
+            "individual",
+            "business"
+           ],
+           "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "to_complete",
+            "verifying",
+            "partner_review",
+            "active",
+            "unavailable",
+            "waitlist"
+           ]
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "enum": [
+            "industry_requirements",
+            "not_yet_available",
+            "region_unavailable",
+            "region_waitlist",
+            "declined",
+            "under_review",
+            "outside_routing",
+            "upgrade_available",
+            "upgrade_required",
+            "update_not_needed",
+            "account_closing",
+            "account_closed",
+            null
+           ]
+          },
+          "accounts": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "currency",
+             "state",
+             "role"
+            ],
+            "properties": {
+             "currency": {
+              "type": "string",
+              "enum": [
+               "USD",
+               "EUR"
+              ]
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "to_complete",
+               "verifying",
+               "partner_review",
+               "active",
+               "unavailable",
+               "waitlist"
+              ]
+             },
+             "role": {
+              "type": "string",
+              "enum": [
+               "current",
+               "replacement"
+              ]
+             }
+            }
+           }
+          },
+          "questionnaire": {
+           "type": "object",
+           "required": [
+            "required",
+            "pending",
+            "locked",
+            "catalogueVersion"
+           ],
+           "properties": {
+            "required": {
+             "type": "boolean"
+            },
+            "pending": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "locked": {
+             "type": "boolean"
+            },
+            "catalogueVersion": {
+             "type": "string"
+            }
+           }
+          },
+          "nextStep": {
+           "type": "object",
+           "required": [
+            "action"
+           ],
+           "properties": {
+            "action": {
+             "type": "string",
+             "enum": [
+              "answer_questions",
+              "choose_preference",
+              "start_verification",
+              "continue_verification",
+              "complete_profile",
+              "accept_terms",
+              "provide_information",
+              "upload_document",
+              "wait_for_review",
+              "update_account",
+              "contact_support",
+              "none"
+             ]
+            },
+            "questions": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "url": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The hosted page to open (only in the answer of POST …/next-step; never in an event). It can expire: call POST …/next-step again for a fresh one."
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "supportEmail": {
+             "type": "string",
+             "enum": [
+              "help@aureahub.com"
+             ]
+            }
+           },
+           "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
+          },
+          "upgrade": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "mode"
+           ],
+           "properties": {
+            "mode": {
+             "type": "string",
+             "enum": [
+              "invite",
+              "mandatory"
+             ]
+            }
+           }
+          },
+          "notices": {
+           "type": "array",
+           "items": {
+            "type": "string",
+            "enum": [
+             "eur_unavailable",
+             "countries_unserved"
+            ]
+           }
+          },
+          "outsideRouting": {
+           "type": "boolean",
+           "description": "The account was opened through a per-provider route: shown read-only, never moved or verified again (only an account update can bring it here)."
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          }
+         }
+        }
+       }
+      }
+     },
+     "201": {
+      "description": "Default Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "required": [
+          "openingId",
+          "environment",
+          "customerKind",
+          "state",
+          "reason",
+          "accounts",
+          "questionnaire",
+          "nextStep",
+          "upgrade",
+          "notices",
+          "outsideRouting",
+          "updatedAt"
+         ],
+         "properties": {
+          "openingId": {
+           "type": "string",
+           "format": "uuid"
+          },
+          "environment": {
+           "type": "string",
+           "enum": [
+            "production",
+            "sandbox"
+           ]
+          },
+          "customerKind": {
+           "type": "string",
+           "enum": [
+            "individual",
+            "business"
+           ],
+           "description": "individual: a person, sole traders included (a sole trader is an individual, plan §0.2); business: a company or another organisation with its own registration (asked its industry)"
+          },
+          "state": {
+           "type": "string",
+           "enum": [
+            "to_complete",
+            "verifying",
+            "partner_review",
+            "active",
+            "unavailable",
+            "waitlist"
+           ]
+          },
+          "reason": {
+           "type": [
+            "string",
+            "null"
+           ],
+           "enum": [
+            "industry_requirements",
+            "not_yet_available",
+            "region_unavailable",
+            "region_waitlist",
+            "declined",
+            "under_review",
+            "outside_routing",
+            "upgrade_available",
+            "upgrade_required",
+            "update_not_needed",
+            "account_closing",
+            "account_closed",
+            null
+           ]
+          },
+          "accounts": {
+           "type": "array",
+           "items": {
+            "type": "object",
+            "required": [
+             "currency",
+             "state",
+             "role"
+            ],
+            "properties": {
+             "currency": {
+              "type": "string",
+              "enum": [
+               "USD",
+               "EUR"
+              ]
+             },
+             "state": {
+              "type": "string",
+              "enum": [
+               "to_complete",
+               "verifying",
+               "partner_review",
+               "active",
+               "unavailable",
+               "waitlist"
+              ]
+             },
+             "role": {
+              "type": "string",
+              "enum": [
+               "current",
+               "replacement"
+              ]
+             }
+            }
+           }
+          },
+          "questionnaire": {
+           "type": "object",
+           "required": [
+            "required",
+            "pending",
+            "locked",
+            "catalogueVersion"
+           ],
+           "properties": {
+            "required": {
+             "type": "boolean"
+            },
+            "pending": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "locked": {
+             "type": "boolean"
+            },
+            "catalogueVersion": {
+             "type": "string"
+            }
+           }
+          },
+          "nextStep": {
+           "type": "object",
+           "required": [
+            "action"
+           ],
+           "properties": {
+            "action": {
+             "type": "string",
+             "enum": [
+              "answer_questions",
+              "choose_preference",
+              "start_verification",
+              "continue_verification",
+              "complete_profile",
+              "accept_terms",
+              "provide_information",
+              "upload_document",
+              "wait_for_review",
+              "update_account",
+              "contact_support",
+              "none"
+             ]
+            },
+            "questions": {
+             "type": "array",
+             "items": {
+              "type": "string",
+              "enum": [
+               "country",
+               "industry",
+               "gambling_licence",
+               "nonprofit_registered",
+               "currencies",
+               "payout_countries",
+               "preference"
+              ]
+             }
+            },
+            "url": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "description": "The hosted page to open (only in the answer of POST …/next-step; never in an event). It can expire: call POST …/next-step again for a fresh one."
+            },
+            "expiresAt": {
+             "type": [
+              "string",
+              "null"
+             ],
+             "format": "date-time"
+            },
+            "supportEmail": {
+             "type": "string",
+             "enum": [
+              "help@aureahub.com"
+             ]
+            }
+           },
+           "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
+          },
+          "upgrade": {
+           "type": [
+            "object",
+            "null"
+           ],
+           "required": [
+            "mode"
+           ],
+           "properties": {
+            "mode": {
+             "type": "string",
+             "enum": [
+              "invite",
+              "mandatory"
+             ]
+            }
+           }
+          },
+          "notices": {
+           "type": "array",
+           "items": {
+            "type": "string",
+            "enum": [
+             "eur_unavailable",
+             "countries_unserved"
+            ]
+           }
+          },
+          "outsideRouting": {
+           "type": "boolean",
+           "description": "The account was opened through a per-provider route: shown read-only, never moved or verified again (only an account update can bring it here)."
+          },
+          "updatedAt": {
+           "type": "string",
+           "format": "date-time"
+          }
+         }
+        }
+       }
+      }
+     },
+     "404": {
+      "description": "ACCOUNT_OPENING_NOT_FOUND",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_NOT_FOUND",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     },
+     "409": {
+      "description": "ACCOUNT_OPENING_UPGRADE_NOT_OFFERED, ACCOUNT_OPENING_BUSY (Retry-After)",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "object",
+         "description": "ACCOUNT_OPENING_UPGRADE_NOT_OFFERED, ACCOUNT_OPENING_BUSY (Retry-After)",
+         "properties": {
+          "statusCode": {
+           "type": "integer",
+           "description": "The HTTP status"
+          },
+          "error": {
+           "type": "string",
+           "description": "The error's name, or the route's own message"
+          },
+          "message": {
+           "type": "string"
+          },
+          "details": {
+           "description": "An object (for example `{ code }`) or, for a validation error, an array"
+          }
+         },
+         "additionalProperties": true
+        }
+       }
+      }
+     }
+    }
+   }
+  },
   "/v1/ramp/bank/customer/profile/lists": {
    "get": {
     "summary": "The bank ramp's onboarding lists",

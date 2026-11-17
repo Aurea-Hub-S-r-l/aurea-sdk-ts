@@ -76,6 +76,16 @@ Every generated API class is a property of the client, created on first use: `au
 the route: `GET /v1/wallets/{id}/balance` is `wallets.v1WalletsIdBalanceGet({ id })`. Each method has a `…Raw`
 twin answering the `Response` as well (headers such as `idempotency-replayed`).
 
+Opening a customer's bank ramp account (USD, and EUR where your tenant offers it) is one API,
+`aurea.bankRampAccountOpenings` (docs.aureahub.com › Guides: Bank Ramp › Open an Account):
+
+```ts
+const opening = await user.bankRampAccountOpenings.v1RampBankCustomerAccountOpeningsPost({
+  v1RampBankCustomerAccountOpeningsPostRequest: { customerKind: 'business', isTestnet: true },
+});
+// Show opening.nextStep as a button; follow the state with the ramp.accounts.updated event.
+```
+
 A route newer than this SDK, or one you prefer to call by its path:
 
 ```ts

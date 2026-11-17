@@ -1,10 +1,25 @@
 # Changelog
 
-## 0.3.1 — 17 November 2026 — returned payouts
+## 0.3.1 — 17 November 2026 — returned payouts, Open an Account
 
-Generated from the production OpenAPI document of 17 November 2026 (sha256 `5cf111b1…4f86`). 577 routes (as 0.3.0).
+Generated from the production OpenAPI document of 17 November 2026, after the Accounts API was published (sha256
+`1954ee9b…1979`). 585 routes (577 in 0.3.0, plus the 8 below).
+
+### Added
+- `bankRampAccountOpenings`: the Accounts API (docs.aureahub.com › Guides: Bank Ramp › Open an Account), on request:
+  open (or read) the customer's account opening, list openings, get one, the questionnaire and its answers, the
+  industries, the next step, and an update of the account — `v1RampBankCustomerAccountOpenings*`. Until the Accounts
+  API is on for your tenant in an environment, these routes answer 404 (`AureaNotFoundError`).
+- `AureaApiError.retryAfterSeconds` also reads the answer's `details.retryAfterSeconds` when there is no
+  `Retry-After` header (409 `ACCOUNT_OPENING_BUSY`, 503 `ACCOUNT_OPENING_TRY_LATER`, from a browser that cannot read the
+  header).
 
 ### Changed
+- Type names: the body of `bankRampUsdAccounts.v1RampBankCustomerAccountsWalletTransfersIdCancelPost()` (`{ isTestnet? }`)
+  is now the shared type `V1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequest` (the generator names one type
+  per shape), passed as `v1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequest`; the method's parameter type is
+  now named `V1RampBankCustomerAccountsWalletTransfersIdCancelPostRequest` (was `…CancelPostOperationRequest`). The call
+  and what it sends are unchanged; only code that names these types changes.
 - The event types of the webhook endpoints (admin routes: `webhooks.v1AdminTenantsIdWebhookEndpoints*`) add
   `remittance.payout.returned`: a Remittance payout that had completed was returned by the bank and its money came back
   to the customer's account. Its body is the other `remittance.payout.*` events' body with `status` `returned` and
@@ -14,7 +29,7 @@ Generated from the production OpenAPI document of 17 November 2026 (sha256 `5cf1
 - The Remittance payout's `status` (now also `returned`) is not a type of this SDK: the event bodies are published in
   the OpenAPI document as `WebhookEvent.remittance.payout.<type>.v1`, and no route the SDK calls answers them. Read
   `status` as a string and ignore a value you do not know.
-- Nothing else changes: same routes, same methods, same errors.
+- Nothing else changes in the existing routes: same methods, same errors.
 
 ## 0.3.0 — 16 November 2026 — step-up headers
 
