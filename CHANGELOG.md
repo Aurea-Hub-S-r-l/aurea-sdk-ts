@@ -8,9 +8,9 @@ Generated from the production OpenAPI document of 17 November 2026 (sha256 `5cf1
 - The event types of the webhook endpoints (admin routes: `webhooks.v1AdminTenantsIdWebhookEndpoints*`) add
   `remittance.payout.returned`: a Remittance payout that had completed was returned by the bank and its money came back
   to the customer's account. Its body is the other `remittance.payout.*` events' body with `status` `returned` and
-  `failureReason` `ACCOUNT_PAYOUT_RETURNED`; `returned` is final; `finishedAt` is then the time of the return. A returned payout no longer
-  counts toward the day's payout limits. New value in an answer enum: handle a value you do not know (a `switch` with
-  an exhaustive `never` check no longer compiles).
+  `failureReason` `ACCOUNT_PAYOUT_RETURNED`; `returned` is final; `finishedAt` is then the time of the return. New value
+  in the event-type enums (requests and answers): handle a value you do not know (a `switch` with an exhaustive `never`
+  check no longer compiles).
 - The Remittance payout's `status` (now also `returned`) is not a type of this SDK: the event bodies are published in
   the OpenAPI document as `WebhookEvent.remittance.payout.<type>.v1`, and no route the SDK calls answers them. Read
   `status` as a string and ignore a value you do not know.
