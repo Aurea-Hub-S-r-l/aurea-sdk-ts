@@ -89,6 +89,22 @@ describe("error mapping — docs › Errors & Codes", () => {
     expect(err.retryAfterSeconds).toBe(60);
   });
 
+  it("reads a busy opening's wait from retry-after, else from details.retryAfterSeconds", async () => {
+    const busy = { statusCode: 409, error: "Conflict", message: "busy", details: { code: "ACCOUNT_OPENING_BUSY", retryable: true, retryAfterSeconds: 12 } };
+    const withHeader = await apiErrorFromResponse(json(409, busy, { "retry-after": "12" }));
+    expect(withHeader).toBeInstanceOf(AureaConflictError);
+    expect(withHeader.code).toBe("ACCOUNT_OPENING_BUSY");
+    expect(withHeader.retryAfterSeconds).toBe(12);
+    // A browser that cannot read the header still gets the wait, from the body.
+    const bodyOnly = createApiError(409, busy);
+    expect(bodyOnly.retryAfterSeconds).toBe(12);
+    // The header wins when both are there; a value that is not seconds is ignored.
+    expect((await apiErrorFromResponse(json(409, busy, { "retry-after": "3" }))).retryAfterSeconds).toBe(3);
+    expect(createApiError(409, { ...busy, details: { code: "ACCOUNT_OPENING_BUSY", retryAfterSeconds: "12" } }).retryAfterSeconds).toBeNull();
+    expect(createApiError(409, { ...busy, details: { code: "ACCOUNT_OPENING_BUSY", retryAfterSeconds: -1 } }).retryAfterSeconds).toBeNull();
+    expect(createApiError(409, { message: "x" }).retryAfterSeconds).toBeNull();
+  });
+
   it("falls back to error, then the text, then the status", async () => {
     expect(createApiError(400, { error: "Too many requests. Please try again later." }).message).toBe("Too many requests. Please try again later.");
     expect((await apiErrorFromResponse(new Response("Bad gateway", { status: 502 }))).message).toBe("Bad gateway");
