@@ -61454,6 +61454,7 @@
                 "remittance.payout.submitted",
                 "remittance.payout.completed",
                 "remittance.payout.failed",
+                "remittance.payout.returned",
                 "policy.hold",
                 "policy.hold_released",
                 "policy.hold_expired",
@@ -61591,6 +61592,7 @@
                "remittance.payout.submitted",
                "remittance.payout.completed",
                "remittance.payout.failed",
+               "remittance.payout.returned",
                "policy.hold",
                "policy.hold_released",
                "policy.hold_expired",
@@ -61760,7 +61762,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 94,
+          "maxItems": 95,
           "items": {
            "type": "string",
            "enum": [
@@ -61843,6 +61845,7 @@
             "remittance.payout.submitted",
             "remittance.payout.completed",
             "remittance.payout.failed",
+            "remittance.payout.returned",
             "policy.hold",
             "policy.hold_released",
             "policy.hold_expired",
@@ -62017,6 +62020,7 @@
                "remittance.payout.submitted",
                "remittance.payout.completed",
                "remittance.payout.failed",
+               "remittance.payout.returned",
                "policy.hold",
                "policy.hold_released",
                "policy.hold_expired",
@@ -62248,7 +62252,7 @@
          },
          "eventTypes": {
           "type": "array",
-          "maxItems": 94,
+          "maxItems": 95,
           "items": {
            "type": "string",
            "enum": [
@@ -62331,6 +62335,7 @@
             "remittance.payout.submitted",
             "remittance.payout.completed",
             "remittance.payout.failed",
+            "remittance.payout.returned",
             "policy.hold",
             "policy.hold_released",
             "policy.hold_expired",
@@ -62514,6 +62519,7 @@
                "remittance.payout.submitted",
                "remittance.payout.completed",
                "remittance.payout.failed",
+               "remittance.payout.returned",
                "policy.hold",
                "policy.hold_released",
                "policy.hold_expired",
@@ -63004,6 +63010,7 @@
                "remittance.payout.submitted",
                "remittance.payout.completed",
                "remittance.payout.failed",
+               "remittance.payout.returned",
                "policy.hold",
                "policy.hold_released",
                "policy.hold_expired",

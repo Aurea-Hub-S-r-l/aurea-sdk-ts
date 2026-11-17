@@ -121,6 +121,7 @@ export const V1AdminTenantsIdWebhookEndpointsGet200ResponseEventTypesInnerTypeEn
     RemittancePayoutSubmitted: 'remittance.payout.submitted',
     RemittancePayoutCompleted: 'remittance.payout.completed',
     RemittancePayoutFailed: 'remittance.payout.failed',
+    RemittancePayoutReturned: 'remittance.payout.returned',
     PolicyHold: 'policy.hold',
     PolicyHoldReleased: 'policy.hold_released',
     PolicyHoldExpired: 'policy.hold_expired',
