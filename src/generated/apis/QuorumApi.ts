@@ -75,7 +75,7 @@ export interface V1QuorumRequestsIdApprovePostOperationRequest {
     /**
      * 
      */
-    v1QuorumRequestsIdApprovePostRequest: V1QuorumRequestsIdApprovePostRequest;
+    v1QuorumRequestsIdApprovePostRequest?: V1QuorumRequestsIdApprovePostRequest | null;
 }
 
 export interface V1QuorumRequestsIdCancelPostOperationRequest {
@@ -104,7 +104,7 @@ export interface V1QuorumRequestsIdRejectPostRequest {
     /**
      * 
      */
-    v1QuorumRequestsIdApprovePostRequest: V1QuorumRequestsIdApprovePostRequest;
+    v1QuorumRequestsIdApprovePostRequest?: V1QuorumRequestsIdApprovePostRequest | null;
 }
 
 export interface V1QuorumRequestsIdResultPostRequest {
@@ -189,13 +189,6 @@ export class QuorumApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['v1QuorumRequestsIdApprovePostRequest'] == null) {
-            throw new runtime.RequiredError(
-                'v1QuorumRequestsIdApprovePostRequest',
-                'Required parameter "v1QuorumRequestsIdApprovePostRequest" was null or undefined when calling v1QuorumRequestsIdApprovePost().'
-            );
-        }
-
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -216,7 +209,7 @@ export class QuorumApi extends runtime.BaseAPI {
     }
 
     /**
-     * Another active administrator of the tenant whose role could take the action, with their password (checked as the login checks it; a wrong one counts toward the login throttle). Never the requester. Once approved, the action runs now, as its requester with its role as it is now; the answer shows how it ended, never its body.
+     * Another active administrator of the tenant whose role could take the action, with their passkey step-up for this decision (POST /v1/quorum/requests/{id}/step-up/options, then POST /v1/quorum/step-up: `stepUpToken`) or, as the fallback, their password (checked as the login checks it; a wrong one counts toward the login throttle). Never the requester. Once approved, the action runs now, as its requester with its role as it is now; the answer shows how it ended, never its body.
      * Approve another administrator\'s request
      */
     async v1QuorumRequestsIdApprovePostRaw(requestParameters: V1QuorumRequestsIdApprovePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1QuorumRequestsIdGet200Response>> {
@@ -227,7 +220,7 @@ export class QuorumApi extends runtime.BaseAPI {
     }
 
     /**
-     * Another active administrator of the tenant whose role could take the action, with their password (checked as the login checks it; a wrong one counts toward the login throttle). Never the requester. Once approved, the action runs now, as its requester with its role as it is now; the answer shows how it ended, never its body.
+     * Another active administrator of the tenant whose role could take the action, with their passkey step-up for this decision (POST /v1/quorum/requests/{id}/step-up/options, then POST /v1/quorum/step-up: `stepUpToken`) or, as the fallback, their password (checked as the login checks it; a wrong one counts toward the login throttle). Never the requester. Once approved, the action runs now, as its requester with its role as it is now; the answer shows how it ended, never its body.
      * Approve another administrator\'s request
      */
     async v1QuorumRequestsIdApprovePost(requestParameters: V1QuorumRequestsIdApprovePostOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1QuorumRequestsIdGet200Response> {
@@ -341,13 +334,6 @@ export class QuorumApi extends runtime.BaseAPI {
             );
         }
 
-        if (requestParameters['v1QuorumRequestsIdApprovePostRequest'] == null) {
-            throw new runtime.RequiredError(
-                'v1QuorumRequestsIdApprovePostRequest',
-                'Required parameter "v1QuorumRequestsIdApprovePostRequest" was null or undefined when calling v1QuorumRequestsIdRejectPost().'
-            );
-        }
-
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -368,7 +354,7 @@ export class QuorumApi extends runtime.BaseAPI {
     }
 
     /**
-     * With the rejecting administrator\'s password. Nothing runs; the held input is deleted.
+     * With the rejecting administrator\'s passkey step-up for this decision (`stepUpToken`) or password. Nothing runs; the held input is deleted.
      * Reject another administrator\'s request
      */
     async v1QuorumRequestsIdRejectPostRaw(requestParameters: V1QuorumRequestsIdRejectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1QuorumRequestsIdGet200Response>> {
@@ -379,7 +365,7 @@ export class QuorumApi extends runtime.BaseAPI {
     }
 
     /**
-     * With the rejecting administrator\'s password. Nothing runs; the held input is deleted.
+     * With the rejecting administrator\'s passkey step-up for this decision (`stepUpToken`) or password. Nothing runs; the held input is deleted.
      * Reject another administrator\'s request
      */
     async v1QuorumRequestsIdRejectPost(requestParameters: V1QuorumRequestsIdRejectPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1QuorumRequestsIdGet200Response> {
@@ -491,6 +477,7 @@ export const V1QuorumRequestsGetActionEnum = {
     CredentialsServerCredentialUpdate: 'credentials.server_credential.update',
     CredentialsWalletKeyRotate: 'credentials.wallet_key.rotate',
     CustodyTenantConfigChange: 'custody.tenant_config.change',
+    CustodyTierActivationRequest: 'custody.tier_activation.request',
     CustodyMpcRecoveryKeyRegister: 'custody.mpc_recovery_key.register',
     CustodyMpcRecoveryKitExport: 'custody.mpc_recovery_kit.export',
     CustodyMpcCosignerChange: 'custody.mpc_cosigner.change',

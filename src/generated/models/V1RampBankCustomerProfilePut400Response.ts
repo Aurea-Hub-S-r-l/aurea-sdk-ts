@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)
+ * The profile is not valid, a value is not in the lists, or the full address is required because the verified identity document carries none or the verification is not finished (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)
  * @export
  * @interface V1RampBankCustomerProfilePut400Response
  */

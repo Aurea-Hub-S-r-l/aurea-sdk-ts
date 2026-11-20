@@ -1777,7 +1777,7 @@ export class TenantsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Generate a new API key for the tenant. Admin-only endpoint. The old API key is immediately invalidated. The new API key is shown once - store it securely.
+     * Generate a new API key for the tenant. Admin-only endpoint. The old API key stops at once — or, where Aurea keeps a rotation overlap, at `previousKeyValidUntil`. The new API key is shown once - store it securely.
      */
     async v1AdminTenantsIdRotateKeyPostRaw(requestParameters: V1AdminTenantsIdRotateKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AdminTenantsIdRotateKeyPost200Response>> {
         const requestOptions = await this.v1AdminTenantsIdRotateKeyPostRequestOpts(requestParameters);
@@ -1787,7 +1787,7 @@ export class TenantsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Generate a new API key for the tenant. Admin-only endpoint. The old API key is immediately invalidated. The new API key is shown once - store it securely.
+     * Generate a new API key for the tenant. Admin-only endpoint. The old API key stops at once — or, where Aurea keeps a rotation overlap, at `previousKeyValidUntil`. The new API key is shown once - store it securely.
      */
     async v1AdminTenantsIdRotateKeyPost(requestParameters: V1AdminTenantsIdRotateKeyPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AdminTenantsIdRotateKeyPost200Response> {
         const response = await this.v1AdminTenantsIdRotateKeyPostRaw(requestParameters, initOverrides);
@@ -1830,7 +1830,7 @@ export class TenantsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Generate a new HMAC signing secret for the tenant. Admin-only endpoint. The old secret is immediately invalidated. Store the new secret securely.
+     * Generate a new HMAC signing secret for the tenant. Admin-only endpoint. The old secret stops at once — or, where Aurea keeps a rotation overlap, at `previousSecretValidUntil`. Store the new secret securely.
      */
     async v1AdminTenantsIdRotateSecretPostRaw(requestParameters: V1AdminTenantsIdRotateSecretPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1AdminTenantsIdRotateSecretPost200Response>> {
         const requestOptions = await this.v1AdminTenantsIdRotateSecretPostRequestOpts(requestParameters);
@@ -1840,7 +1840,7 @@ export class TenantsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Generate a new HMAC signing secret for the tenant. Admin-only endpoint. The old secret is immediately invalidated. Store the new secret securely.
+     * Generate a new HMAC signing secret for the tenant. Admin-only endpoint. The old secret stops at once — or, where Aurea keeps a rotation overlap, at `previousSecretValidUntil`. Store the new secret securely.
      */
     async v1AdminTenantsIdRotateSecretPost(requestParameters: V1AdminTenantsIdRotateSecretPostRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1AdminTenantsIdRotateSecretPost200Response> {
         const response = await this.v1AdminTenantsIdRotateSecretPostRaw(requestParameters, initOverrides);

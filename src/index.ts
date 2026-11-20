@@ -32,11 +32,20 @@ export {
   SERVER_AUTH_NEXT_STEPS,
   SERVER_CREDENTIAL_ERROR_STATUS,
   WALLET_PROTECTION_ERROR_STATUS,
+  BANK_RAMP_PROFILE_ERROR_STATUS,
   isServerAuthError,
   isServerCredentialError,
   isWalletProtectionError,
+  isBankRampProfileInvalid,
+  profileInvalidFields,
 } from "./error-codes";
-export type { ServerAuthErrorCode, ServerCredentialErrorCode, WalletProtectionErrorCode } from "./error-codes";
+export type {
+  ServerAuthErrorCode,
+  ServerCredentialErrorCode,
+  WalletProtectionErrorCode,
+  BankRampProfileErrorCode,
+  BankRampProfileInvalidDetails,
+} from "./error-codes";
 export { idempotencyKey, isValidIdempotencyKey, wasReplayed, withIdempotencyKey } from "./idempotency";
 export { paginateOffset, paginatePages, paginateSkip, collect } from "./pagination";
 export type { PaginateOptions, ItemOf } from "./pagination";
@@ -69,4 +78,4 @@ export * from "./generated/apis/index";
 export * from "./generated/models/index";
 export { Configuration, BASE_PATH, RequiredError } from "./generated/runtime";
 export type { ConfigurationParameters, Middleware, InitOverrideFunction, ApiResponse } from "./generated/runtime";
-export const VERSION = "0.4.0";
+export const VERSION = "0.4.1";

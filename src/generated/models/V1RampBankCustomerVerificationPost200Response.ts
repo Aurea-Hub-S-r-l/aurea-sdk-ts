@@ -13,13 +13,13 @@
  */
 
 import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
-import type { V1RampBankCustomerVerificationGet200ResponseAccount } from './V1RampBankCustomerVerificationGet200ResponseAccount';
+import type { V1RampBankCustomerVerificationPost200ResponseAccount } from './V1RampBankCustomerVerificationPost200ResponseAccount';
 import {
-    V1RampBankCustomerVerificationGet200ResponseAccountFromJSON,
-    V1RampBankCustomerVerificationGet200ResponseAccountFromJSONTyped,
-    V1RampBankCustomerVerificationGet200ResponseAccountToJSON,
-    V1RampBankCustomerVerificationGet200ResponseAccountToJSONTyped,
-} from './V1RampBankCustomerVerificationGet200ResponseAccount';
+    V1RampBankCustomerVerificationPost200ResponseAccountFromJSON,
+    V1RampBankCustomerVerificationPost200ResponseAccountFromJSONTyped,
+    V1RampBankCustomerVerificationPost200ResponseAccountToJSON,
+    V1RampBankCustomerVerificationPost200ResponseAccountToJSONTyped,
+} from './V1RampBankCustomerVerificationPost200ResponseAccount';
 
 /**
  * 
@@ -58,7 +58,7 @@ export interface V1RampBankCustomerVerificationPost200Response {
     /**
      * 
      */
-    account?: V1RampBankCustomerVerificationGet200ResponseAccount;
+    account?: V1RampBankCustomerVerificationPost200ResponseAccount;
     /**
      * The user's identity verification (GET /v1/identity/verifications/{id}); present only where Aurea's identity verification serves the tenant's environment.
      */
@@ -145,7 +145,7 @@ export function V1RampBankCustomerVerificationPost200ResponseFromJSONTyped(json:
         'required': json['required'],
         'verifiedAt': (json['verifiedAt'] == null ? null : parseDateTime(json['verifiedAt'])),
         'updatedAt': (json['updatedAt'] == null ? null : parseDateTime(json['updatedAt'])),
-        'account': json['account'] == null ? undefined : V1RampBankCustomerVerificationGet200ResponseAccountFromJSON(json['account']),
+        'account': json['account'] == null ? undefined : V1RampBankCustomerVerificationPost200ResponseAccountFromJSON(json['account']),
         'verificationId': json['verificationId'] == null ? undefined : json['verificationId'],
         'verificationUrl': json['verificationUrl'] === undefined ? undefined : json['verificationUrl'] === null ? null : json['verificationUrl'],
     };
@@ -169,7 +169,7 @@ export function V1RampBankCustomerVerificationPost200ResponseToJSONTyped(value?:
         'required': value['required'],
         'verifiedAt': value['verifiedAt'] == null ? value['verifiedAt'] : serializeDateTime(value['verifiedAt']),
         'updatedAt': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),
-        'account': V1RampBankCustomerVerificationGet200ResponseAccountToJSON(value['account']),
+        'account': V1RampBankCustomerVerificationPost200ResponseAccountToJSON(value['account']),
         'verificationId': value['verificationId'],
         'verificationUrl': value['verificationUrl'],
     };

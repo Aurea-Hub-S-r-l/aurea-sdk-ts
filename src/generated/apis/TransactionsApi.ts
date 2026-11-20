@@ -573,7 +573,7 @@ export class TransactionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * The Travel Rule data (IVMS101) one\'s own transfer was sent with (plan W7.5); 404 TRAVEL_RULE_NOT_FOUND when it carried none.
+     * The Travel Rule data (IVMS101) one\'s own transfer was sent with; 404 TRAVEL_RULE_NOT_FOUND when it carried none.
      */
     async v1TransactionsIdTravelRuleGetRaw(requestParameters: V1TransactionsIdTravelRuleGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1TransactionsIdTravelRuleGet200Response>> {
         const requestOptions = await this.v1TransactionsIdTravelRuleGetRequestOpts(requestParameters);
@@ -583,7 +583,7 @@ export class TransactionsApi extends runtime.BaseAPI {
     }
 
     /**
-     * The Travel Rule data (IVMS101) one\'s own transfer was sent with (plan W7.5); 404 TRAVEL_RULE_NOT_FOUND when it carried none.
+     * The Travel Rule data (IVMS101) one\'s own transfer was sent with; 404 TRAVEL_RULE_NOT_FOUND when it carried none.
      */
     async v1TransactionsIdTravelRuleGet(requestParameters: V1TransactionsIdTravelRuleGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1TransactionsIdTravelRuleGet200Response> {
         const response = await this.v1TransactionsIdTravelRuleGetRaw(requestParameters, initOverrides);

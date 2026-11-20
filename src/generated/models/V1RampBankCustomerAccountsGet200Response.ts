@@ -13,6 +13,13 @@
  */
 
 import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
+import type { V1RampBankCustomerVerificationPost200ResponseAccountNextStep } from './V1RampBankCustomerVerificationPost200ResponseAccountNextStep';
+import {
+    V1RampBankCustomerVerificationPost200ResponseAccountNextStepFromJSON,
+    V1RampBankCustomerVerificationPost200ResponseAccountNextStepFromJSONTyped,
+    V1RampBankCustomerVerificationPost200ResponseAccountNextStepToJSON,
+    V1RampBankCustomerVerificationPost200ResponseAccountNextStepToJSONTyped,
+} from './V1RampBankCustomerVerificationPost200ResponseAccountNextStep';
 import type { V1RampBankCustomerVerificationGet200ResponseAccountCapabilities } from './V1RampBankCustomerVerificationGet200ResponseAccountCapabilities';
 import {
     V1RampBankCustomerVerificationGet200ResponseAccountCapabilitiesFromJSON,
@@ -34,13 +41,6 @@ import {
     V1RampBankCustomerVerificationGet200ResponseAccountRequirementsInnerToJSON,
     V1RampBankCustomerVerificationGet200ResponseAccountRequirementsInnerToJSONTyped,
 } from './V1RampBankCustomerVerificationGet200ResponseAccountRequirementsInner';
-import type { V1RampBankCustomerVerificationGet200ResponseAccountNextStep } from './V1RampBankCustomerVerificationGet200ResponseAccountNextStep';
-import {
-    V1RampBankCustomerVerificationGet200ResponseAccountNextStepFromJSON,
-    V1RampBankCustomerVerificationGet200ResponseAccountNextStepFromJSONTyped,
-    V1RampBankCustomerVerificationGet200ResponseAccountNextStepToJSON,
-    V1RampBankCustomerVerificationGet200ResponseAccountNextStepToJSONTyped,
-} from './V1RampBankCustomerVerificationGet200ResponseAccountNextStep';
 import type { V1RampBankCustomerAccountsGet200ResponseBalancesInner } from './V1RampBankCustomerAccountsGet200ResponseBalancesInner';
 import {
     V1RampBankCustomerAccountsGet200ResponseBalancesInnerFromJSON,
@@ -86,7 +86,7 @@ export interface V1RampBankCustomerAccountsGet200Response {
     /**
      * 
      */
-    nextStep: V1RampBankCustomerVerificationGet200ResponseAccountNextStep | null;
+    nextStep: V1RampBankCustomerVerificationPost200ResponseAccountNextStep | null;
     /**
      * 
      */
@@ -191,7 +191,7 @@ export function V1RampBankCustomerAccountsGet200ResponseFromJSONTyped(json: any,
         'status': json['status'],
         'capabilities': V1RampBankCustomerVerificationGet200ResponseAccountCapabilitiesFromJSON(json['capabilities']),
         'requirements': ((json['requirements'] as Array<any>).map(V1RampBankCustomerVerificationGet200ResponseAccountRequirementsInnerFromJSON)),
-        'nextStep': V1RampBankCustomerVerificationGet200ResponseAccountNextStepFromJSON(json['nextStep']),
+        'nextStep': V1RampBankCustomerVerificationPost200ResponseAccountNextStepFromJSON(json['nextStep']),
         'bankDetails': ((json['bankDetails'] as Array<any>).map(V1RampBankCustomerAccountsGet200ResponseBankDetailsInnerFromJSON)),
         'balances': ((json['balances'] as Array<any>).map(V1RampBankCustomerAccountsGet200ResponseBalancesInnerFromJSON)),
         'updatedAt': (json['updatedAt'] == null ? null : parseDateTime(json['updatedAt'])),
@@ -216,7 +216,7 @@ export function V1RampBankCustomerAccountsGet200ResponseToJSONTyped(value?: V1Ra
         'status': value['status'],
         'capabilities': V1RampBankCustomerVerificationGet200ResponseAccountCapabilitiesToJSON(value['capabilities']),
         'requirements': ((value['requirements'] as Array<any>).map(V1RampBankCustomerVerificationGet200ResponseAccountRequirementsInnerToJSON)),
-        'nextStep': V1RampBankCustomerVerificationGet200ResponseAccountNextStepToJSON(value['nextStep']),
+        'nextStep': V1RampBankCustomerVerificationPost200ResponseAccountNextStepToJSON(value['nextStep']),
         'bankDetails': ((value['bankDetails'] as Array<any>).map(V1RampBankCustomerAccountsGet200ResponseBankDetailsInnerToJSON)),
         'balances': ((value['balances'] as Array<any>).map(V1RampBankCustomerAccountsGet200ResponseBalancesInnerToJSON)),
         'updatedAt': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),

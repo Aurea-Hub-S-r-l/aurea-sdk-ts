@@ -78,7 +78,7 @@ export interface V1AmlCasesCaseIdAssignPost200Response {
      */
     held: boolean;
     /**
-     * The quarantine (W4.6) that holds the operation, or the received transfer's wallet.
+     * The quarantine that holds the operation, or the received transfer's wallet.
      */
     quarantineId: string | null;
     /**

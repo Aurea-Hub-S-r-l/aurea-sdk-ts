@@ -36,7 +36,7 @@ import {
 } from './V1TransactionsPostRequestTravelRuleOriginatorOriginatorPersonsInner';
 
 /**
- * Optional Travel Rule data (IVMS101, plan W7.5): the originator and beneficiary of the transfer and their VASPs. Nothing in it is required; what is given is checked against IVMS101 (422 with the path otherwise), stored with the transfer and returned (GET /v1/transactions/{id}/travel-rule). A legal person's LEI is its nationalIdentification of type LEIX.
+ * Optional Travel Rule data (IVMS101): the originator and beneficiary of the transfer and their VASPs. Nothing in it is required; what is given is checked against IVMS101 (422 with the path otherwise), stored with the transfer and returned (GET /v1/transactions/{id}/travel-rule). A legal person's LEI is its nationalIdentification of type LEIX.
  * @export
  * @interface V1TransactionsPostRequestTravelRule
  */
