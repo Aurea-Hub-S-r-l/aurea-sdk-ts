@@ -14,6 +14,29 @@ export {
   takesNoAccessToken,
 } from "./signing";
 export type { SignInput, SignedHeaders } from "./signing";
+export {
+  createServerTokenSigner,
+  serverTokenBodyHash,
+  serverTokenUri,
+  serverTokenSigningInput,
+  randomServerTokenNonce,
+  takesServerTokenHeader,
+  SERVER_TOKEN_TYPE,
+  SERVER_TOKEN_HEADER,
+  SERVER_TOKEN_MAX_LIFETIME_SECONDS,
+  SERVER_TOKEN_NONCE_PATTERN,
+} from "./server-token";
+export type { ServerTokenSigner, ServerTokenSignerOptions, ServerTokenRequest, ServerTokenClaims } from "./server-token";
+export {
+  SERVER_AUTH_ERROR_STATUS,
+  SERVER_AUTH_NEXT_STEPS,
+  SERVER_CREDENTIAL_ERROR_STATUS,
+  WALLET_PROTECTION_ERROR_STATUS,
+  isServerAuthError,
+  isServerCredentialError,
+  isWalletProtectionError,
+} from "./error-codes";
+export type { ServerAuthErrorCode, ServerCredentialErrorCode, WalletProtectionErrorCode } from "./error-codes";
 export { idempotencyKey, isValidIdempotencyKey, wasReplayed, withIdempotencyKey } from "./idempotency";
 export { paginateOffset, paginatePages, paginateSkip, collect } from "./pagination";
 export type { PaginateOptions, ItemOf } from "./pagination";
@@ -46,4 +69,4 @@ export * from "./generated/apis/index";
 export * from "./generated/models/index";
 export { Configuration, BASE_PATH, RequiredError } from "./generated/runtime";
 export type { ConfigurationParameters, Middleware, InitOverrideFunction, ApiResponse } from "./generated/runtime";
-export const VERSION = "0.3.1";
+export const VERSION = "0.4.0";

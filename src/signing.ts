@@ -101,6 +101,8 @@ const SIGNED_ROUTES: Array<[RegExp, RegExp]> = [
   [/^GET$/, /^\/v1\/ramp\/card\/customers\/[^/]+\/sessions\/[^/]+$/],
   [/^(PUT|DELETE)$/, /^\/v1\/ramp\/card\/customers\/[^/]+\/wallets\/[^/]+$/],
   [/^(GET|POST)$/, /^\/v1\/earn(\/.*)?$/],
+  // Lending: the user's session and the tenant's signature, as Earn (the OpenAPI document does not name it there).
+  [/^(GET|POST)$/, /^\/v1\/lending(\/.*)?$/],
   [/^(GET|POST|PATCH)$/, /^\/v1\/tokenized-assets(\/.*)?$/],
 ];
 
@@ -118,7 +120,7 @@ export function isSignedRoute(method: string, path: string): boolean {
  */
 export function takesNoAccessToken(method: string, path: string): boolean {
   const p = pathWithQuery(path).split("?")[0].replace(/\/+$/, "") || "/";
-  if (/^\/v1\/(earn|tokenized-assets)(\/|$)/.test(p)) return false;
+  if (/^\/v1\/(earn|lending|tokenized-assets)(\/|$)/.test(p)) return false;
   if (isSignedRoute(method, p)) return true;
   return (
     /^\/v1\/auth\/(refresh|logout|reset-password(\/validate)?)$/.test(p) ||

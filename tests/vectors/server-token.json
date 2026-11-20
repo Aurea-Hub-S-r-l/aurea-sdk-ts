@@ -1,0 +1,57 @@
+{
+  "note": "Test vectors of the server token (docs.aureahub.com › Server credentials), signed with the test-only key in tests/server-token.test.ts (TEST_PRIVATE_JWK): never register it. Each token verifies with publicKeyJwk; signingInput is byte-exact.",
+  "kid": "6f1c2a9e-4b7d-4e3a-9c5f-0a1b2c3d4e5f",
+  "publicKeyJwk": {
+    "kty": "EC",
+    "crv": "P-256",
+    "x": "4Dv9smesrz0UR27m1IPuaZ8eBr8GLoTnuoXQUNW1xRo",
+    "y": "JAQOzfwAzyoiscKmXe_e2nH_FUy8hpworgq97zhFx5I"
+  },
+  "lifetimeSeconds": 30,
+  "vectors": [
+    {
+      "method": "POST",
+      "path": "/v1/auth/login",
+      "body": "{\"username\":\"alice\",\"password\":\"SecurePass123\"}",
+      "iat": 1800000000,
+      "nonce": "vector-nonce-0001-abcdefghijklmnop",
+      "placement": "authorization",
+      "bodyHash": "uxOOmtTkQa9D8lY_bhsGdElmnw47MMIC4GBshgqdvUM",
+      "signingInput": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF1cmVhLXNlcnZlcitqd3QiLCJraWQiOiI2ZjFjMmE5ZS00YjdkLTRlM2EtOWM1Zi0wYTFiMmMzZDRlNWYifQ.eyJ1cmkiOiJQT1NUIC92MS9hdXRoL2xvZ2luIiwiYm9keUhhc2giOiJ1eE9PbXRUa1FhOUQ4bFlfYmhzR2RFbG1udzQ3TU1JQzRHQnNoZ3FkdlVNIiwibm9uY2UiOiJ2ZWN0b3Itbm9uY2UtMDAwMS1hYmNkZWZnaGlqa2xtbm9wIiwiaWF0IjoxODAwMDAwMDAwLCJleHAiOjE4MDAwMDAwMzB9",
+      "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF1cmVhLXNlcnZlcitqd3QiLCJraWQiOiI2ZjFjMmE5ZS00YjdkLTRlM2EtOWM1Zi0wYTFiMmMzZDRlNWYifQ.eyJ1cmkiOiJQT1NUIC92MS9hdXRoL2xvZ2luIiwiYm9keUhhc2giOiJ1eE9PbXRUa1FhOUQ4bFlfYmhzR2RFbG1udzQ3TU1JQzRHQnNoZ3FkdlVNIiwibm9uY2UiOiJ2ZWN0b3Itbm9uY2UtMDAwMS1hYmNkZWZnaGlqa2xtbm9wIiwiaWF0IjoxODAwMDAwMDAwLCJleHAiOjE4MDAwMDAwMzB9.5dvO9FABq-iW45vYB_zkOmBMdqviLmvkGs1kGikxInZO3ImEghGC7f6iyAC55O1Hwea_717Mv2-dmGrP7Xte-g"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/tenant/public?lang=en",
+      "body": "",
+      "iat": 1800000000,
+      "nonce": "vector_nonce_0002_ABCDEFGHIJKLMNOP",
+      "placement": "authorization",
+      "bodyHash": "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+      "signingInput": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF1cmVhLXNlcnZlcitqd3QiLCJraWQiOiI2ZjFjMmE5ZS00YjdkLTRlM2EtOWM1Zi0wYTFiMmMzZDRlNWYifQ.eyJ1cmkiOiJHRVQgL3YxL3RlbmFudC9wdWJsaWM_bGFuZz1lbiIsImJvZHlIYXNoIjoiNDdERVFwajhIQlNhLV9USW1XLTVKQ2V1UWVSa201Tk1wSldaRzNoU3VGVSIsIm5vbmNlIjoidmVjdG9yX25vbmNlXzAwMDJfQUJDREVGR0hJSktMTU5PUCIsImlhdCI6MTgwMDAwMDAwMCwiZXhwIjoxODAwMDAwMDMwfQ",
+      "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF1cmVhLXNlcnZlcitqd3QiLCJraWQiOiI2ZjFjMmE5ZS00YjdkLTRlM2EtOWM1Zi0wYTFiMmMzZDRlNWYifQ.eyJ1cmkiOiJHRVQgL3YxL3RlbmFudC9wdWJsaWM_bGFuZz1lbiIsImJvZHlIYXNoIjoiNDdERVFwajhIQlNhLV9USW1XLTVKQ2V1UWVSa201Tk1wSldaRzNoU3VGVSIsIm5vbmNlIjoidmVjdG9yX25vbmNlXzAwMDJfQUJDREVGR0hJSktMTU5PUCIsImlhdCI6MTgwMDAwMDAwMCwiZXhwIjoxODAwMDAwMDMwfQ.JlAzwMw3UiYOjcoucvjBDv29DI0fDEOlOXx3ev5GtbEsTO0DfIrdVXZ_guwquhvvADmJZ8c3ytJXHi6MH9dZEA"
+    },
+    {
+      "method": "GET",
+      "path": "/v1/earn/products?limit=5",
+      "body": "",
+      "iat": 1800000017,
+      "nonce": "0123456789abcdef",
+      "placement": "header",
+      "bodyHash": "47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU",
+      "signingInput": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF1cmVhLXNlcnZlcitqd3QiLCJraWQiOiI2ZjFjMmE5ZS00YjdkLTRlM2EtOWM1Zi0wYTFiMmMzZDRlNWYifQ.eyJ1cmkiOiJHRVQgL3YxL2Vhcm4vcHJvZHVjdHM_bGltaXQ9NSIsImJvZHlIYXNoIjoiNDdERVFwajhIQlNhLV9USW1XLTVKQ2V1UWVSa201Tk1wSldaRzNoU3VGVSIsIm5vbmNlIjoiMDEyMzQ1Njc4OWFiY2RlZiIsImlhdCI6MTgwMDAwMDAxNywiZXhwIjoxODAwMDAwMDQ3fQ",
+      "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF1cmVhLXNlcnZlcitqd3QiLCJraWQiOiI2ZjFjMmE5ZS00YjdkLTRlM2EtOWM1Zi0wYTFiMmMzZDRlNWYifQ.eyJ1cmkiOiJHRVQgL3YxL2Vhcm4vcHJvZHVjdHM_bGltaXQ9NSIsImJvZHlIYXNoIjoiNDdERVFwajhIQlNhLV9USW1XLTVKQ2V1UWVSa201Tk1wSldaRzNoU3VGVSIsIm5vbmNlIjoiMDEyMzQ1Njc4OWFiY2RlZiIsImlhdCI6MTgwMDAwMDAxNywiZXhwIjoxODAwMDAwMDQ3fQ.6YIV7oUFnyWt74RbrsrkBP4mQ5Jb7BjCGvXj7AWCkXwKFTcaRjxHoMhITQJ708Eqn20lgxzxyOSaA4Q9fzTjXA"
+    },
+    {
+      "method": "POST",
+      "path": "/v1/tokenized-assets/quotes",
+      "body": "{\"symbol\":\"EUR€\",\"amount\":\"10.50\"}",
+      "iat": 1800000099,
+      "nonce": "NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN",
+      "placement": "header",
+      "bodyHash": "tgMHuqUOPagEiBt1Yfswm8U6K2ZnOenec5fYSsQanzU",
+      "signingInput": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF1cmVhLXNlcnZlcitqd3QiLCJraWQiOiI2ZjFjMmE5ZS00YjdkLTRlM2EtOWM1Zi0wYTFiMmMzZDRlNWYifQ.eyJ1cmkiOiJQT1NUIC92MS90b2tlbml6ZWQtYXNzZXRzL3F1b3RlcyIsImJvZHlIYXNoIjoidGdNSHVxVU9QYWdFaUJ0MVlmc3dtOFU2SzJabk9lbmVjNWZZU3NRYW56VSIsIm5vbmNlIjoiTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk4iLCJpYXQiOjE4MDAwMDAwOTksImV4cCI6MTgwMDAwMDEyOX0",
+      "token": "eyJhbGciOiJFUzI1NiIsInR5cCI6ImF1cmVhLXNlcnZlcitqd3QiLCJraWQiOiI2ZjFjMmE5ZS00YjdkLTRlM2EtOWM1Zi0wYTFiMmMzZDRlNWYifQ.eyJ1cmkiOiJQT1NUIC92MS90b2tlbml6ZWQtYXNzZXRzL3F1b3RlcyIsImJvZHlIYXNoIjoidGdNSHVxVU9QYWdFaUJ0MVlmc3dtOFU2SzJabk9lbmVjNWZZU3NRYW56VSIsIm5vbmNlIjoiTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk5OTk4iLCJpYXQiOjE4MDAwMDAwOTksImV4cCI6MTgwMDAwMDEyOX0.xu5qlpxuBJSnmp_D5xgf5SzJU277K4hA13CacD8NcowRUe4fKMvLPTJR7tWFtpA7aqwwV9vtqjrRiOvDy-F3Cw"
+    }
+  ]
+}

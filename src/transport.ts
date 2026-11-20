@@ -10,15 +10,25 @@
  * - Never: 409 IDEMPOTENCY_OUTCOME_UNKNOWN, 423, any other 4xx, 500.
  * - A request whose passkey step-up token the API spends before the Idempotency-Key (STEP_UP_BEFORE_KEY): only 429.
  *   Any other retry would resend a used token and be refused 403 STEP_UP_INVALID even when the first request ran.
+ *
+ * With `serverToken` (a server credential's signer) instead of the API key and secret, the same routes carry a server
+ * token, a new one on every attempt: in `Authorization: Bearer`, or in `X-Aurea-Server-Token` on the routes where
+ * `Authorization` is the signed-in user's (takesServerTokenHeader). Never with the HMAC headers.
  */
 import { AureaConfigurationError, AureaConnectionError, parseRetryAfter } from "./errors";
 import { isSignedRoute, pathWithQuery, signRequest } from "./signing";
+import { SERVER_TOKEN_HEADER, takesServerTokenHeader, type ServerTokenSigner } from "./server-token";
 
 export type FetchLike = (input: string, init?: RequestInit) => Promise<Response>;
 
 export interface TransportOptions {
   apiKey?: string;
   apiSecret?: string;
+  /**
+   * A server credential's signer (createServerTokenSigner): signs the tenant-signed routes with a server token
+   * instead of HMAC. Not together with apiSecret: the API refuses a request with both (SERVER_AUTH_SCHEMES_CONFLICT).
+   */
+  serverToken?: ServerTokenSigner;
   /** Retries where they are safe (above). Default 2; 0 turns retries off. */
   maxRetries?: number;
   /** Per-attempt timeout in milliseconds. Default 60,000; 0 for none. */
@@ -35,6 +45,8 @@ export interface TransportOptions {
 const SAFE_METHODS = new Set(["GET", "HEAD", "OPTIONS"]);
 const RETRY_STATUSES = new Set([502, 503, 504]);
 const STEP_UP_HEADER = "x-aurea-step-up";
+const HMAC_HEADERS = ["x-tenant-api-key", "x-timestamp", "x-signature"] as const;
+const SERVER_TOKEN_HEADER_KEY = SERVER_TOKEN_HEADER.toLowerCase();
 /** The routes that check `x-aurea-step-up` before the Idempotency-Key: a retry needs a new token. */
 const STEP_UP_BEFORE_KEY: Array<[method: string, pathEnd: string]> = [["POST", "/v1/ramp/bank/payout/payouts"]];
 /** Matched on the path's end, without trailing slashes: a baseUrl with a path prefix (a proxy) still matches. */
@@ -86,6 +98,12 @@ async function idempotencyInProgress(response: Response): Promise<boolean> {
 }
 
 export function createTransport(options: TransportOptions): FetchLike {
+  const serverToken = options.serverToken;
+  if (serverToken && options.apiSecret) {
+    throw new AureaConfigurationError(
+      "Use either a server credential (serverToken) or the API key and secret (apiKey/apiSecret), not both: the API refuses a request that carries both (400 SERVER_AUTH_SCHEMES_CONFLICT).",
+    );
+  }
   const maxRetries = Math.max(0, options.maxRetries ?? 2);
   const timeoutMs = options.timeoutMs ?? 60_000;
   const maxRetryDelayMs = options.maxRetryDelayMs ?? 60_000;
@@ -97,20 +115,44 @@ export function createTransport(options: TransportOptions): FetchLike {
     const method = (init.method ?? "GET").toUpperCase();
     const path = pathWithQuery(input);
     const baseHeaders = headersToRecord(init.headers);
-    const alreadySigned = "x-signature" in baseHeaders;
-    const signed = !alreadySigned && (isSignedRoute(method, path) || "x-tenant-api-key" in baseHeaders);
+    let signed: boolean;
+    let tokenHere: "authorization" | "header" | null = null;
+    if (serverToken) {
+      // The generated client asks for the tenant's signature with an x-tenant-api-key header (empty without apiKey).
+      const asked = isSignedRoute(method, path) || new Headers(init.headers).has("x-tenant-api-key");
+      if ("x-timestamp" in baseHeaders || "x-signature" in baseHeaders) {
+        throw new AureaConfigurationError(
+          `${method} ${path.split("?")[0]} carries HMAC headers and this client signs with a server token: send one scheme (400 SERVER_AUTH_SCHEMES_CONFLICT otherwise).`,
+        );
+      }
+      for (const header of HMAC_HEADERS) delete baseHeaders[header];
+      signed = asked && !(SERVER_TOKEN_HEADER_KEY in baseHeaders);
+      if (signed) {
+        tokenHere = takesServerTokenHeader(path) ? "header" : "authorization";
+        if (tokenHere === "authorization" && "authorization" in baseHeaders) {
+          throw new AureaConfigurationError(
+            `${method} ${path.split("?")[0]} is opened by the tenant's signature alone: its Authorization carries the server token, so it takes no other Authorization.`,
+          );
+        }
+      }
+    } else {
+      const alreadySigned = "x-signature" in baseHeaders;
+      signed = !alreadySigned && (isSignedRoute(method, path) || "x-tenant-api-key" in baseHeaders);
+    }
     const hasKey = "idempotency-key" in baseHeaders;
     // The token is spent on the first attempt: never resend it (only a 429, answered before the route runs).
     const tokenSpent = STEP_UP_HEADER in baseHeaders && spendsTokenBeforeKey(method, path);
     const resendable = (SAFE_METHODS.has(method) || hasKey) && !tokenSpent;
     const body = init.body;
 
-    if (signed) {
+    if (signed && !serverToken) {
       if (!options.apiKey || !options.apiSecret) {
         throw new AureaConfigurationError(
-          `${method} ${path.split("?")[0]} needs your tenant's signature: create the client with apiKey and apiSecret, on your server (docs.aureahub.com › Authentication).`,
+          `${method} ${path.split("?")[0]} needs your tenant's signature: create the client with apiKey and apiSecret, or with serverToken (a server credential), on your server (docs.aureahub.com › Authentication).`,
         );
       }
+    }
+    if (signed) {
       if (body != null && typeof body !== "string" && !(body instanceof Uint8Array)) {
         throw new AureaConfigurationError("A signed request's body must be a string or bytes: the exact bytes sent are signed.");
       }
@@ -118,7 +160,11 @@ export function createTransport(options: TransportOptions): FetchLike {
 
     for (let attempt = 0; ; attempt++) {
       const headers = { ...baseHeaders };
-      if (signed) {
+      if (signed && serverToken) {
+        const token = await serverToken.sign({ method, path, body: body as string | Uint8Array | null | undefined });
+        if (tokenHere === "header") headers[SERVER_TOKEN_HEADER_KEY] = token;
+        else headers.authorization = `Bearer ${token}`;
+      } else if (signed) {
         Object.assign(
           headers,
           await signRequest({

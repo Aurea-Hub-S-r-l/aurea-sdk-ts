@@ -4,6 +4,7 @@ import { AureaConfigurationError, AureaConnectionError, AureaError, apiErrorFrom
 import { Services } from "./services";
 import { createTransport, type FetchLike } from "./transport";
 import { pathWithQuery, takesNoAccessToken } from "./signing";
+import { createServerTokenSigner, type ServerTokenSigner, type ServerTokenSignerOptions } from "./server-token";
 
 export const DEFAULT_BASE_URL = "https://api.aureahub.com";
 
@@ -14,6 +15,12 @@ export interface AureaOptions {
   apiKey?: string;
   /** Your tenant API secret (server only: it never leaves your server). */
   apiSecret?: string;
+  /**
+   * A server credential instead of the API key and secret: a signer from createServerTokenSigner(), or its options
+   * ({ kid, privateKey }). The tenant-signed routes then carry a server token (ES256, one per request). Required for
+   * a tenant whose API answers 401 SERVER_TOKEN_REQUIRED to HMAC. Not together with apiSecret (server only).
+   */
+  serverToken?: ServerTokenSigner | ServerTokenSignerOptions;
   /** A signed-in user's access token, or a function that returns a fresh one (called before each call). */
   accessToken?: AccessToken;
   /** Default https://api.aureahub.com (test networks and the sandbox use the same URL). */
@@ -50,7 +57,8 @@ const isBrowser = () => typeof (globalThis as { document?: unknown }).document !
 /**
  * The Aurea API client.
  *
- *   const aurea = new Aurea({ apiKey, apiSecret });                // your server: signed routes
+ *   const aurea = new Aurea({ apiKey, apiSecret });                // your server: signed routes (HMAC)
+ *   // or, with a server credential: new Aurea({ serverToken: { kid, privateKey } })
  *   const { accessToken } = await aurea.auth.v1AuthLoginPost({ v1AuthLoginPostRequest: { username, password } });
  *   const user = aurea.withAccessToken(accessToken);               // the user's calls
  *   const wallets = await user.wallets.v1WalletsGet({ limit: 50 });
@@ -69,10 +77,27 @@ export class Aurea extends Services {
         "The API secret is for your server only: anyone who can read this page could sign as your tenant. Call Aurea from your server, or use the user's access token here.",
       );
     }
+    if (options.serverToken && isBrowser() && !options.dangerouslyAllowSecretInBrowser) {
+      throw new AureaConfigurationError(
+        "A server credential's private key is for your server only: anyone who can read this page could sign as your tenant. Call Aurea from your server, or use the user's access token here.",
+      );
+    }
+    if (options.serverToken && options.apiSecret) {
+      throw new AureaConfigurationError(
+        "Use either a server credential (serverToken) or the API key and secret (apiKey/apiSecret), not both: the API refuses a request that carries both (400 SERVER_AUTH_SCHEMES_CONFLICT).",
+      );
+    }
+    const serverToken =
+      options.serverToken === undefined
+        ? undefined
+        : "sign" in options.serverToken
+          ? options.serverToken
+          : createServerTokenSigner(options.serverToken);
     const baseUrl = (options.baseUrl ?? DEFAULT_BASE_URL).replace(/\/+$/, "");
     const transport = createTransport({
       apiKey: options.apiKey,
       apiSecret: options.apiSecret,
+      serverToken,
       maxRetries: options.maxRetries,
       timeoutMs: options.timeoutMs,
       maxRetryDelayMs: options.maxRetryDelayMs,
@@ -121,7 +146,8 @@ export class Aurea extends Services {
     });
     super(configuration);
     this.baseUrl = baseUrl;
-    this.#options = options;
+    // withAccessToken() keeps the same signer (and so its record of the nonces it signed).
+    this.#options = serverToken === undefined ? options : { ...options, serverToken };
     this.#fetch = transport;
   }
 
