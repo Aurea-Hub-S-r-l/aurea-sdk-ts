@@ -39,6 +39,10 @@ export interface V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNex
      * 
      */
     supportEmail?: V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStepSupportEmailEnum;
+    /**
+     * complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself.
+     */
+    fields?: Array<string | null>;
 }
 
 
@@ -107,6 +111,7 @@ export function V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNext
         'url': json['url'] === undefined ? undefined : json['url'] === null ? null : json['url'],
         'expiresAt': json['expiresAt'] === undefined ? undefined : json['expiresAt'] === null ? null : (parseDateTime(json['expiresAt'])),
         'supportEmail': json['supportEmail'] == null ? undefined : json['supportEmail'],
+        'fields': json['fields'] == null ? undefined : json['fields'],
     };
 }
 
@@ -126,6 +131,7 @@ export function V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNext
         'url': value['url'],
         'expiresAt': value['expiresAt'] == null ? value['expiresAt'] : serializeDateTime(value['expiresAt']),
         'supportEmail': value['supportEmail'],
+        'fields': value['fields'],
     };
 }
 

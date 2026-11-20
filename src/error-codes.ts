@@ -111,3 +111,42 @@ export function isServerCredentialError(error: unknown): error is AureaApiError 
 export function isWalletProtectionError(error: unknown): error is AureaApiError & { code: WalletProtectionErrorCode } {
   return hasCode(error, WALLET_PROTECTION_ERROR_STATUS);
 }
+
+/**
+ * The bank ramp's customer profile (`PUT /v1/ramp/bank/customer/profile`, `aurea.bankRampUsdAccounts`): a profile the API refuses
+ * answers 400 `BANK_RAMP_PROFILE_INVALID` with `details.fields`, the names (never the values) of the fields to give or
+ * correct — for example `["confirmations.address"]` when only `subdivisionCode` was sent for an identity document that
+ * prints no address — and, when the profile's values are refused, `details.nextStep` `"update_profile"`. Show a form for
+ * the named fields, then save the whole profile again. The same names come in an account opening's or a USD account's
+ * `nextStep.fields` (action `complete_profile`).
+ */
+export const BANK_RAMP_PROFILE_ERROR_STATUS = {
+  BANK_RAMP_PROFILE_INVALID: 400,
+} as const;
+export type BankRampProfileErrorCode = keyof typeof BANK_RAMP_PROFILE_ERROR_STATUS;
+
+/** The `details` of a 400 `BANK_RAMP_PROFILE_INVALID`. */
+export interface BankRampProfileInvalidDetails {
+  code: "BANK_RAMP_PROFILE_INVALID";
+  /** The fields to give or correct, by name (`confirmations.address`, `parties.0.confirmations.address`…). */
+  fields: string[];
+  /** `"update_profile"` when the profile's values are refused. */
+  nextStep?: string;
+}
+
+/** A refused profile: 400 `BANK_RAMP_PROFILE_INVALID` whose `details.fields` lists the fields by name. */
+export function isBankRampProfileInvalid(
+  error: unknown,
+): error is AureaApiError & { code: BankRampProfileErrorCode; details: BankRampProfileInvalidDetails } {
+  if (!hasCode(error, BANK_RAMP_PROFILE_ERROR_STATUS)) return false;
+  const details = error.details;
+  if (typeof details !== "object" || details === null || Array.isArray(details)) return false;
+  const fields = (details as { fields?: unknown }).fields;
+  return Array.isArray(fields) && fields.every((f) => typeof f === "string");
+}
+
+/** The field names a refused profile names (`details.fields`), or an empty list when the error is not one. */
+export function profileInvalidFields(error: unknown): string[] {
+  if (!isBankRampProfileInvalid(error)) return [];
+  return [...error.details.fields];
+}

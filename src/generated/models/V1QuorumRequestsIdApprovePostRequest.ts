@@ -20,9 +20,13 @@ import { mapValues } from '../runtime';
  */
 export interface V1QuorumRequestsIdApprovePostRequest {
     /**
-     * The deciding administrator's own password
+     * The deciding person's own password — the fallback where no passkey is used
      */
-    password: string;
+    password?: string;
+    /**
+     * The deciding person's passkey step-up for exactly this decision (its …/step-up/options, then …/step-up)
+     */
+    stepUpToken?: string;
     /**
      * 
      */
@@ -33,7 +37,6 @@ export interface V1QuorumRequestsIdApprovePostRequest {
  * Check if a given object implements the V1QuorumRequestsIdApprovePostRequest interface.
  */
 export function instanceOfV1QuorumRequestsIdApprovePostRequest(value: object): value is V1QuorumRequestsIdApprovePostRequest {
-    if (!('password' in value) || value['password'] === undefined) return false;
     return true;
 }
 
@@ -47,7 +50,8 @@ export function V1QuorumRequestsIdApprovePostRequestFromJSONTyped(json: any, ign
     }
     return {
         
-        'password': json['password'],
+        'password': json['password'] == null ? undefined : json['password'],
+        'stepUpToken': json['stepUpToken'] == null ? undefined : json['stepUpToken'],
         'reason': json['reason'] == null ? undefined : json['reason'],
     };
 }
@@ -64,6 +68,7 @@ export function V1QuorumRequestsIdApprovePostRequestToJSONTyped(value?: V1Quorum
     return {
         
         'password': value['password'],
+        'stepUpToken': value['stepUpToken'],
         'reason': value['reason'],
     };
 }

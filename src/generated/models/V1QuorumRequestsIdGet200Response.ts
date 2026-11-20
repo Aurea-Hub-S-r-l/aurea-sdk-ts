@@ -86,6 +86,10 @@ export interface V1QuorumRequestsIdGet200Response {
      */
     requestId?: string | null;
     /**
+     * Present (true) only on a tenant's request that no other administrator of the tenant can approve: an Aurea administrator may approve it as the second member
+     */
+    awaitingAurea?: boolean;
+    /**
      * The EVM chain id; null on Solana.
      */
     requiredApprovals?: number | null;
@@ -185,6 +189,7 @@ export function V1QuorumRequestsIdGet200ResponseFromJSONTyped(json: any, ignoreD
         'requestedAt': json['requestedAt'] == null ? undefined : (parseDateTime(json['requestedAt'])),
         'route': json['route'] == null ? undefined : json['route'],
         'requestId': json['requestId'] === undefined ? undefined : json['requestId'] === null ? null : json['requestId'],
+        'awaitingAurea': json['awaitingAurea'] == null ? undefined : json['awaitingAurea'],
         'requiredApprovals': json['requiredApprovals'] === undefined ? undefined : json['requiredApprovals'] === null ? null : json['requiredApprovals'],
         'approvals': json['approvals'] === undefined ? undefined : json['approvals'] === null ? null : json['approvals'],
         'expiresAt': json['expiresAt'] === undefined ? undefined : json['expiresAt'] === null ? null : (parseDateTime(json['expiresAt'])),
@@ -221,6 +226,7 @@ export function V1QuorumRequestsIdGet200ResponseToJSONTyped(value?: V1QuorumRequ
         'requestedAt': value['requestedAt'] == null ? value['requestedAt'] : serializeDateTime(value['requestedAt']),
         'route': value['route'],
         'requestId': value['requestId'],
+        'awaitingAurea': value['awaitingAurea'],
         'requiredApprovals': value['requiredApprovals'],
         'approvals': value['approvals'],
         'expiresAt': value['expiresAt'] == null ? value['expiresAt'] : serializeDateTime(value['expiresAt']),

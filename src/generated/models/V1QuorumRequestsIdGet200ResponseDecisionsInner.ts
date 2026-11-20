@@ -35,6 +35,10 @@ export interface V1QuorumRequestsIdGet200ResponseDecisionsInner {
      * 
      */
     decidedAt?: Date;
+    /**
+     * Present (true) only when an Aurea administrator approved a tenant's request as the second member of its quorum
+     */
+    byAurea?: boolean;
 }
 
 
@@ -70,6 +74,7 @@ export function V1QuorumRequestsIdGet200ResponseDecisionsInnerFromJSONTyped(json
         'decision': json['decision'] == null ? undefined : json['decision'],
         'reason': json['reason'] === undefined ? undefined : json['reason'] === null ? null : json['reason'],
         'decidedAt': json['decidedAt'] == null ? undefined : (parseDateTime(json['decidedAt'])),
+        'byAurea': json['byAurea'] == null ? undefined : json['byAurea'],
     };
 }
 
@@ -88,6 +93,7 @@ export function V1QuorumRequestsIdGet200ResponseDecisionsInnerToJSONTyped(value?
         'decision': value['decision'],
         'reason': value['reason'],
         'decidedAt': value['decidedAt'] == null ? value['decidedAt'] : serializeDateTime(value['decidedAt']),
+        'byAurea': value['byAurea'],
     };
 }
 

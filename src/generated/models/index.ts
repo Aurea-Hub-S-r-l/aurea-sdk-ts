@@ -862,6 +862,7 @@ export * from './V1RampBankCustomerAccountOpeningsOpeningIdQuestionnairePutReque
 export * from './V1RampBankCustomerAccountOpeningsOpeningIdUpgradePost409Response';
 export * from './V1RampBankCustomerAccountOpeningsOpeningIdUpgradePostRequest';
 export * from './V1RampBankCustomerAccountOpeningsPost200Response';
+export * from './V1RampBankCustomerAccountOpeningsPost200ResponseNextStep';
 export * from './V1RampBankCustomerAccountOpeningsPost200ResponseQuestionnaire';
 export * from './V1RampBankCustomerAccountOpeningsPost400Response';
 export * from './V1RampBankCustomerAccountOpeningsPost404Response';
@@ -1131,6 +1132,8 @@ export * from './V1RampBankCustomerVerificationGet200ResponseAccountRequirements
 export * from './V1RampBankCustomerVerificationGet400Response';
 export * from './V1RampBankCustomerVerificationGet403Response';
 export * from './V1RampBankCustomerVerificationPost200Response';
+export * from './V1RampBankCustomerVerificationPost200ResponseAccount';
+export * from './V1RampBankCustomerVerificationPost200ResponseAccountNextStep';
 export * from './V1RampBankCustomerVerificationPost400Response';
 export * from './V1RampBankCustomerVerificationPost403Response';
 export * from './V1RampBankCustomerVerificationPost409Response';

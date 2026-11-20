@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.4.1 — 21 November 2026 — the profile's fields
+
+Generated from the production OpenAPI document of 21 November 2026 (sha256 `8adc3a1b…dd76`). 585 routes, as in 0.4.0.
+Nothing is removed and no call changes shape: every change below adds a field or loosens a type.
+
+### Added
+- `nextStep.fields` on an account opening (`bankRampAccountOpenings`: open, list, get, questionnaire, next step,
+  upgrade) and on the customer's USD account (`bankRampUsdAccounts`: the account, its information and the
+  verification): the names of the profile's fields to give or correct, for example `["confirmations.address"]` when
+  only `subdivisionCode` was sent for an identity document that prints no address. Names only, never values. Show a
+  form for them, then save the whole profile again (`v1RampBankCustomerProfilePut`).
+- Typed refusal of a profile: `isBankRampProfileInvalid(error)` narrows an `AureaApiError` to 400
+  `BANK_RAMP_PROFILE_INVALID` with `details.fields` (`string[]`) and `details.nextStep` (`"update_profile"` when the
+  profile's values are refused); `profileInvalidFields(error)` returns the names (an empty list for any other error);
+  `BANK_RAMP_PROFILE_ERROR_STATUS`, types `BankRampProfileErrorCode` and `BankRampProfileInvalidDetails`.
+- Rotating the API key or secret answers until when the old one still works, where a rotation keeps it for a while:
+  `previousKeyValidUntil`, `previousSecretValidUntil`.
+- The quorum's decisions take the approver's passkey step-up (`stepUpToken`) as well as the password; the requests
+  say `awaitingAurea` and `byAurea`.
+- An optional `idempotencyKey` (sent as `Idempotency-Key`) on registering a bank ramp customer
+  (`v1RampBankCustomerPost`) and on making their wallet (`v1RampBankCustomerWalletsPost`): a repeat with the same key
+  answers the first answer.
+- The descriptions of the generated calls and models, as the API documents them today.
+
 ## 0.4.0 — 20 November 2026 — server credentials
 
 ### Added

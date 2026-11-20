@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from '../runtime';
+import { mapValues, parseDate, parseDateTime, serializeDate, serializeDateTime } from '../runtime';
 /**
  * API secret rotated successfully. Store the new secret securely.
  * @export
@@ -23,6 +23,10 @@ export interface V1AdminTenantsIdRotateSecretPost200Response {
      * 
      */
     apiSecret?: string | null;
+    /**
+     * Where Aurea keeps a replaced secret working for a while (a rotation overlap): until when a request signed with the old secret is still accepted. Absent: the old secret stopped at once.
+     */
+    previousSecretValidUntil?: Date;
 }
 
 /**
@@ -43,6 +47,7 @@ export function V1AdminTenantsIdRotateSecretPost200ResponseFromJSONTyped(json: a
     return {
         
         'apiSecret': json['apiSecret'] === undefined ? undefined : json['apiSecret'] === null ? null : json['apiSecret'],
+        'previousSecretValidUntil': json['previousSecretValidUntil'] == null ? undefined : (parseDateTime(json['previousSecretValidUntil'])),
     };
 }
 
@@ -58,6 +63,7 @@ export function V1AdminTenantsIdRotateSecretPost200ResponseToJSONTyped(value?: V
     return {
         
         'apiSecret': value['apiSecret'],
+        'previousSecretValidUntil': value['previousSecretValidUntil'] == null ? value['previousSecretValidUntil'] : serializeDateTime(value['previousSecretValidUntil']),
     };
 }
 

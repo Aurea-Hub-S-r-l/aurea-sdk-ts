@@ -14,7 +14,7 @@
 
 import { mapValues } from '../runtime';
 /**
- * The address is not the one AUREA derived in the DKG (`{ error }`)
+ * The address is not the one AUREA derived in the DKG (`MPC_WALLET_ADDRESS_MISMATCH`), or AUREA has not posted its DKG result yet (`MPC_WALLET_RESULT_PENDING`, with `Retry-After`: ask again) (`{ error }`)
  * @export
  * @interface V1MpcWalletsPost409Response
  */

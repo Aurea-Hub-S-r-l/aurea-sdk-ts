@@ -71,6 +71,10 @@ export interface V1AdminTenantsIdRotateKeyPost200Response {
      * Full API key (only shown on creation/rotation)
      */
     apiKey: string;
+    /**
+     * Where Aurea keeps a replaced key working for a while (a rotation overlap): until when the old key is still accepted. Absent: the old key stopped at once.
+     */
+    previousKeyValidUntil?: Date;
 }
 
 
@@ -146,6 +150,7 @@ export function V1AdminTenantsIdRotateKeyPost200ResponseFromJSONTyped(json: any,
         'createdAt': (json['createdAt'] == null ? json['createdAt'] : parseDateTime(json['createdAt'])),
         'updatedAt': (json['updatedAt'] == null ? json['updatedAt'] : parseDateTime(json['updatedAt'])),
         'apiKey': json['apiKey'],
+        'previousKeyValidUntil': json['previousKeyValidUntil'] == null ? undefined : (parseDateTime(json['previousKeyValidUntil'])),
     };
 }
 
@@ -173,6 +178,7 @@ export function V1AdminTenantsIdRotateKeyPost200ResponseToJSONTyped(value?: V1Ad
         'createdAt': value['createdAt'] == null ? value['createdAt'] : serializeDateTime(value['createdAt']),
         'updatedAt': value['updatedAt'] == null ? value['updatedAt'] : serializeDateTime(value['updatedAt']),
         'apiKey': value['apiKey'],
+        'previousKeyValidUntil': value['previousKeyValidUntil'] == null ? value['previousKeyValidUntil'] : serializeDateTime(value['previousKeyValidUntil']),
     };
 }
 

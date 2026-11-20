@@ -445,6 +445,10 @@ export interface V1RampBankCustomerPostOperationRequest {
      * 
      */
     v1RampBankCustomerPostRequest: V1RampBankCustomerPostRequest;
+    /**
+     * Optional. Sending the same key again with the same request answers with the first answer instead of running it again (the response carries idempotency-replayed: true). The same key with a different request answers 409 IDEMPOTENCY_KEY_REUSED, and while the first call is still running 409 IDEMPOTENCY_IN_PROGRESS. A key that is not one answers 400 IDEMPOTENCY_KEY_INVALID. A request without the header behaves as it always has.
+     */
+    idempotencyKey?: string | null;
 }
 
 export interface V1RampBankCustomerSharePostOperationRequest {
@@ -491,6 +495,10 @@ export interface V1RampBankCustomerWalletsPostOperationRequest {
      * 
      */
     v1RampBankCustomerWalletsPostRequest: V1RampBankCustomerWalletsPostRequest;
+    /**
+     * Optional. Sending the same key again with the same request answers with the first answer instead of running it again (the response carries idempotency-replayed: true). The same key with a different request answers 409 IDEMPOTENCY_KEY_REUSED, and while the first call is still running 409 IDEMPOTENCY_IN_PROGRESS. A key that is not one answers 400 IDEMPOTENCY_KEY_INVALID. A request without the header behaves as it always has.
+     */
+    idempotencyKey?: string;
 }
 
 /**
@@ -1196,6 +1204,10 @@ export class BankRampCustomersApi extends runtime.BaseAPI {
 
         headerParameters['Content-Type'] = 'application/json';
 
+        if (requestParameters['idempotencyKey'] != null) {
+            headerParameters['idempotency-key'] = String(requestParameters['idempotencyKey']);
+        }
+
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;
             const tokenString = await token("bearerAuth", []);
@@ -1519,6 +1531,10 @@ export class BankRampCustomersApi extends runtime.BaseAPI {
         const headerParameters: runtime.HTTPHeaders = {};
 
         headerParameters['Content-Type'] = 'application/json';
+
+        if (requestParameters['idempotencyKey'] != null) {
+            headerParameters['idempotency-key'] = String(requestParameters['idempotencyKey']);
+        }
 
         if (this.configuration && this.configuration.accessToken) {
             const token = this.configuration.accessToken;

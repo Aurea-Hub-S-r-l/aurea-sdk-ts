@@ -36,7 +36,7 @@ export interface V1AddressBookEntriesPostRequest {
      */
     customerRefId?: string | null;
     /**
-     * An account of the tenant (plan W2 part A): the entry then serves that account's wallets only.
+     * An account of the tenant: the entry then serves that account's wallets only.
      */
     accountId?: string | null;
     /**

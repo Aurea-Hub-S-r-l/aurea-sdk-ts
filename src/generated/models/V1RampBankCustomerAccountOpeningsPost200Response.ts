@@ -34,13 +34,13 @@ import {
     V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerUpgradeToJSON,
     V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerUpgradeToJSONTyped,
 } from './V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerUpgrade';
-import type { V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStep } from './V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStep';
+import type { V1RampBankCustomerAccountOpeningsPost200ResponseNextStep } from './V1RampBankCustomerAccountOpeningsPost200ResponseNextStep';
 import {
-    V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStepFromJSON,
-    V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStepFromJSONTyped,
-    V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStepToJSON,
-    V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStepToJSONTyped,
-} from './V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStep';
+    V1RampBankCustomerAccountOpeningsPost200ResponseNextStepFromJSON,
+    V1RampBankCustomerAccountOpeningsPost200ResponseNextStepFromJSONTyped,
+    V1RampBankCustomerAccountOpeningsPost200ResponseNextStepToJSON,
+    V1RampBankCustomerAccountOpeningsPost200ResponseNextStepToJSONTyped,
+} from './V1RampBankCustomerAccountOpeningsPost200ResponseNextStep';
 
 /**
  * 
@@ -79,7 +79,7 @@ export interface V1RampBankCustomerAccountOpeningsPost200Response {
     /**
      * 
      */
-    nextStep: V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStep;
+    nextStep: V1RampBankCustomerAccountOpeningsPost200ResponseNextStep;
     /**
      * 
      */
@@ -195,7 +195,7 @@ export function V1RampBankCustomerAccountOpeningsPost200ResponseFromJSONTyped(js
         'reason': json['reason'],
         'accounts': ((json['accounts'] as Array<any>).map(V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerAccountsInnerFromJSON)),
         'questionnaire': V1RampBankCustomerAccountOpeningsPost200ResponseQuestionnaireFromJSON(json['questionnaire']),
-        'nextStep': V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStepFromJSON(json['nextStep']),
+        'nextStep': V1RampBankCustomerAccountOpeningsPost200ResponseNextStepFromJSON(json['nextStep']),
         'upgrade': V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerUpgradeFromJSON(json['upgrade']),
         'notices': json['notices'],
         'outsideRouting': json['outsideRouting'],
@@ -221,7 +221,7 @@ export function V1RampBankCustomerAccountOpeningsPost200ResponseToJSONTyped(valu
         'reason': value['reason'],
         'accounts': ((value['accounts'] as Array<any>).map(V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerAccountsInnerToJSON)),
         'questionnaire': V1RampBankCustomerAccountOpeningsPost200ResponseQuestionnaireToJSON(value['questionnaire']),
-        'nextStep': V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerNextStepToJSON(value['nextStep']),
+        'nextStep': V1RampBankCustomerAccountOpeningsPost200ResponseNextStepToJSON(value['nextStep']),
         'upgrade': V1RampBankCustomerAccountOpeningsGet200ResponseOpeningsInnerUpgradeToJSON(value['upgrade']),
         'notices': value['notices'],
         'outsideRouting': value['outsideRouting'],

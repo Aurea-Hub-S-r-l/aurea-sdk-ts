@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { Aurea, V1RampBankCustomerAccountsGet200ResponseFromJSON, VERSION, withIdempotencyKey } from "../src/index";
+import {
+  Aurea,
+  BANK_RAMP_PROFILE_ERROR_STATUS,
+  V1RampBankCustomerAccountOpeningsPost200ResponseFromJSON,
+  V1RampBankCustomerAccountsGet200ResponseFromJSON,
+  VERSION,
+  createApiError,
+  isBankRampProfileInvalid,
+  profileInvalidFields,
+  withIdempotencyKey,
+} from "../src/index";
 import { readFileSync } from "node:fs";
 
 /** The bank ramp's USD account per customer (docs › Bank Ramp: USD Account per Customer). */
@@ -145,5 +155,46 @@ describe("USD accounts", () => {
   });
   it("VERSION is the package's version", () => {
     expect(VERSION).toBe(JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")).version);
+  });
+});
+
+/** 0.4.1: the field names of a refused profile, in the next steps and in the 400 (docs › Open an Account › Residential Address). */
+describe("profile fields", () => {
+  it("reads nextStep.fields on the USD account", () => {
+    const account = V1RampBankCustomerAccountsGet200ResponseFromJSON({
+      environment: "production", currency: "USD", rail: "usd_account", custody: "custodial", status: "opening",
+      capabilities: { collections: "pending", payouts: "pending" }, requirements: [],
+      nextStep: { action: "complete_profile", fields: ["confirmations.address"] }, bankDetails: [], balances: [], updatedAt: null,
+    });
+    expect(account.nextStep?.fields).toEqual(["confirmations.address"]);
+  });
+
+  it("reads nextStep.fields on an account opening", () => {
+    const opening = V1RampBankCustomerAccountOpeningsPost200ResponseFromJSON({
+      openingId: "6f1d2c9e-4b7a-4e43-9a51-2f0c8d7e1a10", environment: "production", customerKind: "individual", state: "verifying",
+      reason: null, accounts: [{ currency: "USD", state: "verifying", role: "current" }],
+      questionnaire: null, nextStep: { action: "complete_profile", fields: ["confirmations.address"] }, upgrade: null,
+      notices: [], outsideRouting: false, updatedAt: "2026-11-14T11:05:00.000Z",
+    });
+    expect(opening.nextStep.fields).toEqual(["confirmations.address"]);
+  });
+
+  it("types BANK_RAMP_PROFILE_INVALID with its fields", () => {
+    const refused = createApiError(400, {
+      statusCode: 400, error: "BadRequestError", message: "The request is not valid.",
+      details: { code: "BANK_RAMP_PROFILE_INVALID", fields: ["confirmations.address"], nextStep: "update_profile" },
+    });
+    expect(isBankRampProfileInvalid(refused)).toBe(true);
+    if (isBankRampProfileInvalid(refused)) {
+      expect(refused.details.fields).toEqual(["confirmations.address"]);
+      expect(refused.details.nextStep).toBe("update_profile");
+    }
+    expect(profileInvalidFields(refused)).toEqual(["confirmations.address"]);
+    expect(BANK_RAMP_PROFILE_ERROR_STATUS.BANK_RAMP_PROFILE_INVALID).toBe(400);
+    // Another code, another status, or no fields: not this error.
+    expect(isBankRampProfileInvalid(createApiError(400, { details: { code: "BANK_RAMP_ACCOUNT_INVALID", fields: ["x"] } }))).toBe(false);
+    expect(isBankRampProfileInvalid(createApiError(409, { details: { code: "BANK_RAMP_PROFILE_INVALID", fields: [] } }))).toBe(false);
+    expect(isBankRampProfileInvalid(createApiError(400, { details: { code: "BANK_RAMP_PROFILE_INVALID" } }))).toBe(false);
+    expect(profileInvalidFields(new Error("x"))).toEqual([]);
   });
 });

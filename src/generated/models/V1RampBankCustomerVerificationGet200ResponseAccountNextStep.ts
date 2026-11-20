@@ -27,6 +27,10 @@ export interface V1RampBankCustomerVerificationGet200ResponseAccountNextStep {
      * choose_custody: the custody modes the customer may choose.
      */
     custodyOptions?: Array<V1RampBankCustomerVerificationGet200ResponseAccountNextStepCustodyOptionsEnum>;
+    /**
+     * complete_profile / update_profile after the account's opening refused the profile: the financial profile's fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself.
+     */
+    fields?: Array<string | null>;
 }
 
 
@@ -81,6 +85,7 @@ export function V1RampBankCustomerVerificationGet200ResponseAccountNextStepFromJ
         
         'action': json['action'],
         'custodyOptions': json['custodyOptions'] == null ? undefined : json['custodyOptions'],
+        'fields': json['fields'] == null ? undefined : json['fields'],
     };
 }
 
@@ -97,6 +102,7 @@ export function V1RampBankCustomerVerificationGet200ResponseAccountNextStepToJSO
         
         'action': value['action'],
         'custodyOptions': value['custodyOptions'],
+        'fields': value['fields'],
     };
 }
 

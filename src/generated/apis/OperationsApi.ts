@@ -670,7 +670,7 @@ export class OperationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * What the message rules, exact approvals or the server\'s build of a swap said at a signing point (plans W7.2, W7.3, W6.6): the record a refusal names in `details.checkId`. `operationId` is the operation it belongs to — then it is also in that operation\'s `signingChecks` — or null when the call had none (most refusals come before an operation is recorded). A user reads the checks of its own wallets and operations; a tenant administrator any of the tenant.
+     * What the message rules, exact approvals or the server\'s build of a swap said at a signing point: the record a refusal names in `details.checkId`. `operationId` is the operation it belongs to — then it is also in that operation\'s `signingChecks` — or null when the call had none (most refusals come before an operation is recorded). A user reads the checks of its own wallets and operations; a tenant administrator any of the tenant.
      * Get a signing check
      */
     async v1OperationsSigningChecksCheckIdGetRaw(requestParameters: V1OperationsSigningChecksCheckIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1OperationsSigningChecksCheckIdGet200Response>> {
@@ -681,7 +681,7 @@ export class OperationsApi extends runtime.BaseAPI {
     }
 
     /**
-     * What the message rules, exact approvals or the server\'s build of a swap said at a signing point (plans W7.2, W7.3, W6.6): the record a refusal names in `details.checkId`. `operationId` is the operation it belongs to — then it is also in that operation\'s `signingChecks` — or null when the call had none (most refusals come before an operation is recorded). A user reads the checks of its own wallets and operations; a tenant administrator any of the tenant.
+     * What the message rules, exact approvals or the server\'s build of a swap said at a signing point: the record a refusal names in `details.checkId`. `operationId` is the operation it belongs to — then it is also in that operation\'s `signingChecks` — or null when the call had none (most refusals come before an operation is recorded). A user reads the checks of its own wallets and operations; a tenant administrator any of the tenant.
      * Get a signing check
      */
     async v1OperationsSigningChecksCheckIdGet(requestParameters: V1OperationsSigningChecksCheckIdGetRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1OperationsSigningChecksCheckIdGet200Response> {

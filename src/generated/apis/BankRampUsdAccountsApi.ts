@@ -1983,7 +1983,7 @@ export class BankRampUsdAccountsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Saves the whole profile (`kind` as the customer registered). Every id must be in the onboarding lists (400 `BANK_RAMP_PROFILE_INVALID` names the fields); a business in an industry the bank ramp does not serve is refused (422 `BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`). Once handed over to open the account it no longer changes (409 `BANK_RAMP_PROFILE_LOCKED`).
+     * Saves the whole profile (`kind` as the customer registered). Every id must be in the onboarding lists (400 `BANK_RAMP_PROFILE_INVALID` names the fields); a business in an industry the bank ramp does not serve is refused (422 `BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`). A person who gives only `subdivisionCode` relies on the verified identity document\'s address: when that document carries none (passports, many identity cards) or the verification is not finished yet, the save is refused (400 `BANK_RAMP_PROFILE_INVALID`, `fields` `confirmations.address` or `parties.N.confirmations.address`) and the full `address` is required. Once handed over to open the account it no longer changes (409 `BANK_RAMP_PROFILE_LOCKED`).
      * Save the customer\'s financial profile
      */
     async v1RampBankCustomerProfilePutRaw(requestParameters: V1RampBankCustomerProfilePutOperationRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<V1RampBankCustomerProfilePut200Response>> {
@@ -1994,7 +1994,7 @@ export class BankRampUsdAccountsApi extends runtime.BaseAPI {
     }
 
     /**
-     * Saves the whole profile (`kind` as the customer registered). Every id must be in the onboarding lists (400 `BANK_RAMP_PROFILE_INVALID` names the fields); a business in an industry the bank ramp does not serve is refused (422 `BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`). Once handed over to open the account it no longer changes (409 `BANK_RAMP_PROFILE_LOCKED`).
+     * Saves the whole profile (`kind` as the customer registered). Every id must be in the onboarding lists (400 `BANK_RAMP_PROFILE_INVALID` names the fields); a business in an industry the bank ramp does not serve is refused (422 `BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`). A person who gives only `subdivisionCode` relies on the verified identity document\'s address: when that document carries none (passports, many identity cards) or the verification is not finished yet, the save is refused (400 `BANK_RAMP_PROFILE_INVALID`, `fields` `confirmations.address` or `parties.N.confirmations.address`) and the full `address` is required. Once handed over to open the account it no longer changes (409 `BANK_RAMP_PROFILE_LOCKED`).
      * Save the customer\'s financial profile
      */
     async v1RampBankCustomerProfilePut(requestParameters: V1RampBankCustomerProfilePutOperationRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<V1RampBankCustomerProfilePut200Response> {

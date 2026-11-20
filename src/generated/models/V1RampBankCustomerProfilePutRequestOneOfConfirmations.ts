@@ -29,7 +29,7 @@ import {
 } from './V1RampBankCustomerProfilePutRequestOneOfConfirmationsTaxId';
 
 /**
- * What the person confirms beyond the identity verification: contact, residence and nationality, the identity document's issue date (the verification does not give it), the residential `address` or, to use the verified document's address, its `subdivisionCode` (one of the two), and a tax id.
+ * What the person confirms beyond the identity verification: contact, residence and nationality, the identity document's issue date (the verification does not give it), the residential `address` or, to use the verified document's address, its `subdivisionCode` (one of the two), and a tax id. Send the full `address` whenever the verified identity document carries no address: passports never print one, and many identity cards print none the account can use (no street, city or postal code). `subdivisionCode` alone is accepted only once the identity verification is finished and its document carries a full address in that subdivision's country; otherwise the save answers 400 `BANK_RAMP_PROFILE_INVALID` naming `confirmations.address` (`parties.N.confirmations.address` for a business's owner). When in doubt, send `address`.
  * @export
  * @interface V1RampBankCustomerProfilePutRequestOneOfConfirmations
  */

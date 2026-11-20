@@ -4133,7 +4133,7 @@
      "tenants",
      "admin"
     ],
-    "description": "Generate a new API key for the tenant. Admin-only endpoint. The old API key is immediately invalidated. The new API key is shown once - store it securely.",
+    "description": "Generate a new API key for the tenant. Admin-only endpoint. The old API key stops at once — or, where Aurea keeps a rotation overlap, at `previousKeyValidUntil`. The new API key is shown once - store it securely.",
     "parameters": [
      {
       "schema": {
@@ -4229,6 +4229,11 @@
           "apiKey": {
            "type": "string",
            "description": "Full API key (only shown on creation/rotation)"
+          },
+          "previousKeyValidUntil": {
+           "type": "string",
+           "format": "date-time",
+           "description": "Where Aurea keeps a replaced key working for a while (a rotation overlap): until when the old key is still accepted. Absent: the old key stopped at once."
           }
          },
          "required": [
@@ -4502,7 +4507,7 @@
      "tenants",
      "admin"
     ],
-    "description": "Generate a new HMAC signing secret for the tenant. Admin-only endpoint. The old secret is immediately invalidated. Store the new secret securely.",
+    "description": "Generate a new HMAC signing secret for the tenant. Admin-only endpoint. The old secret stops at once — or, where Aurea keeps a rotation overlap, at `previousSecretValidUntil`. Store the new secret securely.",
     "parameters": [
      {
       "schema": {
@@ -4530,6 +4535,11 @@
          "properties": {
           "apiSecret": {
            "type": "string"
+          },
+          "previousSecretValidUntil": {
+           "type": "string",
+           "format": "date-time",
+           "description": "Where Aurea keeps a replaced secret working for a while (a rotation overlap): until when a request signed with the old secret is still accepted. Absent: the old secret stopped at once."
           }
          }
         }
@@ -11566,12 +11576,12 @@
       }
      },
      "409": {
-      "description": "The address is not the one AUREA derived in the DKG (`{ error }`)",
+      "description": "The address is not the one AUREA derived in the DKG (`MPC_WALLET_ADDRESS_MISMATCH`), or AUREA has not posted its DKG result yet (`MPC_WALLET_RESULT_PENDING`, with `Retry-After`: ask again) (`{ error }`)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The address is not the one AUREA derived in the DKG (`{ error }`)",
+         "description": "The address is not the one AUREA derived in the DKG (`MPC_WALLET_ADDRESS_MISMATCH`), or AUREA has not posted its DKG result yet (`MPC_WALLET_RESULT_PENDING`, with `Retry-After`: ask again) (`{ error }`)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -20014,7 +20024,7 @@
          },
          "travelRule": {
           "type": "object",
-          "description": "Optional Travel Rule data (IVMS101, plan W7.5): the originator and beneficiary of the transfer and their VASPs. Nothing in it is required; what is given is checked against IVMS101 (422 with the path otherwise), stored with the transfer and returned (GET /v1/transactions/{id}/travel-rule). A legal person's LEI is its nationalIdentification of type LEIX.",
+          "description": "Optional Travel Rule data (IVMS101): the originator and beneficiary of the transfer and their VASPs. Nothing in it is required; what is given is checked against IVMS101 (422 with the path otherwise), stored with the transfer and returned (GET /v1/transactions/{id}/travel-rule). A legal person's LEI is its nationalIdentification of type LEIX.",
           "properties": {
            "originator": {
             "type": "object",
@@ -23173,7 +23183,7 @@
     "tags": [
      "transactions"
     ],
-    "description": "The Travel Rule data (IVMS101) one's own transfer was sent with (plan W7.5); 404 TRAVEL_RULE_NOT_FOUND when it carried none.",
+    "description": "The Travel Rule data (IVMS101) one's own transfer was sent with; 404 TRAVEL_RULE_NOT_FOUND when it carried none.",
     "parameters": [
      {
       "schema": {
@@ -34765,6 +34775,17 @@
      },
      "required": true
     },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "idempotency-key",
+      "required": false,
+      "description": "Optional. Sending the same key again with the same request answers with the first answer instead of running it again (the response carries idempotency-replayed: true). The same key with a different request answers 409 IDEMPOTENCY_KEY_REUSED, and while the first call is still running 409 IDEMPOTENCY_IN_PROGRESS. A key that is not one answers 400 IDEMPOTENCY_KEY_INVALID. A request without the header behaves as it always has."
+     }
+    ],
     "security": [
      {
       "bearerAuth": []
@@ -40140,6 +40161,17 @@
      },
      "required": true
     },
+    "parameters": [
+     {
+      "schema": {
+       "type": "string"
+      },
+      "in": "header",
+      "name": "idempotency-key",
+      "required": false,
+      "description": "Optional. Sending the same key again with the same request answers with the first answer instead of running it again (the response carries idempotency-replayed: true). The same key with a different request answers 409 IDEMPOTENCY_KEY_REUSED, and while the first call is still running 409 IDEMPOTENCY_IN_PROGRESS. A key that is not one answers 400 IDEMPOTENCY_KEY_INVALID. A request without the header behaves as it always has."
+     }
+    ],
     "security": [
      {
       "bearerAuth": []
@@ -42611,6 +42643,13 @@
                 ]
                },
                "description": "choose_custody: the custody modes the customer may choose."
+              },
+              "fields": {
+               "type": "array",
+               "items": {
+                "type": "string"
+               },
+               "description": "complete_profile / update_profile after the account's opening refused the profile: the financial profile's fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
               }
              },
              "description": "The button a client shows, null when nothing is asked. complete_verification: finish the identity verification; provide_proof_of_address: upload a proof of address; operator_review: Aurea reviews the customer's residence (wait, or contact support); contact_support: help@aureahub.com; choose_custody: pick one of custodyOptions (PUT …/accounts/custody); open_account: send the profile (PUT /v1/ramp/bank/customer/profile) and open the account; provide_information / upload_document (POST /v1/ramp/bank/customer/verification/documents) / accept_terms (GET /v1/ramp/bank/customer/terms): what the account's requirements ask; wait_for_review: the bank ramp reviews; use_bank_ramp: USD stays on POST /v1/ramp/bank/payin/initiate (fiatCurrency USD) and the payout routes; use_usd_account: USD goes through GET /v1/ramp/bank/customer/accounts."
@@ -42969,6 +43008,13 @@
                 ]
                },
                "description": "choose_custody: the custody modes the customer may choose."
+              },
+              "fields": {
+               "type": "array",
+               "items": {
+                "type": "string"
+               },
+               "description": "complete_profile / update_profile after the account's opening refused the profile: the financial profile's fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
               }
              },
              "description": "The button a client shows, null when nothing is asked. complete_verification: finish the identity verification; provide_proof_of_address: upload a proof of address; operator_review: Aurea reviews the customer's residence (wait, or contact support); contact_support: help@aureahub.com; choose_custody: pick one of custodyOptions (PUT …/accounts/custody); open_account: send the profile (PUT /v1/ramp/bank/customer/profile) and open the account; provide_information / upload_document (POST /v1/ramp/bank/customer/verification/documents) / accept_terms (GET /v1/ramp/bank/customer/terms): what the account's requirements ask; wait_for_review: the bank ramp reviews; use_bank_ramp: USD stays on POST /v1/ramp/bank/payin/initiate (fiatCurrency USD) and the payout routes; use_usd_account: USD goes through GET /v1/ramp/bank/customer/accounts."
@@ -43223,6 +43269,13 @@
                 ]
                },
                "description": "choose_custody: the custody modes the customer may choose."
+              },
+              "fields": {
+               "type": "array",
+               "items": {
+                "type": "string"
+               },
+               "description": "complete_profile / update_profile after the account's opening refused the profile: the financial profile's fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
               }
              },
              "description": "The button a client shows, null when nothing is asked. complete_verification: finish the identity verification; provide_proof_of_address: upload a proof of address; operator_review: Aurea reviews the customer's residence (wait, or contact support); contact_support: help@aureahub.com; choose_custody: pick one of custodyOptions (PUT …/accounts/custody); open_account: send the profile (PUT /v1/ramp/bank/customer/profile) and open the account; provide_information / upload_document (POST /v1/ramp/bank/customer/verification/documents) / accept_terms (GET /v1/ramp/bank/customer/terms): what the account's requirements ask; wait_for_review: the bank ramp reviews; use_bank_ramp: USD stays on POST /v1/ramp/bank/payin/initiate (fiatCurrency USD) and the payout routes; use_usd_account: USD goes through GET /v1/ramp/bank/customer/accounts."
@@ -50377,6 +50430,13 @@
               ]
              },
              "description": "choose_custody: the custody modes the customer may choose."
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile / update_profile after the account's opening refused the profile: the financial profile's fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows, null when nothing is asked. complete_verification: finish the identity verification; provide_proof_of_address: upload a proof of address; operator_review: Aurea reviews the customer's residence (wait, or contact support); contact_support: help@aureahub.com; choose_custody: pick one of custodyOptions (PUT …/accounts/custody); open_account: send the profile (PUT /v1/ramp/bank/customer/profile) and open the account; provide_information / upload_document (POST /v1/ramp/bank/customer/verification/documents) / accept_terms (GET /v1/ramp/bank/customer/terms): what the account's requirements ask; wait_for_review: the bank ramp reviews; use_bank_ramp: USD stays on POST /v1/ramp/bank/payin/initiate (fiatCurrency USD) and the payout routes; use_usd_account: USD goes through GET /v1/ramp/bank/customer/accounts."
@@ -50797,6 +50857,13 @@
               ]
              },
              "description": "choose_custody: the custody modes the customer may choose."
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile / update_profile after the account's opening refused the profile: the financial profile's fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows, null when nothing is asked. complete_verification: finish the identity verification; provide_proof_of_address: upload a proof of address; operator_review: Aurea reviews the customer's residence (wait, or contact support); contact_support: help@aureahub.com; choose_custody: pick one of custodyOptions (PUT …/accounts/custody); open_account: send the profile (PUT /v1/ramp/bank/customer/profile) and open the account; provide_information / upload_document (POST /v1/ramp/bank/customer/verification/documents) / accept_terms (GET /v1/ramp/bank/customer/terms): what the account's requirements ask; wait_for_review: the bank ramp reviews; use_bank_ramp: USD stays on POST /v1/ramp/bank/payin/initiate (fiatCurrency USD) and the payout routes; use_usd_account: USD goes through GET /v1/ramp/bank/customer/accounts."
@@ -51322,6 +51389,13 @@
               ]
              },
              "description": "choose_custody: the custody modes the customer may choose."
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile / update_profile after the account's opening refused the profile: the financial profile's fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows, null when nothing is asked. complete_verification: finish the identity verification; provide_proof_of_address: upload a proof of address; operator_review: Aurea reviews the customer's residence (wait, or contact support); contact_support: help@aureahub.com; choose_custody: pick one of custodyOptions (PUT …/accounts/custody); open_account: send the profile (PUT /v1/ramp/bank/customer/profile) and open the account; provide_information / upload_document (POST /v1/ramp/bank/customer/verification/documents) / accept_terms (GET /v1/ramp/bank/customer/terms): what the account's requirements ask; wait_for_review: the bank ramp reviews; use_bank_ramp: USD stays on POST /v1/ramp/bank/payin/initiate (fiatCurrency USD) and the payout routes; use_usd_account: USD goes through GET /v1/ramp/bank/customer/accounts."
@@ -55649,6 +55723,13 @@
               ]
              },
              "description": "choose_custody: the custody modes the customer may choose."
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile / update_profile after the account's opening refused the profile: the financial profile's fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows, null when nothing is asked. complete_verification: finish the identity verification; provide_proof_of_address: upload a proof of address; operator_review: Aurea reviews the customer's residence (wait, or contact support); contact_support: help@aureahub.com; choose_custody: pick one of custodyOptions (PUT …/accounts/custody); open_account: send the profile (PUT /v1/ramp/bank/customer/profile) and open the account; provide_information / upload_document (POST /v1/ramp/bank/customer/verification/documents) / accept_terms (GET /v1/ramp/bank/customer/terms): what the account's requirements ask; wait_for_review: the bank ramp reviews; use_bank_ramp: USD stays on POST /v1/ramp/bank/payin/initiate (fiatCurrency USD) and the payout routes; use_usd_account: USD goes through GET /v1/ramp/bank/customer/accounts."
@@ -56188,6 +56269,13 @@
              "enum": [
               "help@aureahub.com"
              ]
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
@@ -56435,6 +56523,13 @@
              "enum": [
               "help@aureahub.com"
              ]
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
@@ -56800,6 +56895,13 @@
                 "enum": [
                  "help@aureahub.com"
                 ]
+               },
+               "fields": {
+                "type": "array",
+                "items": {
+                 "type": "string"
+                },
+                "description": "complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
                }
               },
               "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
@@ -57167,6 +57269,13 @@
              "enum": [
               "help@aureahub.com"
              ]
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
@@ -57745,6 +57854,13 @@
              "enum": [
               "help@aureahub.com"
              ]
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
@@ -58135,6 +58251,13 @@
              "enum": [
               "help@aureahub.com"
              ]
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
@@ -58537,6 +58660,13 @@
              "enum": [
               "help@aureahub.com"
              ]
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
@@ -58784,6 +58914,13 @@
              "enum": [
               "help@aureahub.com"
              ]
+            },
+            "fields": {
+             "type": "array",
+             "items": {
+              "type": "string"
+             },
+             "description": "complete_profile after the account's opening refused the financial profile: its fields to give or correct (names, never values; e.g. `confirmations.address` when the verified identity document carries no address). Send the whole profile again (PUT /v1/ramp/bank/customer/profile); the opening carries on by itself."
             }
            },
            "description": "The button a client shows: answer_questions / choose_preference (PUT …/questionnaire), start_verification / continue_verification (POST …/next-step), complete_profile, accept_terms, provide_information, upload_document (the account's own routes), wait_for_review, update_account (POST …/upgrade), contact_support (help@aureahub.com), none."
@@ -59412,7 +59549,7 @@
     "tags": [
      "bank-ramp-usd-accounts"
     ],
-    "description": "Saves the whole profile (`kind` as the customer registered). Every id must be in the onboarding lists (400 `BANK_RAMP_PROFILE_INVALID` names the fields); a business in an industry the bank ramp does not serve is refused (422 `BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`). Once handed over to open the account it no longer changes (409 `BANK_RAMP_PROFILE_LOCKED`).",
+    "description": "Saves the whole profile (`kind` as the customer registered). Every id must be in the onboarding lists (400 `BANK_RAMP_PROFILE_INVALID` names the fields); a business in an industry the bank ramp does not serve is refused (422 `BANK_RAMP_INDUSTRY_PROHIBITED`, `nextStep` `review_industry_codes` or `review_industry_categories`). A person who gives only `subdivisionCode` relies on the verified identity document's address: when that document carries none (passports, many identity cards) or the verification is not finished yet, the save is refused (400 `BANK_RAMP_PROFILE_INVALID`, `fields` `confirmations.address` or `parties.N.confirmations.address`) and the full `address` is required. Once handed over to open the account it no longer changes (409 `BANK_RAMP_PROFILE_LOCKED`).",
     "requestBody": {
      "content": {
       "application/json": {
@@ -59447,7 +59584,7 @@
              "nationality",
              "identityDocumentIssueDate"
             ],
-            "description": "What the person confirms beyond the identity verification: contact, residence and nationality, the identity document's issue date (the verification does not give it), the residential `address` or, to use the verified document's address, its `subdivisionCode` (one of the two), and a tax id.",
+            "description": "What the person confirms beyond the identity verification: contact, residence and nationality, the identity document's issue date (the verification does not give it), the residential `address` or, to use the verified document's address, its `subdivisionCode` (one of the two), and a tax id. Send the full `address` whenever the verified identity document carries no address: passports never print one, and many identity cards print none the account can use (no street, city or postal code). `subdivisionCode` alone is accepted only once the identity verification is finished and its document carries a full address in that subdivision's country; otherwise the save answers 400 `BANK_RAMP_PROFILE_INVALID` naming `confirmations.address` (`parties.N.confirmations.address` for a business's owner). When in doubt, send `address`.",
             "properties": {
              "email": {
               "type": "string",
@@ -59924,7 +60061,7 @@
                   "nationality",
                   "identityDocumentIssueDate"
                  ],
-                 "description": "What the person confirms beyond the identity verification: contact, residence and nationality, the identity document's issue date (the verification does not give it), the residential `address` or, to use the verified document's address, its `subdivisionCode` (one of the two), and a tax id.",
+                 "description": "What the person confirms beyond the identity verification: contact, residence and nationality, the identity document's issue date (the verification does not give it), the residential `address` or, to use the verified document's address, its `subdivisionCode` (one of the two), and a tax id. Send the full `address` whenever the verified identity document carries no address: passports never print one, and many identity cards print none the account can use (no street, city or postal code). `subdivisionCode` alone is accepted only once the identity verification is finished and its document carries a full address in that subdivision's country; otherwise the save answers 400 `BANK_RAMP_PROFILE_INVALID` naming `confirmations.address` (`parties.N.confirmations.address` for a business's owner). When in doubt, send `address`.",
                  "properties": {
                   "email": {
                    "type": "string",
@@ -60440,12 +60577,12 @@
       }
      },
      "400": {
-      "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)",
+      "description": "The profile is not valid, a value is not in the lists, or the full address is required because the verified identity document carries none or the verification is not finished (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)",
       "content": {
        "application/json": {
         "schema": {
          "type": "object",
-         "description": "The profile is not valid, or a value is not in the lists (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)",
+         "description": "The profile is not valid, a value is not in the lists, or the full address is required because the verified identity document carries none or the verification is not finished (`BANK_RAMP_PROFILE_INVALID`; `nextStep` `update_profile` when the profile's values are refused, naming the fields)",
          "properties": {
           "statusCode": {
            "type": "integer",
@@ -69479,7 +69616,7 @@
           },
           "simulations": {
            "type": "array",
-           "description": "What its signing points decoded and simulated, oldest first (plan W7.1): empty where none ran",
+           "description": "What its signing points decoded and simulated, oldest first: empty where none ran",
            "items": {
             "type": "object",
             "properties": {
@@ -69691,7 +69828,7 @@
           },
           "signingChecks": {
            "type": "array",
-           "description": "What the message rules, exact approvals and the server's build of a swap said at its signing points, oldest first (plans W7.2, W7.3, W6.6): empty where none ran",
+           "description": "What the message rules, exact approvals and the server's build of a swap said at its signing points, oldest first: empty where none ran",
            "items": {
             "type": "object",
             "properties": {
@@ -69809,7 +69946,7 @@
     "tags": [
      "operations"
     ],
-    "description": "What the message rules, exact approvals or the server's build of a swap said at a signing point (plans W7.2, W7.3, W6.6): the record a refusal names in `details.checkId`. `operationId` is the operation it belongs to — then it is also in that operation's `signingChecks` — or null when the call had none (most refusals come before an operation is recorded). A user reads the checks of its own wallets and operations; a tenant administrator any of the tenant.",
+    "description": "What the message rules, exact approvals or the server's build of a swap said at a signing point: the record a refusal names in `details.checkId`. `operationId` is the operation it belongs to — then it is also in that operation's `signingChecks` — or null when the call had none (most refusals come before an operation is recorded). A user reads the checks of its own wallets and operations; a tenant administrator any of the tenant.",
     "parameters": [
      {
       "schema": {
@@ -70235,7 +70372,7 @@
           },
           "simulations": {
            "type": "array",
-           "description": "What its signing points decoded and simulated, oldest first (plan W7.1): empty where none ran",
+           "description": "What its signing points decoded and simulated, oldest first: empty where none ran",
            "items": {
             "type": "object",
             "properties": {
@@ -70447,7 +70584,7 @@
           },
           "signingChecks": {
            "type": "array",
-           "description": "What the message rules, exact approvals and the server's build of a swap said at its signing points, oldest first (plans W7.2, W7.3, W6.6): empty where none ran",
+           "description": "What the message rules, exact approvals and the server's build of a swap said at its signing points, oldest first: empty where none ran",
            "items": {
             "type": "object",
             "properties": {
@@ -81134,7 +81271,7 @@
                "null"
               ],
               "format": "uuid",
-              "description": "The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet."
+              "description": "The account whose wallets the entry serves; null: the tenant's every wallet."
              },
              "kind": {
               "type": "string",
@@ -81481,7 +81618,7 @@
            "null"
           ],
           "format": "uuid",
-          "description": "An account of the tenant (plan W2 part A): the entry then serves that account's wallets only."
+          "description": "An account of the tenant: the entry then serves that account's wallets only."
          },
          "family": {
           "type": "string",
@@ -81571,7 +81708,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet."
+           "description": "The account whose wallets the entry serves; null: the tenant's every wallet."
           },
           "kind": {
            "type": "string",
@@ -82002,7 +82139,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet."
+           "description": "The account whose wallets the entry serves; null: the tenant's every wallet."
           },
           "kind": {
            "type": "string",
@@ -82523,7 +82660,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet."
+           "description": "The account whose wallets the entry serves; null: the tenant's every wallet."
           },
           "kind": {
            "type": "string",
@@ -82951,7 +83088,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet."
+           "description": "The account whose wallets the entry serves; null: the tenant's every wallet."
           },
           "kind": {
            "type": "string",
@@ -83331,7 +83468,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet."
+           "description": "The account whose wallets the entry serves; null: the tenant's every wallet."
           },
           "kind": {
            "type": "string",
@@ -83736,7 +83873,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet."
+           "description": "The account whose wallets the entry serves; null: the tenant's every wallet."
           },
           "kind": {
            "type": "string",
@@ -84306,7 +84443,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet."
+           "description": "The account whose wallets the entry serves; null: the tenant's every wallet."
           },
           "kind": {
            "type": "string",
@@ -87738,7 +87875,7 @@
                "null"
               ],
               "format": "uuid",
-              "description": "The quarantine (W4.6) that holds the operation, or the received transfer's wallet."
+              "description": "The quarantine that holds the operation, or the received transfer's wallet."
              },
              "assigneeId": {
               "type": [
@@ -88347,7 +88484,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The quarantine (W4.6) that holds the operation, or the received transfer's wallet."
+           "description": "The quarantine that holds the operation, or the received transfer's wallet."
           },
           "assigneeId": {
            "type": [
@@ -89013,7 +89150,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The quarantine (W4.6) that holds the operation, or the received transfer's wallet."
+           "description": "The quarantine that holds the operation, or the received transfer's wallet."
           },
           "assigneeId": {
            "type": [
@@ -89863,7 +90000,7 @@
             "null"
            ],
            "format": "uuid",
-           "description": "The quarantine (W4.6) that holds the operation, or the received transfer's wallet."
+           "description": "The quarantine that holds the operation, or the received transfer's wallet."
           },
           "assigneeId": {
            "type": [
@@ -104029,6 +104166,7 @@
         "credentials.server_credential.update",
         "credentials.wallet_key.rotate",
         "custody.tenant_config.change",
+        "custody.tier_activation.request",
         "custody.mpc_recovery_key.register",
         "custody.mpc_recovery_kit.export",
         "custody.mpc_cosigner.change",
@@ -104195,6 +104333,10 @@
                "null"
               ]
              },
+             "awaitingAurea": {
+              "type": "boolean",
+              "description": "Present (true) only on a tenant's request that no other administrator of the tenant can approve: an Aurea administrator may approve it as the second member"
+             },
              "requiredApprovals": {
               "type": "integer"
              },
@@ -104290,6 +104432,10 @@
                 "decidedAt": {
                  "type": "string",
                  "format": "date-time"
+                },
+                "byAurea": {
+                 "type": "boolean",
+                 "description": "Present (true) only when an Aurea administrator approved a tenant's request as the second member of its quorum"
                 }
                }
               }
@@ -104449,6 +104595,10 @@
             "null"
            ]
           },
+          "awaitingAurea": {
+           "type": "boolean",
+           "description": "Present (true) only on a tenant's request that no other administrator of the tenant can approve: an Aurea administrator may approve it as the second member"
+          },
           "requiredApprovals": {
            "type": "integer"
           },
@@ -104544,6 +104694,10 @@
              "decidedAt": {
               "type": "string",
               "format": "date-time"
+             },
+             "byAurea": {
+              "type": "boolean",
+              "description": "Present (true) only when an Aurea administrator approved a tenant's request as the second member of its quorum"
              }
             }
            }
@@ -104712,22 +104866,47 @@
     "tags": [
      "quorum"
     ],
-    "description": "Another active administrator of the tenant whose role could take the action, with their password (checked as the login checks it; a wrong one counts toward the login throttle). Never the requester. Once approved, the action runs now, as its requester with its role as it is now; the answer shows how it ended, never its body.",
+    "description": "Another active administrator of the tenant whose role could take the action, with their passkey step-up for this decision (POST /v1/quorum/requests/{id}/step-up/options, then POST /v1/quorum/step-up: `stepUpToken`) or, as the fallback, their password (checked as the login checks it; a wrong one counts toward the login throttle). Never the requester. Once approved, the action runs now, as its requester with its role as it is now; the answer shows how it ended, never its body.",
     "requestBody": {
      "content": {
       "application/json": {
        "schema": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-         "password"
+        "oneOf": [
+         {
+          "required": [
+           "password"
+          ],
+          "not": {
+           "required": [
+            "stepUpToken"
+           ]
+          }
+         },
+         {
+          "required": [
+           "stepUpToken"
+          ],
+          "not": {
+           "required": [
+            "password"
+           ]
+          }
+         }
         ],
         "properties": {
          "password": {
           "type": "string",
           "minLength": 1,
           "maxLength": 200,
-          "description": "The deciding administrator's own password"
+          "description": "The deciding person's own password — the fallback where no passkey is used"
+         },
+         "stepUpToken": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "description": "The deciding person's passkey step-up for exactly this decision (its …/step-up/options, then …/step-up)"
          },
          "reason": {
           "type": "string",
@@ -104736,8 +104915,7 @@
         }
        }
       }
-     },
-     "required": true
+     }
     },
     "parameters": [
      {
@@ -104846,6 +105024,10 @@
             "null"
            ]
           },
+          "awaitingAurea": {
+           "type": "boolean",
+           "description": "Present (true) only on a tenant's request that no other administrator of the tenant can approve: an Aurea administrator may approve it as the second member"
+          },
           "requiredApprovals": {
            "type": "integer"
           },
@@ -104941,6 +105123,10 @@
              "decidedAt": {
               "type": "string",
               "format": "date-time"
+             },
+             "byAurea": {
+              "type": "boolean",
+              "description": "Present (true) only when an Aurea administrator approved a tenant's request as the second member of its quorum"
              }
             }
            }
@@ -105109,22 +105295,47 @@
     "tags": [
      "quorum"
     ],
-    "description": "With the rejecting administrator's password. Nothing runs; the held input is deleted.",
+    "description": "With the rejecting administrator's passkey step-up for this decision (`stepUpToken`) or password. Nothing runs; the held input is deleted.",
     "requestBody": {
      "content": {
       "application/json": {
        "schema": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-         "password"
+        "oneOf": [
+         {
+          "required": [
+           "password"
+          ],
+          "not": {
+           "required": [
+            "stepUpToken"
+           ]
+          }
+         },
+         {
+          "required": [
+           "stepUpToken"
+          ],
+          "not": {
+           "required": [
+            "password"
+           ]
+          }
+         }
         ],
         "properties": {
          "password": {
           "type": "string",
           "minLength": 1,
           "maxLength": 200,
-          "description": "The deciding administrator's own password"
+          "description": "The deciding person's own password — the fallback where no passkey is used"
+         },
+         "stepUpToken": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "description": "The deciding person's passkey step-up for exactly this decision (its …/step-up/options, then …/step-up)"
          },
          "reason": {
           "type": "string",
@@ -105133,8 +105344,7 @@
         }
        }
       }
-     },
-     "required": true
+     }
     },
     "parameters": [
      {
@@ -105243,6 +105453,10 @@
             "null"
            ]
           },
+          "awaitingAurea": {
+           "type": "boolean",
+           "description": "Present (true) only on a tenant's request that no other administrator of the tenant can approve: an Aurea administrator may approve it as the second member"
+          },
           "requiredApprovals": {
            "type": "integer"
           },
@@ -105338,6 +105552,10 @@
              "decidedAt": {
               "type": "string",
               "format": "date-time"
+             },
+             "byAurea": {
+              "type": "boolean",
+              "description": "Present (true) only when an Aurea administrator approved a tenant's request as the second member of its quorum"
              }
             }
            }
@@ -105630,6 +105848,10 @@
             "null"
            ]
           },
+          "awaitingAurea": {
+           "type": "boolean",
+           "description": "Present (true) only on a tenant's request that no other administrator of the tenant can approve: an Aurea administrator may approve it as the second member"
+          },
           "requiredApprovals": {
            "type": "integer"
           },
@@ -105725,6 +105947,10 @@
              "decidedAt": {
               "type": "string",
               "format": "date-time"
+             },
+             "byAurea": {
+              "type": "boolean",
+              "description": "Present (true) only when an Aurea administrator approved a tenant's request as the second member of its quorum"
              }
             }
            }

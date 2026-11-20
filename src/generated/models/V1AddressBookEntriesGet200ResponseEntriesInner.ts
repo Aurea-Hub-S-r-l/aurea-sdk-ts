@@ -39,7 +39,7 @@ export interface V1AddressBookEntriesGet200ResponseEntriesInner {
      */
     id: string | null;
     /**
-     * The account whose wallets the entry serves (plan W2 part A); null: the tenant's every wallet.
+     * The account whose wallets the entry serves; null: the tenant's every wallet.
      */
     accountId: string | null;
     /**

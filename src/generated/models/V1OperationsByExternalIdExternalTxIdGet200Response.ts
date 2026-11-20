@@ -150,11 +150,11 @@ export interface V1OperationsByExternalIdExternalTxIdGet200Response {
      */
     events?: Array<V1OperationsByExternalIdExternalTxIdGet200ResponseEventsInner>;
     /**
-     * What its signing points decoded and simulated, oldest first (plan W7.1): empty where none ran
+     * What its signing points decoded and simulated, oldest first: empty where none ran
      */
     simulations?: Array<V1OperationsByExternalIdExternalTxIdGet200ResponseSimulationsInner>;
     /**
-     * What the message rules, exact approvals and the server's build of a swap said at its signing points, oldest first (plans W7.2, W7.3, W6.6): empty where none ran
+     * What the message rules, exact approvals and the server's build of a swap said at its signing points, oldest first: empty where none ran
      */
     signingChecks?: Array<V1OperationsByExternalIdExternalTxIdGet200ResponseSigningChecksInner>;
 }
