@@ -32,7 +32,8 @@ describe("neutral names", () => {
       seen.push(path);
       return new Response(JSON.stringify(path === "/v1/cards" ? [] : { positions: [] }), { status: 200, headers: { "content-type": "application/json" } });
     };
-    const user = new Aurea({ accessToken: "EXAMPLE", fetch });
+    // Lending takes the user's session and the tenant's signature (as Earn): the client signs it.
+    const user = new Aurea({ apiKey: "ak_live_EXAMPLE_key", apiSecret: "as_EXAMPLE_secret", accessToken: "EXAMPLE", fetch });
     await user.cards.v1CardsGet();
     await user.lending.v1LendingPositionsGet({} as never);
     expect(seen).toEqual(["/v1/cards", "/v1/lending/positions"]);

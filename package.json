@@ -1,6 +1,6 @@
 {
   "name": "@aureahub/sdk",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "TypeScript SDK for the Aurea API: typed calls for every documented route, request signing, idempotency keys, typed errors and pagination.",
   "license": "MIT",
   "author": "Aurea",

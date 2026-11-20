@@ -123,6 +123,60 @@ await fetch('https://api.aureahub.com/v1/auth/login', {
 The client refuses the API secret in a browser page. Keep it on your server; the user's apps call with the user's
 access token.
 
+## Server credentials
+
+A tenant can sign its server's calls with a **server credential** instead of the API key and secret: a P-256 key pair
+you generate, whose public key you register in the console (Developers › Server credentials). Each request then
+carries a **server token**, an ES256 JWS valid for that request only. A tenant on the institutional security profile
+must sign this way: its API answers `401 SERVER_TOKEN_REQUIRED` to HMAC. The guide:
+[Server credentials](https://docs.aureahub.com/#server-credentials).
+
+```ts
+import { readFileSync } from 'node:fs';
+import { Aurea } from '@aureahub/sdk';
+
+const aurea = new Aurea({
+  serverToken: {
+    kid: process.env.AUREA_SERVER_CREDENTIAL_ID,           // the credential id the console shows
+    privateKey: readFileSync('/run/secrets/aurea-server-key.pem', 'utf8'), // PKCS#8 PEM, a JWK, a KeyObject or a CryptoKey
+  },
+});
+const { accessToken } = await aurea.auth.v1AuthLoginPost({ v1AuthLoginPostRequest: { username, password } });
+const user = aurea.withAccessToken(accessToken!);          // Earn, Lending, tokenized assets: signed as well
+```
+
+The client signs a new token for every request and every retry, and puts it where the API reads it:
+`Authorization: Bearer <token>` on the routes your tenant's signature alone opens, `X-Aurea-Server-Token` on the routes
+where `Authorization` is the signed-in user's (Earn, Lending, tokenized assets). It never sends the HMAC headers with
+it: `apiSecret` and `serverToken` together are refused (the API would answer `400 SERVER_AUTH_SCHEMES_CONFLICT`).
+
+To sign a request you send yourself:
+
+```ts
+import { createServerTokenSigner } from '@aureahub/sdk';
+
+const signer = createServerTokenSigner({ kid, privateKey });
+const body = JSON.stringify({ username: 'alice', password: 'SecurePass123' });
+const token = await signer.sign({ method: 'POST', path: '/v1/auth/login', body }); // the exact path, query and body sent
+await fetch('https://api.aureahub.com/v1/auth/login', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+  body,
+});
+```
+
+| Part | Value |
+| --- | --- |
+| header | `{"alg":"ES256","typ":"aurea-server+jwt","kid":"<credential id>"}` (these three members only) |
+| `uri` | `"<METHOD> <path and query exactly as sent>"`, e.g. `"GET /v1/tenant/public?lang=en"` |
+| `bodyHash` | unpadded base64url of SHA-256 of the exact body bytes (of the empty string when there is none) |
+| `nonce` | 16–128 characters of `A-Z a-z 0-9 _ -`, never used twice (the signer uses 32 random bytes) |
+| `iat`, `exp` | Unix seconds; `exp` at most 30 seconds after `iat` |
+| signature | ECDSA P-256 / SHA-256 over `base64url(header).base64url(payload)`, as r‖s (64 bytes) |
+
+`isServerAuthError(err)` tells a refused token (`err.code` one of `SERVER_TOKEN_*`, `SERVER_CREDENTIAL_*`,
+`SERVER_AUTH_SCHEMES_CONFLICT`, `TEST_ONLY_CREDENTIAL`), and `SERVER_AUTH_NEXT_STEPS[err.code]` says what to do.
+
 ## Errors
 
 A non-2xx answer throws an `AureaApiError` — one subclass per kind — with what the docs tell you to branch on:
@@ -159,6 +213,11 @@ try {
 
 `AureaConnectionError`: no answer came (network failure or timeout). `AureaConfigurationError`: the client cannot
 make the call as configured (for example a signed route without the API secret). All of them extend `AureaError`.
+
+Typed codes: `isServerAuthError()`, `isServerCredentialError()` and `isWalletProtectionError()` narrow `err.code` to
+the server token and credential codes, and to `CUSTODY_TIER_NOT_READY` (409), `MPC_CUSTODY_TIER_NOT_READY` (503: the
+tenant's key protection level is not available yet; nothing was created, try again later) and
+`MPC_WALLET_BACKUP_REQUIRED` (409: the user keeps the wallet's backup first; `details.walletId`, `details.nextStep`).
 Show `message` to a developer; never parse it. The codes: [Errors & Codes](https://docs.aureahub.com/#errors).
 
 ## Idempotency
@@ -237,7 +296,8 @@ for await (const n of paginateSkip((p) => user.notifications.v1NotificationsInbo
 
 ```ts
 new Aurea({
-  apiKey, apiSecret,          // your server's tenant credentials (signed routes)
+  apiKey, apiSecret,          // your server's tenant credentials (signed routes, HMAC)
+  serverToken,                // or a server credential: { kid, privateKey } or createServerTokenSigner(...)
   accessToken,                // a user's token, or () => a fresh one (called before each call)
   baseUrl,                    // default https://api.aureahub.com
   maxRetries: 2, timeoutMs: 60_000, maxRetryDelayMs: 60_000,

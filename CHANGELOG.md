@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.4.0 — 20 November 2026 — server credentials
+
+### Added
+- Server credentials: `createServerTokenSigner({ kid, privateKey })` signs a server token per request (ES256, header
+  `{alg, typ: "aurea-server+jwt", kid}`, claims `uri`, `bodyHash`, `nonce`, `iat`, `exp` ≤ `iat` + 30, r‖s signature);
+  `new Aurea({ serverToken })` signs every tenant-signed route with it instead of HMAC — in `Authorization: Bearer` on
+  the routes the tenant's signature alone opens, in `X-Aurea-Server-Token` on Earn, Lending and tokenized assets — with
+  a new token on every retry. `apiSecret` and `serverToken` together are refused (the API answers 400
+  `SERVER_AUTH_SCHEMES_CONFLICT` to both schemes). The key: a PKCS#8 PEM, a JWK, a node:crypto `KeyObject` or a Web
+  Crypto `CryptoKey`; refused in a browser page like the API secret. Helpers: `serverTokenBodyHash`, `serverTokenUri`,
+  `serverTokenSigningInput`, `takesServerTokenHeader`. Test vectors in `tests/vectors/server-token.json`, checked with
+  the API's own verifier.
+- Typed codes: `SERVER_AUTH_ERROR_STATUS` + `SERVER_AUTH_NEXT_STEPS` (`SERVER_TOKEN_*`, `SERVER_CREDENTIAL_*`,
+  `SERVER_AUTH_SCHEMES_CONFLICT`, `TEST_ONLY_CREDENTIAL`), `SERVER_CREDENTIAL_ERROR_STATUS`, and
+  `WALLET_PROTECTION_ERROR_STATUS` (`CUSTODY_TIER_NOT_READY` 409, `MPC_CUSTODY_TIER_NOT_READY` 503,
+  `MPC_WALLET_BACKUP_REQUIRED` 409), with `isServerAuthError()`, `isServerCredentialError()`, `isWalletProtectionError()`.
+
+### Fixed
+- The Lending routes (`/v1/lending/*`, `aurea.lending`) are now signed: the API checks the tenant's signature there next
+  to the user's session, as on Earn, and the OpenAPI document does not say so. A client without `apiKey`/`apiSecret`
+  (or `serverToken`) now gets `AureaConfigurationError` before sending, instead of the API's 401.
+
 ## 0.3.1 — 17 November 2026 — returned payouts, Open an Account
 
 Generated from the production OpenAPI document of 17 November 2026, after the Accounts API was published and its
