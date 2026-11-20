@@ -128,7 +128,7 @@ export type BankRampProfileErrorCode = keyof typeof BANK_RAMP_PROFILE_ERROR_STAT
 /** The `details` of a 400 `BANK_RAMP_PROFILE_INVALID`. */
 export interface BankRampProfileInvalidDetails {
   code: "BANK_RAMP_PROFILE_INVALID";
-  /** The fields to give or correct, by name (`confirmations.address`, `parties.0.confirmations.address`…). */
+  /** The fields to give or correct, by name (`confirmations.address`, `parties.0.confirmations.address`…); a name in parentheses, such as `(body)`, means the request as a whole. */
   fields: string[];
   /** `"update_profile"` when the profile's values are refused. */
   nextStep?: string;
