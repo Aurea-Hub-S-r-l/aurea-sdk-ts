@@ -220,6 +220,33 @@ tenant's key protection level is not available yet; nothing was created, try aga
 `MPC_WALLET_BACKUP_REQUIRED` (409: the user keeps the wallet's backup first; `details.walletId`, `details.nextStep`).
 Show `message` to a developer; never parse it. The codes: [Errors & Codes](https://docs.aureahub.com/#errors).
 
+## Wallet access with email and PIN (preview)
+
+> **Preview — not available until announced.** The routes below answer 404 until then; this part of the SDK may
+> still change, and it is not in a published version yet.
+
+A tenant can let its users protect a new MPC wallet with their email and a PIN, next to the device key. The PIN
+never reaches your server or this SDK: the native SDK on the user's phone does every PIN step. From your server, a
+tenant admin's session reads and changes the setting (`tenant.policies.read` / `tenant.policies.write`):
+
+```ts
+const admin = aurea.withAccessToken(adminAccessToken);
+const settings = await admin.walletAccess.getSettings(); // { emailPin: 'off' | 'allowed', acknowledgedAt, updatedAt }
+await admin.walletAccess.updateSettings({ emailPin: 'allowed', acknowledgedTradeOff: true });
+await admin.walletAccess.updateSettings({ emailPin: 'off' }); // wallets already set up keep working
+```
+
+Allowing it needs `acknowledgedTradeOff: true`: the admin confirms they read the limits in the guide. Without it the
+SDK refuses before calling (the API would answer 400 `WALLET_ACCESS_ACK_REQUIRED`).
+
+The refusals of the end-user routes: `isWalletAccessError(err)` narrows `err.code` to a key of
+`WALLET_ACCESS_ERROR_STATUS` (for example 401 `WALLET_ACCESS_PIN_PROOF_INVALID`, 423 `WALLET_ACCESS_PIN_LOCKED`, 503
+`WALLET_ACCESS_REALM_UNAVAILABLE`). `walletAccessAttemptsLeft(err)` reads the tries left of a wrong code or PIN, and
+`walletAccessNextStep(err)` reads what to offer next (`enter_pin_again`, `restore_with_backup`, `wait_and_retry`…).
+The answers' types: `WalletAccessStatus` (`GET /v1/mpc/wallets/{walletId}/access`), `WalletAccessCodeSent`,
+`WalletAccessCodeVerified`, `WalletAccessAuthorized`, `WalletAccessSecured`. The PIN, the code and the access token
+are never logged by this SDK; keep them out of your logs too.
+
 ## Idempotency
 
 The money routes take an `Idempotency-Key` ([Idempotency](https://docs.aureahub.com/#idempotency)). Create one key

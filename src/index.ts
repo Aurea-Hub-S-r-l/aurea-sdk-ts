@@ -46,6 +46,28 @@ export type {
   BankRampProfileErrorCode,
   BankRampProfileInvalidDetails,
 } from "./error-codes";
+export {
+  WalletAccess,
+  WALLET_ACCESS_ERROR_STATUS,
+  WALLET_ACCESS_SETTINGS_PATH,
+  isWalletAccessError,
+  walletAccessAttemptsLeft,
+  walletAccessNextStep,
+} from "./wallet-access";
+export type {
+  EmailPinSetting,
+  WalletAccessSettings,
+  UpdateWalletAccessSettingsInput,
+  WalletAccessStatus,
+  WalletAccessCodeSent,
+  WalletAccessCodeVerified,
+  WalletAccessAuthorized,
+  WalletAccessSecured,
+  WalletAccessErrorCode,
+  WalletAccessErrorDetails,
+  WalletAccessNextAction,
+  WalletAccessRequester,
+} from "./wallet-access";
 export { idempotencyKey, isValidIdempotencyKey, wasReplayed, withIdempotencyKey } from "./idempotency";
 export { paginateOffset, paginatePages, paginateSkip, collect } from "./pagination";
 export type { PaginateOptions, ItemOf } from "./pagination";
