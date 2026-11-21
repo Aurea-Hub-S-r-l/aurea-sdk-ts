@@ -1,5 +1,17 @@
 # Changelog
 
+## Unreleased
+
+### Added (preview — not available until announced)
+- Wallet access with email and PIN: `aurea.walletAccess.getSettings()` and
+  `updateSettings({ emailPin, acknowledgedTradeOff })` over `GET`/`PUT /v1/tenant/settings/wallet-access` (a tenant
+  admin's session). Allowing it without `acknowledgedTradeOff: true` is refused before the call. The routes answer
+  404 until the feature is announced.
+- `WALLET_ACCESS_ERROR_STATUS` (17 codes with their status), `isWalletAccessError()`, `walletAccessAttemptsLeft()`,
+  `walletAccessNextStep()`, and the types of the end-user routes' answers (`WalletAccessStatus`,
+  `WalletAccessCodeSent`, `WalletAccessCodeVerified`, `WalletAccessAuthorized`, `WalletAccessSecured`). Hand-written:
+  the routes are not in the published API document yet.
+
 ## 0.4.1 — 21 November 2026 — the profile's fields
 
 Generated from the production OpenAPI document of 21 November 2026 (sha256 `8adc3a1b…dd76`). 585 routes, as in 0.4.0.

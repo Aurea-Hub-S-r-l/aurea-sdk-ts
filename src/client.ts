@@ -5,6 +5,7 @@ import { Services } from "./services";
 import { createTransport, type FetchLike } from "./transport";
 import { pathWithQuery, takesNoAccessToken } from "./signing";
 import { createServerTokenSigner, type ServerTokenSigner, type ServerTokenSignerOptions } from "./server-token";
+import { WalletAccess } from "./wallet-access";
 
 export const DEFAULT_BASE_URL = "https://api.aureahub.com";
 
@@ -70,6 +71,7 @@ export class Aurea extends Services {
   readonly baseUrl: string;
   readonly #options: AureaOptions;
   readonly #fetch: FetchLike;
+  #walletAccess: WalletAccess | undefined;
 
   constructor(options: AureaOptions = {}) {
     if (options.apiSecret && isBrowser() && !options.dangerouslyAllowSecretInBrowser) {
@@ -149,6 +151,14 @@ export class Aurea extends Services {
     // withAccessToken() keeps the same signer (and so its record of the nonces it signed).
     this.#options = serverToken === undefined ? options : { ...options, serverToken };
     this.#fetch = transport;
+  }
+
+  /**
+   * The tenant's wallet access setting (email and PIN; preview — not available until announced):
+   * `getSettings()`, `updateSettings({ emailPin, acknowledgedTradeOff })`.
+   */
+  get walletAccess(): WalletAccess {
+    return (this.#walletAccess ??= new WalletAccess(this));
   }
 
   /** The same client, calling as a signed-in user. */
