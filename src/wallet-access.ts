@@ -3,7 +3,9 @@
  *
  * A tenant can let its users protect a new MPC wallet with their email and a PIN, as an option next to the device
  * key. The PIN never reaches your server or this SDK: the native SDK on the user's phone does every PIN step. From
- * your server you only read and change the tenant's setting, and read the answers' types and refusals:
+ * your server you only read and change the tenant's setting, and read the answers' types and refusals. The emailed
+ * code and the access token never pass through your server: the native SDK handles them.
+ *
  *
  *   const settings = await admin.walletAccess.getSettings();
  *   await admin.walletAccess.updateSettings({ emailPin: "allowed", acknowledgedTradeOff: true });
@@ -14,7 +16,10 @@
 import { AureaApiError, AureaConfigurationError } from "./errors";
 import type { RequestOptions } from "./client";
 
-/** `off`: users cannot choose email and PIN. `allowed`: they can, when they create a wallet. */
+/**
+ * `off`: no new setups. `allowed`: users can choose email and PIN when they create a wallet. Turning it off never
+ * affects wallets already protected: their users can still restore them on a new phone, and remove email and PIN.
+ */
 export type EmailPinSetting = "off" | "allowed";
 
 /** `GET`/`PUT /v1/tenant/settings/wallet-access`. */
@@ -39,7 +44,10 @@ export type UpdateWalletAccessSettingsInput =
 /** The end user's view of one MPC wallet: `GET /v1/mpc/wallets/{walletId}/access` (the wallet's owner only). */
 export interface WalletAccessStatus {
   emailPin: {
-    /** The tenant allows it and the wallet can use it (a v2 wallet created with email and PIN on the phone). */
+    /**
+     * A new setup is possible: the tenant allows it and the wallet can use it (a v2 wallet created with email and PIN
+     * on the phone). Offer "Restore with email and PIN" whenever `state` is `active`, even when this is false.
+     */
     available: boolean;
     /** `none`: not set up. `active`: set up. `locked`: turned off after too many wrong tries. */
     state: "none" | "active" | "locked";
@@ -175,7 +183,7 @@ export function walletAccessAttemptsLeft(error: unknown): number | null {
 }
 
 /** The next step a wallet access refusal names (`details.nextStep.action`), else null. */
-export function walletAccessNextStep(error: unknown): string | null {
+export function walletAccessNextStep(error: unknown): WalletAccessNextAction | (string & {}) | null {
   if (!isWalletAccessError(error)) return null;
   const action = error.details.nextStep?.action;
   return typeof action === "string" ? action : null;
@@ -200,7 +208,10 @@ export class WalletAccess {
     return this.client.request<WalletAccessSettings>("GET", WALLET_ACCESS_SETTINGS_PATH, options);
   }
 
-  /** `PUT /v1/tenant/settings/wallet-access`. Turning it off keeps the wallets already set up working. */
+  /**
+   * `PUT /v1/tenant/settings/wallet-access`. Turning it off stops new setups only: wallets already protected keep
+   * working, restore and removal included.
+   */
   updateSettings(
     input: UpdateWalletAccessSettingsInput,
     options: Pick<RequestOptions, "headers" | "signal"> = {},

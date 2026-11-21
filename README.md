@@ -233,8 +233,14 @@ tenant admin's session reads and changes the setting (`tenant.policies.read` / `
 const admin = aurea.withAccessToken(adminAccessToken);
 const settings = await admin.walletAccess.getSettings(); // { emailPin: 'off' | 'allowed', acknowledgedAt, updatedAt }
 await admin.walletAccess.updateSettings({ emailPin: 'allowed', acknowledgedTradeOff: true });
-await admin.walletAccess.updateSettings({ emailPin: 'off' }); // wallets already set up keep working
+await admin.walletAccess.updateSettings({ emailPin: 'off' }); // stops new setups only
 ```
+
+Turning it off stops new setups only: wallets already protected keep working, and their users can still restore them
+on a new phone and remove email and PIN.
+
+The emailed code and the access token never pass through your server: the native SDK on the phone asks for the code,
+verifies it and keeps the token. Your server never handles the PIN, the code or the token.
 
 Allowing it needs `acknowledgedTradeOff: true`: the admin confirms they read the limits in the guide. Without it the
 SDK refuses before calling (the API would answer 400 `WALLET_ACCESS_ACK_REQUIRED`).
@@ -245,7 +251,7 @@ The refusals of the end-user routes: `isWalletAccessError(err)` narrows `err.cod
 `walletAccessNextStep(err)` reads what to offer next (`enter_pin_again`, `restore_with_backup`, `wait_and_retry`…).
 The answers' types: `WalletAccessStatus` (`GET /v1/mpc/wallets/{walletId}/access`), `WalletAccessCodeSent`,
 `WalletAccessCodeVerified`, `WalletAccessAuthorized`, `WalletAccessSecured`. The PIN, the code and the access token
-are never logged by this SDK; keep them out of your logs too.
+are not this SDK's to handle: they stay in the native SDK.
 
 ## Idempotency
 

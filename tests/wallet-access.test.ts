@@ -9,6 +9,7 @@ import {
   isWalletAccessError,
   walletAccessAttemptsLeft,
   walletAccessNextStep,
+  type WalletAccessNextAction,
   type WalletAccessStatus,
 } from "../src/index";
 
@@ -148,6 +149,8 @@ describe("WALLET_ACCESS_* codes", () => {
     expect(isWalletAccessError(error)).toBe(true);
     expect(walletAccessAttemptsLeft(error)).toBe(2);
     expect(walletAccessNextStep(error)).toBe("enter_pin_again");
+    const next: WalletAccessNextAction | (string & {}) | null = walletAccessNextStep(error);
+    expect(next).toBe("enter_pin_again");
   });
 
   it("reads a lock as 423 with the backup file as next step", () => {

@@ -5,7 +5,9 @@
 ### Added (preview — not available until announced)
 - Wallet access with email and PIN: `aurea.walletAccess.getSettings()` and
   `updateSettings({ emailPin, acknowledgedTradeOff })` over `GET`/`PUT /v1/tenant/settings/wallet-access` (a tenant
-  admin's session). Allowing it without `acknowledgedTradeOff: true` is refused before the call. The routes answer
+  admin's session). Allowing it without `acknowledgedTradeOff: true` is refused before the call. Turning it off stops
+  new setups only; wallets already protected keep restoring and can be removed. The code and the access token never
+  pass through your server: the native SDK handles them. The routes answer
   404 until the feature is announced.
 - `WALLET_ACCESS_ERROR_STATUS` (17 codes with their status), `isWalletAccessError()`, `walletAccessAttemptsLeft()`,
   `walletAccessNextStep()`, and the types of the end-user routes' answers (`WalletAccessStatus`,
